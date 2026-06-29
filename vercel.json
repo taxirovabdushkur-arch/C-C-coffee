@@ -4,14 +4,6 @@
     {
       "src": "Admin/server.js",
       "use": "@vercel/node"
-    },
-    {
-      "src": "Admin/*.html",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "public/**/*",
-      "use": "@vercel/static"
     }
   ],
   "routes": [
@@ -20,12 +12,16 @@
       "dest": "/Admin/server.js"
     },
     {
-      "src": "/admin/(.*)",
-      "dest": "/Admin/$1"
+      "src": "/admin/login.html",
+      "dest": "/Admin/login.html"
+    },
+    {
+      "src": "/admin/dashboard.html",
+      "dest": "/Admin/dashboard.html"
     },
     {
       "src": "/(.*)",
-      "dest": "/public/$1"
+      "dest": "/Admin/server.js"
     }
   ]
 }

@@ -3,94 +3,158 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>T&7 Coffee</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <title>C&amp;C Coffee &amp; Cake — Ташкент</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
 
 <!-- ══ SPLASH SCREEN ══ -->
 <div id="splash-screen">
-  <div class="splash-logo">T&7</div>
+  <div class="splash-logo">
+    <svg viewBox="0 0 260 280" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:200px;height:auto">
+      <!-- Кофейное зерно -->
+      <ellipse cx="130" cy="110" rx="72" ry="100" stroke="#2c1a0e" stroke-width="7"/>
+      <path d="M130 10 Q175 65 130 110 Q85 155 130 210" stroke="#2c1a0e" stroke-width="7" stroke-linecap="round"/>
+      <!-- C&C -->
+      <text x="130" y="248" text-anchor="middle" font-size="44" fill="#2c1a0e" font-family="Georgia,'Times New Roman',serif" font-weight="700" letter-spacing="3">C&amp;C</text>
+      <text x="130" y="270" text-anchor="middle" font-size="10" fill="#8b7560" font-family="Inter,Arial,sans-serif" font-weight="500" letter-spacing="6">COFFEE &amp; CAKE</text>
+    </svg>
+  </div>
 </div>
 
 <!-- ══ HEADER ══ -->
 <header id="header">
-  <a href="#" class="logo">T&7</a>
+  <a href="#hero" class="logo">C<em>&amp;</em>C</a>
   <nav>
     <a href="#hero">Главная</a>
     <a href="#menu-section">Меню</a>
-    <a href="#contact">Контакты</a>
+    <a href="#about">О нас</a>
+    <a href="#gallery">Галерея</a>
+    <a href="#booking">Бронь</a>
+    <a href="#map-section">Контакты</a>
   </nav>
-  <button class="btn-order" onclick="openOrderModal()">Заказать</button>
+  <button class="btn-book" onclick="document.getElementById('booking').scrollIntoView({behavior:'smooth'})">Забронировать</button>
   <button id="burger" aria-label="Меню"><span></span><span></span><span></span></button>
 </header>
 
+<!-- ══ MOBILE NAV ══ -->
 <div id="mobile-nav">
   <a href="#hero"         onclick="closeMobileNav()">Главная</a>
   <a href="#menu-section" onclick="closeMobileNav()">Меню</a>
-  <a href="#contact"      onclick="closeMobileNav()">Контакты</a>
-  <button class="btn-order" style="margin-top:.75rem;width:fit-content" onclick="closeMobileNav();openOrderModal()">Заказать</button>
+  <a href="#about"        onclick="closeMobileNav()">О нас</a>
+  <a href="#gallery"      onclick="closeMobileNav()">Галерея</a>
+  <a href="#booking"      onclick="closeMobileNav()">Бронирование</a>
+  <a href="#map-section"  onclick="closeMobileNav()">Контакты</a>
+  <button class="btn-book" style="margin-top:.5rem;width:fit-content" onclick="closeMobileNav();openOrderModal()">Заказать</button>
 </div>
 
 <!-- ══ HERO ══ -->
 <section id="hero">
-  <div class="hero-content">
+  <!-- Декоративные кофейные зёрна -->
+  <svg class="bean b1" viewBox="0 0 28 40" fill="none"><ellipse cx="14" cy="20" rx="11" ry="17" stroke="#2c1a0e" stroke-width="2"/><path d="M14 3 Q20 20 14 37" stroke="#2c1a0e" stroke-width="2" stroke-linecap="round"/></svg>
+  <svg class="bean b2" viewBox="0 0 28 40" fill="none"><ellipse cx="14" cy="20" rx="11" ry="17" stroke="#2c1a0e" stroke-width="2"/><path d="M14 3 Q20 20 14 37" stroke="#2c1a0e" stroke-width="2" stroke-linecap="round"/></svg>
+  <svg class="bean b3" viewBox="0 0 28 40" fill="none"><ellipse cx="14" cy="20" rx="11" ry="17" stroke="#2c1a0e" stroke-width="2"/><path d="M14 3 Q20 20 14 37" stroke="#2c1a0e" stroke-width="2" stroke-linecap="round"/></svg>
+  <svg class="bean b4" viewBox="0 0 28 40" fill="none"><ellipse cx="14" cy="20" rx="11" ry="17" stroke="#2c1a0e" stroke-width="2"/><path d="M14 3 Q20 20 14 37" stroke="#2c1a0e" stroke-width="2" stroke-linecap="round"/></svg>
+  <svg class="bean b5" viewBox="0 0 28 40" fill="none"><ellipse cx="14" cy="20" rx="11" ry="17" stroke="#2c1a0e" stroke-width="2"/><path d="M14 3 Q20 20 14 37" stroke="#2c1a0e" stroke-width="2" stroke-linecap="round"/></svg>
+  <svg class="bean b6" viewBox="0 0 28 40" fill="none"><ellipse cx="14" cy="20" rx="11" ry="17" stroke="#2c1a0e" stroke-width="2"/><path d="M14 3 Q20 20 14 37" stroke="#2c1a0e" stroke-width="2" stroke-linecap="round"/></svg>
+
+  <div class="hero-inner">
+    <!-- Левая часть: текст -->
     <div class="hero-text">
-      <h1>Кофе, который<br><em>делает день лучше!</em></h1>
-      <p>От эспрессо до фильтра — честный вкус в каждой чашке.</p>
-      <button class="btn-cta" onclick="openOrderModal()">Выбрать кофе</button>
-    </div>
-    <div class="hero-img">
-      <img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=700&q=85" alt="Кофе T7"/>
-    </div>
-  </div>
-  <div class="hero-wave">
-    <svg viewBox="0 0 1440 80" preserveAspectRatio="none"><path d="M0,40 C360,80 1080,0 1440,40 L1440,80 L0,80 Z" fill="#FAF6F1"/></svg>
-  </div>
-</section>
-
-<!-- ══ WHY US ══ -->
-<section id="why">
-  <div class="container">
-    <h2 class="sec-title">Почему с нами вкуснее</h2>
-    <p class="sec-sub">Вкус, который стабилен, и сервис, который помнит ваш заказ.</p>
-    <div class="why-cards">
-      <div class="why-card"><div class="why-icon">🌱</div><div class="why-label">Отборные зёрна</div></div>
-      <div class="why-card"><div class="why-icon">👨‍🍳</div><div class="why-label">Опытные бариста</div></div>
-      <div class="why-card"><div class="why-icon">☕</div><div class="why-label">Уютная атмосфера</div></div>
-      <div class="why-card"><div class="why-icon">⚡</div><div class="why-label">Быстрая подача</div></div>
-    </div>
-  </div>
-</section>
-
-<!-- ══ PROMO BANNER ══ -->
-<section id="promo">
-  <div class="container">
-    <div class="promo-card">
-      <div class="promo-text">
-        <span class="promo-label">Акция</span>
-        <h2>КОФЕ + ДЕСЕРТ</h2>
-        <p>Закажи любой кофе и получи десерт в подарок при заказе до 22:00.</p>
-        <button class="btn-cta" onclick="openOrderModal()">Заказать сейчас</button>
+      <div class="hero-tag">Ташкент · Открыт каждый день</div>
+      <h1>НАЙДИ<br><em class="hl">СВОЙ КОФЕ</em></h1>
+      <div class="hero-menu-list">
+        <div class="hml-col">
+          <span>Крафт Капучино</span>
+          <span>Колд Латте</span>
+          <span>Маккиато Айс</span>
+        </div>
+        <div class="hml-col">
+          <span>Флэт Уайт</span>
+          <span>Крем Латте</span>
+          <span class="hml-accent">Шейки</span>
+        </div>
       </div>
-      <div class="promo-imgs">
-        <img class="promo-img1" src="https://images.unsplash.com/photo-1558961363-fa8fdf82db35?w=300&q=80" alt="Десерт"/>
-        <img class="promo-img2" src="https://images.unsplash.com/photo-1517701604599-bb29b565090c?w=300&q=80" alt="Кофе"/>
+      <div class="hero-btns">
+        <button class="btn-primary" onclick="openOrderModal()">Заказать</button>
+        <button class="btn-outline" onclick="document.getElementById('menu-section').scrollIntoView({behavior:'smooth'})">Смотреть меню</button>
       </div>
     </div>
+
+    <!-- Правая часть: C&C иллюстрация -->
+    <div class="hero-illus">
+      <svg viewBox="0 0 320 360" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="C&C Coffee & Cake логотип">
+        <rect width="320" height="360" rx="24" fill="#f3ebe0"/>
+        <!-- Большое кофейное зерно -->
+        <ellipse cx="160" cy="155" rx="88" ry="125" stroke="#2c1a0e" stroke-width="7"/>
+        <path d="M160 30 Q205 95 160 155 Q115 215 160 280" stroke="#2c1a0e" stroke-width="7" stroke-linecap="round"/>
+        <!-- Маленькие декоративные зёрна -->
+        <g opacity="0.18" transform="translate(52,52) rotate(-25)">
+          <ellipse cx="0" cy="0" rx="14" ry="22" stroke="#2c1a0e" stroke-width="2"/>
+          <path d="M0 -22 Q6 0 0 22" stroke="#2c1a0e" stroke-width="2" stroke-linecap="round"/>
+        </g>
+        <g opacity="0.18" transform="translate(268,60) rotate(20)">
+          <ellipse cx="0" cy="0" rx="12" ry="18" stroke="#2c1a0e" stroke-width="2"/>
+          <path d="M0 -18 Q5 0 0 18" stroke="#2c1a0e" stroke-width="2" stroke-linecap="round"/>
+        </g>
+        <g opacity="0.15" transform="translate(58,268) rotate(15)">
+          <ellipse cx="0" cy="0" rx="10" ry="16" stroke="#2c1a0e" stroke-width="2"/>
+          <path d="M0 -16 Q4 0 0 16" stroke="#2c1a0e" stroke-width="2" stroke-linecap="round"/>
+        </g>
+        <g opacity="0.15" transform="translate(266,272) rotate(-18)">
+          <ellipse cx="0" cy="0" rx="13" ry="20" stroke="#2c1a0e" stroke-width="2"/>
+          <path d="M0 -20 Q6 0 0 20" stroke="#2c1a0e" stroke-width="2" stroke-linecap="round"/>
+        </g>
+        <!-- Название -->
+        <text x="160" y="325" text-anchor="middle" font-size="46" fill="#2c1a0e" font-family="Georgia,'Times New Roman',serif" font-weight="700" letter-spacing="2">C&amp;C</text>
+        <text x="160" y="348" text-anchor="middle" font-size="10" fill="#8b7560" font-family="Inter,Arial,sans-serif" font-weight="500" letter-spacing="5">COFFEE &amp; CAKE</text>
+      </svg>
+    </div>
+  </div>
+
+  <div class="scroll-indicator">
+    <div class="scroll-dot"></div>
+    <span>Скролл</span>
   </div>
 </section>
 
-<!-- ══ MENU ══ -->
+<!-- ══ STATS BAR ══ -->
+<section id="stats">
+  <div class="stats-grid">
+    <div class="stat-item reveal">
+      <div class="stat-num"><span class="count-num" data-target="5">0</span><em>+</em></div>
+      <div class="stat-label">Лет на рынке</div>
+    </div>
+    <div class="stat-item reveal">
+      <div class="stat-num"><span class="count-num" data-target="50">0</span><em>+</em></div>
+      <div class="stat-label">Напитков в меню</div>
+    </div>
+    <div class="stat-item reveal">
+      <div class="stat-num"><span class="count-num" data-target="1000">0</span><em>+</em></div>
+      <div class="stat-label">Довольных клиентов</div>
+    </div>
+    <div class="stat-item reveal">
+      <div class="stat-num"><span class="count-num" data-target="4" data-decimal=".9">0</span><em>.9 ★</em></div>
+      <div class="stat-label">Средний рейтинг</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ MENU SECTION ══ -->
 <section id="menu-section">
   <div class="container">
-    <h2 class="sec-title">Ваш идеальный кофе</h2>
-    <p class="sec-sub">Исследуйте меню и найдите напиток, который подойдёт именно вам.</p>
+    <div class="sec-header reveal">
+      <span class="section-tag">Меню</span>
+      <h2 class="sec-title">Ваш идеальный кофе</h2>
+      <p class="sec-sub">Исследуйте меню и найдите напиток, который подойдёт именно вам.</p>
+    </div>
 
     <div class="menu-tabs" id="menuTabs">
       <button class="menu-tab active" data-cat="coffee">Классический</button>
-      <button class="menu-tab" data-cat="raf">Рафы / Мокко</button>
+      <button class="menu-tab" data-cat="raf">Рафы</button>
       <button class="menu-tab" data-cat="cold">Холодный</button>
       <button class="menu-tab" data-cat="dessert">Десерты</button>
     </div>
@@ -99,70 +163,338 @@
   </div>
 </section>
 
-<!-- ══ REVIEWS ══ -->
-<section id="reviews">
+<!-- ══ SPECIALS SECTION ══ -->
+<section id="specials">
   <div class="container">
-    <h2 class="sec-title" style="text-align:center">Что говорят наши клиенты</h2>
-    <p class="sec-sub" style="text-align:center">Отзывы людей, которые уже попробовали T7 Coffee</p>
-    <div class="reviews-grid">
-      <div class="review-card">
-        <div class="review-stars">★★★★★</div>
-        <p class="review-text">«Лучший раф в городе. Доставка пришла за 25 минут — кофе горячий и идеальный. Теперь заказываю каждое утро!»</p>
-        <div class="review-author">
-          <div class="review-avatar">А</div>
-          <div><div class="review-name">Алишер М.</div><div class="review-date">2 дня назад</div></div>
-        </div>
+    <div class="sec-header reveal" style="margin-bottom:2.5rem">
+      <span class="section-tag">Акции</span>
+      <h2 class="sec-title">Специальные предложения</h2>
+      <p class="sec-sub">Выгодные предложения для наших гостей</p>
+    </div>
+    <div class="specials-wrapper">
+      <div class="specials-track-outer">
+        <div id="specialsTrack"></div>
       </div>
-      <div class="review-card">
-        <div class="review-stars">★★★★★</div>
-        <p class="review-text">«Очень удобно заказывать через сайт. Никаких очередей — выбрал, оплатил, жди. Капучино просто восхитительный.»</p>
-        <div class="review-author">
-          <div class="review-avatar">Н</div>
-          <div><div class="review-name">Нилуфар Т.</div><div class="review-date">5 дней назад</div></div>
-        </div>
-      </div>
-      <div class="review-card">
-        <div class="review-stars">★★★★★</div>
-        <p class="review-text">«Стабильное качество каждый день. Бариста знают своё дело — вкус всегда одинаково хороший. Рекомендую всем!»</p>
-        <div class="review-author">
-          <div class="review-avatar">С</div>
-          <div><div class="review-name">Санжар К.</div><div class="review-date">1 неделю назад</div></div>
+      <div class="slider-controls">
+        <div class="slider-dots" id="specialsDots"></div>
+        <div class="slider-arrows">
+          <button class="slider-arrow" id="specialsPrev" aria-label="Назад">&#8592;</button>
+          <button class="slider-arrow" id="specialsNext" aria-label="Вперёд">&#8594;</button>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ══ CONTACT ══ -->
-<section id="contact">
-  <div class="container contact-inner">
-    <div class="contact-info">
-      <h2>Свяжитесь с нами</h2>
-      <div class="ci"><span>📍</span><span>г. Ташкент, ул. Амира Темура, 107</span></div>
-      <div class="ci"><span>📞</span><a href="tel:+998930003906">+998 93 000 39 06</a></div>
-      <div class="ci"><span>�</span><a href="https://t.me/t7delivery" target="_blank">@t7delivery</a></div>
-      <div class="ci"><span>�</span><span>Пн–Вс: 08:00 – 22:00</span></div>
+<!-- ══ ABOUT SECTION ══ -->
+<section id="about">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-video-portrait reveal-left">
+        <video id="aboutVideo" muted loop playsinline preload="auto">
+          <source src="/videos/about.mp4" type="video/mp4"/>
+        </video>
+      </div>
+      <div class="about-text reveal-right">
+        <span class="section-tag">О нас</span>
+        <h2 class="sec-title">Атмосфера, где<br>рождается вкус</h2>
+        <p class="sec-sub" style="margin-bottom:2rem">
+          Мы — команда кофейных энтузиастов, которые верят, что каждая чашка кофе
+          может изменить день к лучшему. Отборные зёрна, профессиональные бариста
+          и уютная атмосфера — вот что делает C&amp;C особенным местом в Ташкенте.
+        </p>
+        <div class="counters-row">
+          <div class="counter-item">
+            <div class="counter-num"><span class="count-num" data-target="5">0</span><em>+</em></div>
+            <div class="counter-label">лет опыта</div>
+          </div>
+          <div class="counter-item">
+            <div class="counter-num"><span class="count-num" data-target="12">0</span></div>
+            <div class="counter-label">сортов зёрен</div>
+          </div>
+          <div class="counter-item">
+            <div class="counter-num"><span class="count-num" data-target="55">0</span></div>
+            <div class="counter-label">посадочных мест</div>
+          </div>
+        </div>
+        <div class="about-features">
+          <div class="feature-item"><div class="feature-dot"></div>Отборные зёрна из лучших регионов мира</div>
+          <div class="feature-item"><div class="feature-dot"></div>Опытные бариста с международной подготовкой</div>
+          <div class="feature-item"><div class="feature-dot"></div>Уютная атмосфера для работы и встреч</div>
+        </div>
+      </div>
     </div>
-    <div class="contact-form">
-      <h3>Напишите нам</h3>
-      <input type="text"  id="fname"  placeholder="Ваше имя"/>
-      <input type="tel"   id="fphone" placeholder="+998 _ _ _ _ _ _ _ _ _"/>
-      <textarea           id="fmsg"   rows="4" placeholder="Ваш вопрос..."></textarea>
-      <button onclick="submitForm()">Отправить</button>
-      <div class="form-ok" id="formSuccess">✓ Сообщение отправлено!</div>
+  </div>
+</section>
+
+<!-- ══ GALLERY ══ -->
+<section id="gallery">
+  <div class="container">
+    <div class="sec-header reveal" style="text-align:center">
+      <span class="section-tag">Галерея</span>
+      <h2 class="sec-title">Наша атмосфера</h2>
+      <p class="sec-sub" style="margin:0 auto">Загляните к нам — каждый уголок создан для вашего удовольствия.</p>
+    </div>
+    <div class="masonry-grid" style="margin-top:3rem">
+      <div class="masonry-item" onclick="openLightbox('https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=1200&q=90')">
+        <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=600&q=80" alt="C&amp;C Coffee" loading="lazy"/>
+      </div>
+      <div class="masonry-item" onclick="openLightbox('https://images.unsplash.com/photo-1507133750040-4a8f57021571?w=1200&q=90')">
+        <img src="https://images.unsplash.com/photo-1507133750040-4a8f57021571?w=600&q=80" alt="C&amp;C Coffee" loading="lazy"/>
+      </div>
+      <div class="masonry-item" onclick="openLightbox('https://images.unsplash.com/photo-1521302200778-33500795e128?w=1200&q=90')">
+        <img src="https://images.unsplash.com/photo-1521302200778-33500795e128?w=600&q=80" alt="C&amp;C Coffee" loading="lazy"/>
+      </div>
+      <div class="masonry-item" onclick="openLightbox('https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=1200&q=90')">
+        <img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=600&q=80" alt="C&amp;C Coffee" loading="lazy"/>
+      </div>
+      <div class="masonry-item" onclick="openLightbox('https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=1200&q=90')">
+        <img src="https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=600&q=80" alt="C&amp;C Coffee" loading="lazy"/>
+      </div>
+      <div class="masonry-item" onclick="openLightbox('https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=1200&q=90')">
+        <img src="https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=600&q=80" alt="C&amp;C Coffee" loading="lazy"/>
+      </div>
+      <div class="masonry-item" onclick="openLightbox('https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=1200&q=90')">
+        <img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=600&q=80" alt="C&amp;C Coffee" loading="lazy"/>
+      </div>
+      <div class="masonry-item" onclick="openLightbox('https://images.unsplash.com/photo-1511920170033-f8396924c348?w=1200&q=90')">
+        <img src="https://images.unsplash.com/photo-1511920170033-f8396924c348?w=600&q=80" alt="C&amp;C Coffee" loading="lazy"/>
+      </div>
+      <div class="masonry-item" onclick="openLightbox('https://images.unsplash.com/photo-1445116572660-236099ec97a0?w=1200&q=90')">
+        <img src="https://images.unsplash.com/photo-1445116572660-236099ec97a0?w=600&q=80" alt="C&amp;C Coffee" loading="lazy"/>
+      </div>
+    </div>
+  </div>
+  <!-- Lightbox -->
+  <div id="lightbox" onclick="closeLightbox()">
+    <img id="lightboxImg" src="" alt=""/>
+    <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+  </div>
+</section>
+
+<!-- ══ REVIEWS SECTION ══ -->
+<section id="reviews">
+  <div class="container">
+    <div class="sec-header reveal" style="text-align:center">
+      <span class="section-tag">Отзывы</span>
+      <h2 class="sec-title">Что говорят наши гости</h2>
+      <p class="sec-sub">Отзывы людей, которые уже попробовали C&amp;C Coffee &amp; Cake</p>
+    </div>
+    <div class="reviews-track-outer" style="margin-top:3rem">
+      <div id="reviewsTrack"></div>
+    </div>
+    <div class="reviews-controls">
+      <div class="slider-dots" id="reviewsDots"></div>
+      <div class="slider-arrows">
+        <button class="slider-arrow" id="reviewsPrev" aria-label="Назад">&#8592;</button>
+        <button class="slider-arrow" id="reviewsNext" aria-label="Вперёд">&#8594;</button>
+      </div>
+    </div>
+
+    <!-- Review Form -->
+    <div class="review-form reveal" style="margin-top:4rem">
+      <h3>Оставьте свой отзыв</h3>
+      <p class="review-form-sub">Поделитесь впечатлением — это помогает нам становиться лучше</p>
+      <div class="rating-stars" id="ratingStars">
+        <span data-v="1">★</span>
+        <span data-v="2">★</span>
+        <span data-v="3">★</span>
+        <span data-v="4">★</span>
+        <span data-v="5">★</span>
+      </div>
+      <input type="text" id="revName" placeholder="Ваше имя"/>
+      <textarea id="revText" rows="3" placeholder="Что вам понравилось?"></textarea>
+      <button class="review-submit" onclick="submitReview()">Отправить отзыв</button>
+      <div class="form-ok" id="revSuccess">✓ Спасибо! Ваш отзыв отправлен на модерацию.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ BOOKING SECTION ══ -->
+<section id="booking">
+  <div class="container">
+    <div class="booking-grid">
+      <div class="booking-info reveal-left">
+        <span class="section-tag">Бронирование</span>
+        <h2 class="sec-title">Забронируйте<br>свой столик</h2>
+        <p class="sec-sub" style="margin-bottom:2rem">
+          Зарезервируйте место заранее и наслаждайтесь кофе без ожидания.
+          Мы подготовим всё для вашего комфортного визита.
+        </p>
+        <div class="booking-details">
+          <div class="booking-detail-item">
+            <div class="booking-detail-icon">📍</div>
+            <div>
+              <div class="booking-detail-label">Адрес</div>
+              <div class="booking-detail-val">г. Ташкент, ул. Амира Темура, 107</div>
+            </div>
+          </div>
+          <div class="booking-detail-item">
+            <div class="booking-detail-icon">🕐</div>
+            <div>
+              <div class="booking-detail-label">Часы работы</div>
+              <div class="booking-detail-val">Пн–Вс: 08:00 – 22:00</div>
+            </div>
+          </div>
+          <div class="booking-detail-item">
+            <div class="booking-detail-icon">📞</div>
+            <div>
+              <div class="booking-detail-label">Телефон</div>
+              <div class="booking-detail-val"><a href="tel:+998930003906">+998 93 000 39 06</a></div>
+            </div>
+          </div>
+          <div class="booking-detail-item">
+            <div class="booking-detail-icon">💬</div>
+            <div>
+              <div class="booking-detail-label">Telegram</div>
+              <div class="booking-detail-val"><a href="https://t.me/t7delivery" target="_blank">@t7delivery</a></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="reveal-right">
+        <div class="booking-form-card">
+          <div class="booking-form-grid">
+            <div class="booking-field">
+              <label>Ваше имя *</label>
+              <input type="text" id="bookName" placeholder="Имя"/>
+            </div>
+            <div class="booking-field">
+              <label>Телефон *</label>
+              <input type="tel" id="bookPhone" placeholder="+998 _ _ _ _ _ _ _ _ _"/>
+            </div>
+            <div class="booking-field">
+              <label>Дата *</label>
+              <input type="date" id="bookDate"/>
+            </div>
+            <div class="booking-field">
+              <label>Время *</label>
+              <input type="time" id="bookTime" min="08:00" max="22:00"/>
+            </div>
+            <div class="booking-field full">
+              <label>Количество гостей</label>
+              <select id="bookGuests">
+                <option value="1">1 гость</option>
+                <option value="2" selected>2 гостя</option>
+                <option value="3">3 гостя</option>
+                <option value="4">4 гостя</option>
+                <option value="5">5 гостей</option>
+                <option value="6+">6+ гостей</option>
+              </select>
+            </div>
+            <div class="booking-field full">
+              <label>Комментарий</label>
+              <textarea id="bookComment" rows="3" placeholder="Пожелания, особые требования..."></textarea>
+            </div>
+          </div>
+          <button class="booking-submit" onclick="submitBooking()">Забронировать столик</button>
+          <!-- Success overlay -->
+          <div class="booking-success" id="bookingSuccess">
+            <div class="booking-success-icon">✓</div>
+            <h3>Бронирование подтверждено!</h3>
+            <p>Мы свяжемся с вами в течение 15 минут для подтверждения.</p>
+            <button class="btn-outline" onclick="document.getElementById('bookingSuccess').classList.remove('show')">Закрыть</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ MAP SECTION ══ -->
+<section id="map-section">
+  <div class="container">
+    <div class="map-grid">
+      <div class="map-info reveal-left">
+        <span class="section-tag">Контакты</span>
+        <h2 class="sec-title">Как нас<br>найти</h2>
+        <div class="contact-items">
+          <div class="contact-item">
+            <div class="contact-item-icon">📍</div>
+            <div>
+              <div class="contact-item-label">Адрес</div>
+              <div class="contact-item-val">г. Ташкент, ул. Амира Темура, 107</div>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-item-icon">📞</div>
+            <div>
+              <div class="contact-item-label">Телефон</div>
+              <div class="contact-item-val"><a href="tel:+998930003906">+998 93 000 39 06</a></div>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-item-icon">💬</div>
+            <div>
+              <div class="contact-item-label">Telegram</div>
+              <div class="contact-item-val"><a href="https://t.me/t7delivery" target="_blank">@t7delivery</a></div>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-item-icon">🕐</div>
+            <div>
+              <div class="contact-item-label">Режим работы</div>
+              <div class="contact-item-val">Пн–Вс: 08:00 – 22:00</div>
+            </div>
+          </div>
+        </div>
+        <button class="btn-route" onclick="window.open('https://yandex.uz/maps/-/CDdeyHRS','_blank')">
+          Построить маршрут ↗
+        </button>
+      </div>
+      <div class="reveal-right">
+        <div id="ymap"></div>
+      </div>
     </div>
   </div>
 </section>
 
 <!-- ══ FOOTER ══ -->
 <footer>
-  <div class="footer-inner">
-    <span class="footer-logo">T&7</span>
-    <span class="footer-copy">© 2026 T&7. Все права защищены.</span>
-    <div class="footer-links">
-      <a href="https://t.me/t7delivery" target="_blank">Telegram</a>
-      <a href="https://instagram.com"   target="_blank">Instagram</a>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="#hero" class="logo">C<em>&amp;</em>C</a>
+      <p>Уютная кофейня и кондитерская в сердце Ташкента. Отборные зёрна, авторские десерты и атмосфера, в которую хочется возвращаться.</p>
+      <div class="footer-social">
+        <a class="social-link" href="https://t.me/t7delivery" target="_blank" aria-label="Telegram">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+        </a>
+        <a class="social-link" href="https://instagram.com" target="_blank" aria-label="Instagram">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+        </a>
+      </div>
     </div>
+    <div class="footer-col">
+      <h4>Навигация</h4>
+      <ul>
+        <li><a href="#hero">Главная</a></li>
+        <li><a href="#menu-section">Меню</a></li>
+        <li><a href="#about">О нас</a></li>
+        <li><a href="#gallery">Галерея</a></li>
+        <li><a href="#booking">Бронирование</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Контакты</h4>
+      <ul>
+        <li><span>📍 ул. Амира Темура, 107</span></li>
+        <li><span><a href="tel:+998930003906">+998 93 000 39 06</a></span></li>
+        <li><span><a href="https://t.me/t7delivery" target="_blank">@t7delivery</a></span></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Часы работы</h4>
+      <ul>
+        <li><span>Понедельник–Пятница</span></li>
+        <li><span>08:00 – 22:00</span></li>
+        <li><span style="margin-top:.3rem;display:block">Суббота–Воскресенье</span></li>
+        <li><span>09:00 – 23:00</span></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 C&amp;C Coffee &amp; Cake. Все права защищены.</span>
+    <span>Разработано с ❤️ в Ташкенте</span>
   </div>
 </footer>
 
@@ -172,9 +504,9 @@
     <div class="order-left">
       <div class="order-left-header">
         <div class="order-brand">
-          <div class="order-brand-logo">T&7</div>
+          <div class="order-brand-logo">C&amp;C</div>
           <div>
-            <div class="order-brand-name">T&7 Coffee</div>
+            <div class="order-brand-name">C&amp;C Coffee &amp; Cake</div>
             <div class="order-brand-sub">ул. Амира Темура, 107 · Доставка 30 мин</div>
           </div>
         </div>
@@ -187,7 +519,7 @@
       <div class="order-tabs" id="orderTabs">
         <button class="order-tab active" data-cat="coffee">☕ Кофе</button>
         <button class="order-tab" data-cat="cold">🧊 Холодные</button>
-        <button class="order-tab" data-cat="tea">🍵 Чай</button>
+        <button class="order-tab" data-cat="raf">🌿 Рафы</button>
         <button class="order-tab" data-cat="dessert">🍰 Десерты</button>
       </div>
       <div class="order-items" id="orderItems">
@@ -229,7 +561,7 @@
           <label class="payment-opt"><input type="radio" name="payment" value="card"/><span>💳 Карта</span></label>
         </div>
         <div class="checkout-total-row">
-          <span>Итого:</span><span id="checkoutTotal" style="color:#8B5E3C;font-weight:700">0 сум</span>
+          <span>Итого:</span><span id="checkoutTotal">0 сум</span>
         </div>
         <button class="checkout-btn" onclick="placeOrder()">✅ Подтвердить заказ</button>
       </div>
@@ -239,5 +571,6 @@
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <script src="script.js"></script>
+<script src="https://api-maps.yandex.ru/2.1/?apikey=b983f844-2556-4824-ac1d-683ab9688d0e&lang=ru_RU" type="text/javascript" onload="initMap()"></script>
 </body>
 </html>

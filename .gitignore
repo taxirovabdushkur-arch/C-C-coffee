@@ -1,4 +1,16 @@
 node_modules/
 .env
-t7coffee.db
-Garage e commers/
+Admin/.env
+*.env.local
+.DS_Store
+nul
+AUTHORIZATION_FIX_SUMMARY.md
+START_HERE.md
+Admin/CHECKLIST.md
+Admin/COMPLETION_REPORT.md
+Admin/INDEX.md
+Admin/QUICK_REFERENCE.md
+Admin/README.md
+Admin/SETUP_INSTRUCTIONS.md
+Admin/SUPABASE_SETUP.md
+Admin/dashboard.html.backup

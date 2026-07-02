@@ -11,6 +11,9 @@ if(!localStorage.getItem('adminToken')){
 }
 </script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jspdf-autotable@3.8.2/dist/jspdf.plugin.autotable.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -37,9 +40,7 @@ html,body{height:100%;font-family:'Inter',sans-serif;background:var(--bg);color:
 [data-theme="light"] .sc,[data-theme="light"] .tw,[data-theme="light"] .chart-card,[data-theme="light"] .emp-card,[data-theme="light"] .rev-card,[data-theme="light"] .promo-card,[data-theme="light"] .set-card,[data-theme="light"] .msg-list,[data-theme="light"] .msg-chat,[data-theme="light"] .prod-card{box-shadow:0 8px 24px rgba(40,40,60,.08);border-color:transparent}
 [data-theme="light"] .sc{border-radius:18px}
 [data-theme="light"] .sb{border-right-color:rgba(0,0,0,.04)}
-[data-theme="light"] .sb-ic{color:#1c1c1f;background:#f4e000;border-radius:8px;width:36px;height:36px;display:flex;align-items:center;justify-content:center;font-size:1.3rem}
 [data-theme="light"] .topbar{border-bottom-color:rgba(0,0,0,.04)}
-[data-theme="dark"] .sb-ic{background:#f4e000;color:#1c1c1f;border-radius:8px;width:36px;height:36px;display:flex;align-items:center;justify-content:center;font-size:1.3rem}
 [data-theme="light"] thead th{background:var(--surface)}
 ::-webkit-scrollbar{width:4px;height:4px}
 ::-webkit-scrollbar-track{background:transparent}
@@ -57,7 +58,11 @@ html,body{height:100%;font-family:'Inter',sans-serif;background:var(--bg);color:
 .sb-item{display:flex;align-items:center;gap:.7rem;margin:.1rem .55rem;padding:.62rem .85rem;cursor:pointer;font-size:.82rem;font-weight:500;color:var(--muted);border-radius:11px;transition:all .15s;user-select:none;position:relative}
 .sb-item:hover{color:var(--text);background:var(--accent-glow)}
 .sb-item.active{color:var(--on-accent);background:var(--accent);font-weight:700;box-shadow:0 5px 16px var(--accent-soft)}
-.sb-ic{font-size:1rem;width:18px;text-align:center;flex-shrink:0}
+.sb-ic{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:var(--surface3);color:var(--accent);transition:all .15s}
+.sb-item:hover .sb-ic{color:var(--accent)}
+.sb-item.active .sb-ic{background:rgba(0,0,0,.18);color:var(--on-accent)}
+[data-theme="light"] .sb-ic{background:var(--surface2);color:var(--yellow)}
+[data-theme="light"] .sb-item.active .sb-ic{background:rgba(0,0,0,.12);color:var(--on-accent)}
 .sb-badge{margin-left:auto;background:var(--red);color:#fff;font-size:.58rem;font-weight:700;padding:.1rem .38rem;border-radius:10px;min-width:16px;text-align:center;display:none}
 .sb-badge.on{display:block}
 .sb-div{height:1px;background:var(--border);margin:.4rem 1.2rem}
@@ -321,7 +326,7 @@ tbody tr:hover{background:var(--accent-glow)}
 .d-donut h3{font-size:.9rem;font-weight:700;margin-bottom:.6rem}
 .donut-wrap{position:relative;width:150px;height:150px;margin:0 auto}
 .donut-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
-.donut-num{font-size:1.15rem;font-weight:800}
+.donut-num{font-size:.82rem;font-weight:800;line-height:1.2;text-align:center;word-break:break-word}
 .donut-cap{font-size:.62rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
 .donut-desc{font-size:.74rem;color:var(--muted);margin-top:.6rem;line-height:1.5}
 /* progress */
@@ -366,18 +371,23 @@ tbody tr:hover{background:var(--accent-glow)}
   <div class="sb-brand"><div class="sb-brand-name">T7 Coffee</div><div class="sb-brand-sub">Admin Panel</div></div>
   <nav class="sb-nav">
     <div class="sb-label" data-i18n="grp_overview">Обзор</div>
-    <div class="sb-item active" data-page="dashboard" onclick="nav('dashboard')"><span class="sb-ic">📊</span><span data-i18n="nav_dashboard">Дашборд</span></div>
-    <div class="sb-item" data-page="orders" onclick="nav('orders')"><span class="sb-ic">📋</span><span data-i18n="nav_orders">Заказы</span><span class="sb-badge" id="badgeOrders">0</span></div>
+    <div class="sb-item active" data-page="dashboard" onclick="nav('dashboard')"><span class="sb-ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg></span><span data-i18n="nav_dashboard">Дашборд</span></div>
+    <div class="sb-item" data-page="orders" onclick="nav('orders')"><span class="sb-ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><line x1="9" y1="12" x2="15" y2="12"/><line x1="9" y1="16" x2="12" y2="16"/></svg></span><span data-i18n="nav_orders">Заказы</span><span class="sb-badge" id="badgeOrders">0</span></div>
     <div class="sb-label" data-i18n="grp_team">Команда</div>
-    <div class="sb-item" data-page="employees" onclick="nav('employees')"><span class="sb-ic">👥</span><span data-i18n="nav_employees">Сотрудники</span></div>
+    <div class="sb-item" data-page="employees" onclick="nav('employees')"><span class="sb-ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span><span data-i18n="nav_employees">Сотрудники</span></div>
+    <div class="sb-item" data-page="attendance" onclick="nav('attendance')"><span class="sb-ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><path d="m9 16 2 2 4-4"/></svg></span><span>Посещаемость</span></div>
     <div class="sb-label" data-i18n="grp_marketing">Маркетинг</div>
-    <div class="sb-item" data-page="reviews" onclick="nav('reviews')"><span class="sb-ic">⭐</span><span data-i18n="nav_reviews">Отзывы</span><span class="sb-badge" id="badgeRevs">0</span></div>
-    <div class="sb-item" data-page="promotions" onclick="nav('promotions')"><span class="sb-ic">🎁</span><span data-i18n="nav_promos">Акции</span></div>
-    <div class="sb-item" data-page="menu" onclick="nav('menu')"><span class="sb-ic">☕</span><span data-i18n="nav_menu">Меню</span></div>
+    <div class="sb-item" data-page="reviews" onclick="nav('reviews')"><span class="sb-ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span><span data-i18n="nav_reviews">Отзывы</span><span class="sb-badge" id="badgeRevs">0</span></div>
+    <div class="sb-item" data-page="promotions" onclick="nav('promotions')"><span class="sb-ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5" rx="1"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg></span><span data-i18n="nav_promos">Акции</span></div>
+    <div class="sb-item" data-page="menu" onclick="nav('menu')"><span class="sb-ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg></span><span data-i18n="nav_menu">Меню</span></div>
+    <div class="sb-label">Управление</div>
+    <div class="sb-item" data-page="expenses" onclick="nav('expenses')"><span class="sb-ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg></span><span>Расходы</span></div>
+    <div class="sb-item" data-page="requests" onclick="nav('requests')"><span class="sb-ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><line x1="10" y1="9" x2="8" y2="9"/></svg></span><span>Запросы</span><span class="sb-badge" id="badgeRequests">0</span></div>
     <div class="sb-label" data-i18n="grp_system">Система</div>
-    <div class="sb-item" data-page="settings" onclick="nav('settings')"><span class="sb-ic">⚙️</span><span data-i18n="nav_settings">Настройки</span></div>
+    <div class="sb-item" data-page="users" onclick="nav('users')"><span class="sb-ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span><span>Пользователи</span></div>
+    <div class="sb-item" data-page="settings" onclick="nav('settings')"><span class="sb-ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></span><span data-i18n="nav_settings">Настройки</span></div>
   </nav>
-  <div class="sb-foot"><div class="sb-item" onclick="logout()"><span class="sb-ic">🚪</span><span data-i18n="nav_logout">Выйти</span></div></div>
+  <div class="sb-foot"><div class="sb-item" onclick="logout()"><span class="sb-ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg></span><span data-i18n="nav_logout">Выйти</span></div></div>
 </aside>
 
 <!-- MAIN -->
@@ -386,6 +396,7 @@ tbody tr:hover{background:var(--accent-glow)}
   <button class="topbar-menu btn" onclick="document.getElementById('sb').classList.toggle('open')">☰</button>
   <span class="tb-title" id="tbTitle">Dashboard</span>
   <div class="tb-right">
+    <button class="tb-btn" onclick="nav('requests')" id="reqBtn" title="Запросы">📨<div class="tb-dot" id="reqDot"></div></button>
     <div style="position:relative">
       <button class="tb-btn" onclick="toggleNotif()" id="notifBtn">🔔<div class="tb-dot" id="notifDot"></div></button>
       <div class="notif-panel" id="notifPanel">
@@ -401,7 +412,7 @@ tbody tr:hover{background:var(--accent-glow)}
           <div style="font-weight:600;font-size:.85rem" id="profileMenuName">Администратор</div>
           <div style="color:var(--muted);font-size:.75rem" id="profileMenuRole">Администратор</div>
         </div>
-        <button onclick="nav('settings');closeProfile()" style="width:100%;text-align:left;background:none;border:none;padding:.75rem;cursor:pointer;color:var(--text);font-size:.85rem;border-bottom:1px solid var(--border)">⚙️ Настройки</button>
+        <button id="profileSettingsBtn" onclick="nav('settings');closeProfile()" style="width:100%;text-align:left;background:none;border:none;padding:.75rem;cursor:pointer;color:var(--text);font-size:.85rem;border-bottom:1px solid var(--border)">⚙️ Настройки</button>
         <div style="padding:.5rem">
           <div style="font-size:.75rem;color:var(--muted);padding:.5rem 0">🌙 Тема</div>
           <button class="toggle" id="themeToggle2" onclick="toggleTheme()" style="display:inline-block"></button>
@@ -491,7 +502,7 @@ tbody tr:hover{background:var(--accent-glow)}
     <div class="d-right">
       <div class="dcard prog-card">
         <div class="prog-val" id="dProgVal">—</div>
-        <div class="prog-cap" id="dProgCap">до цели</div>
+        <div class="prog-cap" id="dProgCap" onclick="editGoal()" style="cursor:pointer" title="Нажмите для изменения цели">до цели</div>
         <div class="prog-bar"><span id="dProgFill"></span></div>
       </div>
       <div class="dcard gauge-card">
@@ -519,7 +530,7 @@ tbody tr:hover{background:var(--accent-glow)}
         </div>
         <div class="cat-item">
           <div class="cat-info">
-            <span class="cat-name">🥐 Выпечка</span>
+            <span class="cat-name">🧊 Айс Напитки</span>
             <span class="cat-pct">22%</span>
           </div>
           <div class="cat-bar"><span style="width:22%"></span></div>
@@ -544,7 +555,7 @@ tbody tr:hover{background:var(--accent-glow)}
         </div>
         <div class="stat-box">
           <div class="stat-val" id="catPastryVal">—</div>
-          <div class="stat-lbl">🥐 Выпечка</div>
+          <div class="stat-lbl">🧊 Айс Напитки</div>
         </div>
         <div class="stat-box">
           <div class="stat-val" id="catDessertVal">—</div>
@@ -564,7 +575,7 @@ tbody tr:hover{background:var(--accent-glow)}
 <!-- ══ ORDERS ══ -->
 <div class="page" id="page-orders">
   <div class="ph"><div class="ph-left"><h1 data-i18n="nav_orders">Заказы</h1><p id="ordSubtitle"></p></div>
-    <button class="btn btn-ghost" onclick="exportOrdersCSV()">📥 CSV</button></div>
+    <button class="btn btn-ghost" id="exportCsvBtn" onclick="exportOrdersCSV()">📥 Excel</button></div>
   <div class="tw">
     <div class="tb-bar">
       <div class="search-inp"><span style="color:var(--muted)">🔍</span><input type="text" placeholder="Имя или телефон..." id="ordSearch" oninput="filterOrds()"/></div>
@@ -627,6 +638,53 @@ tbody tr:hover{background:var(--accent-glow)}
     <button class="btn btn-primary" onclick="openMenuModal()">+ Добавить позицию</button></div>
   <div class="tw">
     <div style="overflow-x:auto"><table><thead><tr><th>Иконка</th><th>Название</th><th>Категория</th><th>Описание</th><th>Цена</th><th></th></tr></thead><tbody id="menuTbody"></tbody></table></div>
+  </div>
+</div>
+
+<!-- ══ ATTENDANCE ══ -->
+<div class="page" id="page-attendance">
+  <div class="ph"><div class="ph-left"><h1>Посещаемость</h1><p id="attSubtitle"></p></div>
+    <button class="btn btn-primary" onclick="openAttModal()">+ Добавить запись</button></div>
+  <div class="att-summary">
+    <div class="att-sc"><div class="att-sc-v" id="attTotal">—</div><div class="att-sc-l">Всего записей</div></div>
+    <div class="att-sc"><div class="att-sc-v" id="attPresent" style="color:var(--green)">—</div><div class="att-sc-l">Вовремя</div></div>
+    <div class="att-sc"><div class="att-sc-v" id="attLate" style="color:var(--yellow)">—</div><div class="att-sc-l">Опоздали</div></div>
+    <div class="att-sc"><div class="att-sc-v" id="attAbsent" style="color:var(--red)">—</div><div class="att-sc-l">Отсутствовали</div></div>
+  </div>
+  <div class="tw">
+    <div class="tb-bar"><h3>Журнал посещаемости</h3><button class="btn btn-ghost" style="margin-left:auto" onclick="loadAttendancePage()">↻</button></div>
+    <div style="overflow-x:auto"><table><thead><tr><th>Сотрудник</th><th>Должность</th><th>Дата</th><th>Приход</th><th>Уход</th><th>Статус</th><th></th></tr></thead><tbody id="attTbody"></tbody></table></div>
+  </div>
+</div>
+
+<!-- ══ EXPENSES ══ -->
+<div class="page" id="page-expenses">
+  <div class="ph"><div class="ph-left"><h1>Расходы</h1></div>
+    <button class="btn btn-primary" onclick="openExpModal()">+ Добавить расход</button></div>
+  <div class="sg">
+    <div class="sc"><div class="sc-ic">💰</div><div class="sc-val" id="expTotal">—</div><div class="sc-lbl">Всего расходов</div></div>
+    <div class="sc"><div class="sc-ic">📅</div><div class="sc-val" id="expMonth">—</div><div class="sc-lbl">За 30 дней</div></div>
+    <div class="sc"><div class="sc-ic">📆</div><div class="sc-val" id="expToday">—</div><div class="sc-lbl">Сегодня</div></div>
+  </div>
+  <div class="tw">
+    <div class="tb-bar"><h3>Список расходов</h3><button class="btn btn-ghost" style="margin-left:auto" onclick="loadExpenses()">↻</button></div>
+    <div style="overflow-x:auto"><table><thead><tr><th>Название</th><th>Категория</th><th>Сумма</th><th>Дата</th><th></th></tr></thead><tbody id="expTbody"></tbody></table></div>
+  </div>
+</div>
+
+<!-- ══ REQUESTS ══ -->
+<div class="page" id="page-requests">
+  <div class="ph"><div class="ph-left"><h1>Запросы</h1><p id="reqSubtitle"></p></div>
+    <button class="btn btn-primary" onclick="openReqModal()">+ Новый запрос</button></div>
+  <div id="reqList" style="display:flex;flex-direction:column;gap:.75rem"></div>
+</div>
+
+<!-- ══ USERS ══ -->
+<div class="page" id="page-users">
+  <div class="ph"><div class="ph-left"><h1>Пользователи системы</h1><p>Управление менеджерами и доступами</p></div>
+    <button class="btn btn-primary" onclick="openUserModal()">+ Добавить пользователя</button></div>
+  <div class="tw">
+    <div style="overflow-x:auto"><table><thead><tr><th>Логин</th><th>Имя</th><th>Роль</th><th>Доступы</th><th>Дата создания</th><th></th></tr></thead><tbody id="usersTbody"></tbody></table></div>
   </div>
 </div>
 
@@ -816,6 +874,68 @@ tbody tr:hover{background:var(--accent-glow)}
   <div class="mfooter"><button class="btn btn-ghost" onclick="cm('menuModal')" data-i18n="cancel">Отмена</button><button class="btn btn-primary" onclick="saveMenu()" data-i18n="save">Сохранить</button></div>
 </div></div>
 
+<!-- User modal -->
+<div class="overlay" id="userModal"><div class="modal" style="max-width:560px">
+  <div class="mhdr"><h3 id="userMTitle">Добавить пользователя</h3><button class="mclose" onclick="cm('userModal')">✕</button></div>
+  <div class="mbody">
+    <input type="hidden" id="userMId"/>
+    <div class="fg-row">
+      <div class="fg"><label>Имя</label><input type="text" class="finp" id="userFN" placeholder="Иван"/></div>
+      <div class="fg"><label>Фамилия</label><input type="text" class="finp" id="userLN" placeholder="Иванов"/></div>
+    </div>
+    <div class="fg-row">
+      <div class="fg"><label>Логин *</label><input type="text" class="finp" id="userLogin" placeholder="manager1" autocomplete="off"/></div>
+      <div class="fg"><label>Пароль *</label><input type="password" class="finp" id="userPwd" placeholder="••••••" autocomplete="new-password"/></div>
+    </div>
+    <div class="fg-row">
+      <div class="fg"><label>Email</label><input type="email" class="finp" id="userEmail" placeholder="manager@t7.uz"/></div>
+      <div class="fg"><label>Роль</label>
+        <select class="fsel2" id="userRole" onchange="toggleUserPerms()">
+          <option value="manager">Менеджер</option>
+          <option value="admin">Администратор</option>
+        </select>
+      </div>
+    </div>
+    <div id="userPermsBlock">
+      <div style="font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:.6rem">Доступы к разделам</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:.4rem" id="userPermsGrid"></div>
+    </div>
+  </div>
+  <div class="mfooter"><button class="btn btn-ghost" onclick="cm('userModal')">Отмена</button><button class="btn btn-primary" onclick="saveUser()">Сохранить</button></div>
+</div></div>
+
+<!-- Expense -->
+<div class="overlay" id="expModal"><div class="modal">
+  <div class="mhdr"><h3>Добавить расход</h3><button class="mclose" onclick="cm('expModal')">✕</button></div>
+  <div class="mbody">
+    <div class="fg"><label>Название *</label><input type="text" class="finp" id="expTitle" placeholder="Аренда, продукты..."/></div>
+    <div class="fg-row">
+      <div class="fg"><label>Сумма (сум) *</label><input type="number" class="finp" id="expAmount" placeholder="50000"/></div>
+      <div class="fg"><label>Категория</label><select class="fsel2" id="expCat"><option value="">—</option><option value="rent">Аренда</option><option value="products">Продукты</option><option value="salary">Зарплата</option><option value="utilities">Коммунальные</option><option value="other">Другое</option></select></div>
+    </div>
+    <div class="fg"><label>Дата</label><input type="date" class="finp" id="expDate"/></div>
+  </div>
+  <div class="mfooter"><button class="btn btn-ghost" onclick="cm('expModal')">Отмена</button><button class="btn btn-primary" onclick="saveExp()">Сохранить</button></div>
+</div></div>
+
+<!-- Request -->
+<div class="overlay" id="reqModal"><div class="modal" style="max-width:600px">
+  <div class="mhdr"><h3>Новый запрос</h3><button class="mclose" onclick="cm('reqModal')">✕</button></div>
+  <div class="mbody">
+    <div class="fg"><label>Имя сотрудника *</label><input type="text" class="finp" id="reqEmpName" placeholder="Ваше имя"/></div>
+    <div class="fg"><label>Сообщение *</label><textarea class="fta" id="reqMessage" rows="4" placeholder="Опишите запрос..."></textarea></div>
+    <div class="fg"><label>Приоритет</label>
+      <select class="fsel2" id="reqPriority"><option value="low">🟢 Низкий</option><option value="medium" selected>🟡 Средний</option><option value="high">🟠 Высокий</option><option value="urgent">🔴 Срочный</option></select>
+    </div>
+    <div class="fg"><label>Файлы (необязательно)</label>
+      <input type="file" id="reqFiles" multiple accept="image/*,video/*,.pdf,.doc,.docx,.xls,.xlsx,.zip,.rar" style="display:none" onchange="handleReqFiles(this)"/>
+      <button type="button" class="btn btn-ghost" onclick="document.getElementById('reqFiles').click()">📎 Прикрепить файлы</button>
+      <div id="reqFileList" style="margin-top:.5rem;display:flex;flex-wrap:wrap;gap:.4rem"></div>
+    </div>
+  </div>
+  <div class="mfooter"><button class="btn btn-ghost" onclick="cm('reqModal')">Отмена</button><button class="btn btn-primary" onclick="saveReq()">Отправить</button></div>
+</div></div>
+
 <div id="toasts"></div>
 
 <script>
@@ -898,8 +1018,8 @@ function toast(msg, type='info'){
 /* ══ RBAC - Role-Based Access Control ══ */
 let userRole='admin';
 const rolePermissions={
-  admin:{pages:['dashboard','orders','employees','reviews','promotions','menu','settings']},
-  manager:{pages:['orders','employees','reviews']}
+  admin:{pages:['dashboard','orders','employees','attendance','expenses','reviews','promotions','menu','requests','users','settings'],label:'Администратор'},
+  manager:{pages:['orders','attendance','expenses','requests'],label:'Менеджер'}
 };
 function hasAccess(page){ return rolePermissions[userRole]?.pages.includes(page); }
 function applyRoleVisibility(){
@@ -908,16 +1028,21 @@ function applyRoleVisibility(){
     const page=item.getAttribute('data-page');
     item.style.display=visiblePages.includes(page)?'':'none';
   });
-  document.querySelectorAll('.sb-label').forEach((label,idx)=>{
+  document.querySelectorAll('.sb-label').forEach(label=>{
     const items=[...label.parentNode.querySelectorAll('.sb-item')];
     const nextItems=items.slice(items.indexOf(label.nextElementSibling)||0);
     const hasVisibleNext=nextItems.some(i=>window.getComputedStyle(i).display!=='none');
     label.style.display=hasVisibleNext?'':'none';
   });
+  // Скрываем для менеджера: настройки в профиле, кнопку экспорта, кнопку запросов в шапке
+  const isManager=userRole!=='admin';
+  const psb=document.getElementById('profileSettingsBtn'); if(psb) psb.style.display=isManager?'none':'';
+  const ecb=document.getElementById('exportCsvBtn'); if(ecb) ecb.style.display=isManager?'none':'';
+  const rqb=document.getElementById('reqBtn'); if(rqb) rqb.style.display=isManager?'none':'';
 }
 
 /* ══ NAV ══ */
-const pageNames={dashboard:'Dashboard',orders:'Заказы',employees:'Сотрудники',messages:'Сообщения',reviews:'Отзывы',promotions:'Акции',menu:'Меню',settings:'Настройки'};
+const pageNames={dashboard:'Dashboard',orders:'Заказы',employees:'Сотрудники',attendance:'Посещаемость',expenses:'Расходы',messages:'Сообщения',reviews:'Отзывы',promotions:'Акции',menu:'Меню',requests:'Запросы',users:'Пользователи',settings:'Настройки'};
 let curPage='dashboard';
 function nav(p){
   if(!hasAccess(p)){ toast('Доступ запрещён','error'); return; }
@@ -928,8 +1053,8 @@ function nav(p){
   const tk='nav_'+p; document.getElementById('tbTitle').textContent=(t(tk)!==tk?t(tk):(pageNames[p]||p));
   curPage=p;
   document.getElementById('sb').classList.remove('open');
-  document.getElementById('gSearch').value='';
-  const loaders={dashboard:'loadDash',orders:'loadOrders',employees:'loadEmps',messages:'loadMsgs',reviews:'loadRevs',promotions:'loadPromos',menu:'loadMenuPage'};
+  const _gs=document.getElementById('gSearch'); if(_gs) _gs.value='';
+  const loaders={dashboard:'loadDash',orders:'loadOrders',employees:'loadEmps',attendance:'loadAttendancePage',expenses:'loadExpenses',messages:'loadMsgs',reviews:'loadRevs',promotions:'loadPromos',menu:'loadMenuPage',requests:'loadRequests',users:'loadUsers'};
   const fn=window[loaders[p]];
   if(typeof fn==='function') fn();
 }
@@ -961,19 +1086,26 @@ document.addEventListener('click',e=>{
 async function loadNotifs(){
   try{
     const s=await API('/api/stats/dashboard');
-    const promos=await API('/api/promotions').catch(()=>[]);
     const items=[];
     if(s.new_orders>0) items.push({ic:'📋',bg:'rgba(245,179,1,.15)',text:`${s.new_orders} новых заказов`,time:'Сейчас'});
-    if(s.pending_reviews>0) items.push({ic:'⭐',bg:'rgba(245,158,11,.15)',text:`${s.pending_reviews} отзывов ожидают`,time:'Сейчас'});
-    const expiredPromos=promos.filter(p=>p.end_date&&new Date(p.end_date)<new Date()).length;
-    if(expiredPromos>0) items.push({ic:'🎁',bg:'rgba(239,68,68,.15)',text:`${expiredPromos} акции закончилось`,time:'Внимание'});
+    if(userRole==='admin'){
+      if(s.pending_reviews>0) items.push({ic:'⭐',bg:'rgba(245,158,11,.15)',text:`${s.pending_reviews} отзывов ожидают`,time:'Сейчас'});
+      const promos=await API('/api/promotions').catch(()=>[]);
+      const expiredPromos=promos.filter(p=>p.end_date&&new Date(p.end_date)<new Date()).length;
+      if(expiredPromos>0) items.push({ic:'🎁',bg:'rgba(239,68,68,.15)',text:`${expiredPromos} акции закончилось`,time:'Внимание'});
+    }
     const has=items.length>0;
     document.getElementById('notifDot').classList.toggle('on',has);
     document.getElementById('notifList').innerHTML = has
       ? items.map(i=>`<div class="notif-item"><div class="notif-ic" style="background:${i.bg}">${i.ic}</div><div class="notif-body"><div class="notif-text">${i.text}</div><div class="notif-time">${i.time}</div></div></div>`).join('')
       : '<div style="padding:1.5rem;text-align:center;color:var(--muted);font-size:.82rem">Нет уведомлений</div>';
-    document.getElementById('badgeOrders').textContent=s.new_orders||0; document.getElementById('badgeOrders').classList.toggle('on',s.new_orders>0);
-    document.getElementById('badgeRevs').textContent=s.pending_reviews||0; document.getElementById('badgeRevs').classList.toggle('on',s.pending_reviews>0);
+    const bOrders=document.getElementById('badgeOrders'); if(bOrders){bOrders.textContent=s.new_orders||0;bOrders.classList.toggle('on',s.new_orders>0);}
+    const bRevs=document.getElementById('badgeRevs'); if(bRevs){bRevs.textContent=s.pending_reviews||0;bRevs.classList.toggle('on',s.pending_reviews>0);}
+    // Requests badge
+    const reqs=await API('/api/requests').catch(()=>[]);
+    const unreadReqs=(reqs||[]).filter(r=>!r.is_read).length;
+    const bReqs=document.getElementById('badgeRequests'); if(bReqs){bReqs.textContent=unreadReqs||0;bReqs.classList.toggle('on',unreadReqs>0);}
+    const reqDot=document.getElementById('reqDot'); if(reqDot) reqDot.classList.toggle('on',unreadReqs>0);
   }catch(_){}
 }
 
@@ -1016,13 +1148,27 @@ async function loadDash(){
     document.getElementById('dExpSub').textContent=`прибыль ${fmtMoney(s.profit_month)} сум`;
 
     // DONUT center
-    document.getElementById('dDonutNum').textContent=fmtMoney(s.revenue_month)+' сум';
+    document.getElementById('dDonutNum').textContent=fmtMoney(s.revenue_month)+'\nсум';
 
     // PROGRESS — заказы за месяц к цели
-    const goal=100, val=s.orders_month||0, pct=Math.min(100,Math.round(val/goal*100));
+    const goal=monthlyGoal, val=s.orders_month||0, pct=Math.min(100,Math.round(val/goal*100));
     document.getElementById('dProgVal').textContent=val;
-    document.getElementById('dProgCap').textContent=`${Math.max(0,goal-val)} до цели (${goal} заказов)`;
+    document.getElementById('dProgCap').textContent=`${Math.max(0,goal-val)} до цели (${goal}) ✎`;
     document.getElementById('dProgFill').style.width=pct+'%';
+
+    // CATEGORY revenue
+    if(s.cat_revenue){
+      const fc=n=>n>0?(n/1000).toFixed(0)+'K':'—';
+      const coffeeRev=(s.cat_revenue.coffee||0)+(s.cat_revenue.tea||0);
+      const coldRev=s.cat_revenue.cold||0;
+      const dessertRev=s.cat_revenue.dessert||0;
+      const totalCat=coffeeRev+coldRev+dessertRev||1;
+      document.getElementById('catCoffeeVal').textContent=fc(coffeeRev);
+      document.getElementById('catPastryVal').textContent=fc(coldRev);
+      document.getElementById('catDessertVal').textContent=fc(dessertRev);
+      const bars=document.querySelectorAll('.cat-bar span'), pcts=document.querySelectorAll('.cat-pct');
+      [coffeeRev,coldRev,dessertRev].forEach((v,i)=>{ const p=Math.round(v/totalCat*100); if(bars[i]) bars[i].style.width=p+'%'; if(pcts[i]) pcts[i].textContent=p+'%'; });
+    }
 
     // GAUGE — присутствие (present / сотрудников)
     const gpct=s.employees_count>0?Math.round((s.attendance_present_today||0)/s.employees_count*100):0;
@@ -1065,7 +1211,7 @@ function filterOrds(){
   const st=document.getElementById('ordFilter').value;
   const f=allOrds.filter(o=>(!st||o.status===st)&&(!q||o.name.toLowerCase().includes(q)||o.phone.includes(q)));
   document.getElementById('ordTbody').innerHTML=f.length
-    ? f.map(o=>`<tr onclick="openOrdDetail(${o.id})"><td style="color:var(--muted)">#${o.id}</td><td><b>${esc(o.name)}</b></td><td style="color:var(--muted)">${esc(o.phone)}</td><td style="font-size:.78rem;max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--muted)">${esc(o.address||'—')}</td><td style="font-weight:600;color:var(--accent2)">${fmtMoney(calcSum(o.items))} сум</td><td onclick="event.stopPropagation()"><select class="fsel" style="font-size:.74rem" onchange="updOrdStatus(${o.id},this.value)"><option value="new" ${o.status==='new'?'selected':''}>🆕 Новый</option><option value="cooking" ${o.status==='cooking'?'selected':''}>🍳 Готовится</option><option value="road" ${o.status==='road'?'selected':''}>🛵 В пути</option><option value="done" ${o.status==='done'?'selected':''}>✅ Выполнен</option><option value="cancel" ${o.status==='cancel'?'selected':''}>❌ Отменён</option></select></td><td style="color:var(--muted);font-size:.75rem;white-space:nowrap">${fmtDate(o.created_at)}</td><td onclick="event.stopPropagation()"><button class="btn-sm" style="color:var(--red)" onclick="delOrd(${o.id})">🗑</button></td></tr>`).join('')
+    ? f.map(o=>`<tr onclick="openOrdDetail(${o.id})"><td style="color:var(--muted)">#${o.id}</td><td><b>${esc(o.name)}</b></td><td style="color:var(--muted)">${esc(o.phone)}</td><td style="font-size:.78rem;max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--muted)">${esc(o.address||'—')}</td><td style="font-weight:600;color:var(--accent2)">${fmtMoney(calcSum(o.items))} сум</td><td onclick="event.stopPropagation()"><select class="fsel" style="font-size:.74rem" onchange="updOrdStatus(${o.id},this.value)"><option value="new" ${o.status==='new'?'selected':''}>🆕 Новый</option><option value="cooking" ${o.status==='cooking'?'selected':''}>🍳 Готовится</option><option value="road" ${o.status==='road'?'selected':''}>🛵 В пути</option><option value="done" ${o.status==='done'?'selected':''}>✅ Выполнен</option><option value="cancel" ${o.status==='cancel'?'selected':''}>❌ Отменён</option></select></td><td style="color:var(--muted);font-size:.75rem;white-space:nowrap">${fmtDate(o.created_at)}</td>${userRole==='admin'?`<td onclick="event.stopPropagation()"><button class="btn-sm" style="color:var(--red)" onclick="delOrd(${o.id})">🗑</button></td>`:'<td></td>'}</tr>`).join('')
     : `<tr><td colspan="8" class="empty-td">Заказов не найдено</td></tr>`;
   document.getElementById('ordFooter').textContent=`Показано ${f.length} из ${allOrds.length}`;
 }
@@ -1096,10 +1242,44 @@ function openOrdDetail(id){
   om('ordModal');
 }
 function exportOrdersCSV(){
-  const hdr='ID,Клиент,Телефон,Адрес,Сумма,Статус,Дата\n';
-  const rows=allOrds.map(o=>[o.id,o.name,o.phone,o.address||'',calcSum(o.items),o.status,o.created_at].map(v=>`"${v}"`).join(','));
-  const blob=new Blob([hdr+rows.join('\n')],{type:'text/csv;charset=utf-8;'});
-  const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='orders.csv'; a.click();
+  if(userRole!=='admin'){toast('Нет доступа','error');return;}
+  const statusL={new:'Новый',cooking:'Готовится',road:'В пути',done:'Выполнен',cancel:'Отменён'};
+  const statusColor={new:'#3b82f6',cooking:'#f97316',road:'#a855f7',done:'#22c55e',cancel:'#ef4444'};
+  const date=new Date().toLocaleDateString('ru-RU');
+  const rows=allOrds.map((o,i)=>`
+    <tr style="background:${i%2===0?'#fff':'#f9f9f9'}">
+      <td>${o.id}</td>
+      <td>${esc(o.name||'')}</td>
+      <td>${esc(o.phone||'')}</td>
+      <td>${esc(o.address||'—')}</td>
+      <td style="font-weight:600">${calcSum(o.items).toLocaleString('ru-RU')} сум</td>
+      <td><span style="background:${statusColor[o.status]||'#888'};color:#fff;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:600">${statusL[o.status]||o.status}</span></td>
+      <td>${o.created_at?new Date(o.created_at).toLocaleString('ru-RU'):''}</td>
+    </tr>`).join('');
+  const html=`<!DOCTYPE html><html lang="ru"><head><meta charset="UTF-8"/>
+  <title>T7 Coffee — Заказы</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Inter',Arial,sans-serif;padding:40px 48px;color:#1a1a1a;background:#fff;max-width:1100px}
+    h1{font-size:26px;font-weight:700;margin-bottom:8px}
+    .sub{color:#666;font-size:14px;margin-bottom:32px}
+    table{width:100%;border-collapse:collapse;font-size:14px}
+    th{background:#f5b301;color:#1a1505;padding:12px 16px;text-align:left;font-weight:700;font-size:13px}
+    th:first-child{border-radius:8px 0 0 8px}
+    th:last-child{border-radius:0 8px 8px 0}
+    td{padding:12px 16px;border-bottom:1px solid #f0f0f0;vertical-align:middle}
+    tr:last-child td{border-bottom:none}
+    @media print{body{padding:20px}}
+  </style></head><body>
+  <h1>T7 Coffee — Отчёт по заказам</h1>
+  <div class="sub">Дата формирования: ${date} &nbsp;·&nbsp; Всего заказов: ${allOrds.length}</div>
+  <table><thead><tr><th>ID</th><th>Клиент</th><th>Телефон</th><th>Адрес</th><th>Сумма</th><th>Статус</th><th>Дата и время</th></tr></thead>
+  <tbody>${rows}</tbody></table>
+  </body></html>`;
+  const w=window.open('','_blank');
+  w.document.write(html);
+  w.document.close();
 }
 
 /* ══ EMPLOYEES ══ */
@@ -1413,13 +1593,261 @@ function updateProfileDisplay(){
   document.getElementById('themeToggle2').classList.toggle('on',document.documentElement.getAttribute('data-theme')==='light');
 }
 
+/* ══ MESSAGES ══ */
+function loadMsgs(){ /* placeholder */ }
+
+/* ══ ATTENDANCE PAGE ══ */
+let allAtt=[];
+async function loadAttendancePage(){
+  allAtt=await API('/api/attendance').catch(()=>[]);
+  const total=allAtt.length, present=allAtt.filter(r=>r.status==='present').length, late=allAtt.filter(r=>r.status==='late').length, absent=allAtt.filter(r=>r.status==='absent').length;
+  document.getElementById('attTotal').textContent=total;
+  document.getElementById('attPresent').textContent=present;
+  document.getElementById('attLate').textContent=late;
+  document.getElementById('attAbsent').textContent=absent;
+  document.getElementById('attSubtitle').textContent=`Всего: ${total}`;
+  const attSt={present:{l:'Вовремя',c:'b-present'},late:{l:'Опоздал',c:'b-late'},absent:{l:'Отсутствовал',c:'b-absent'}};
+  document.getElementById('attTbody').innerHTML=allAtt.length?allAtt.map(r=>`
+    <tr>
+      <td><b>${esc(r.first_name||'')} ${esc(r.last_name||'')}</b></td>
+      <td style="color:var(--muted)">${esc(r.position||'—')}</td>
+      <td>${esc(r.date||'—')}</td>
+      <td>${esc(r.time_in||'—')}</td>
+      <td>${esc(r.time_out||'—')}</td>
+      <td><span class="badge ${(attSt[r.status]||{c:''}).c}">${(attSt[r.status]||{l:r.status}).l}</span></td>
+      ${userRole==='admin'?`<td><button class="btn-sm" style="color:var(--red)" onclick="delAtt(${r.id})">🗑</button></td>`:'<td></td>'}
+    </tr>`).join(''):`<tr><td colspan="7" class="empty-td">Записей нет</td></tr>`;
+}
+async function openAttModal(){
+  const emps=await API('/api/employees').catch(()=>[]);
+  const sel=document.getElementById('attEmpSel');
+  sel.innerHTML=emps.map(e=>`<option value="${e.id}">${esc(e.first_name)} ${esc(e.last_name)}</option>`).join('');
+  document.getElementById('attDate').value=new Date().toISOString().slice(0,10);
+  document.getElementById('attIn').value=''; document.getElementById('attOut').value='';
+  document.getElementById('attStatus').value='present';
+  om('attModal');
+}
+async function saveAtt(){
+  const body={employee_id:parseInt(document.getElementById('attEmpSel').value),date:document.getElementById('attDate').value,time_in:document.getElementById('attIn').value,time_out:document.getElementById('attOut').value,status:document.getElementById('attStatus').value};
+  if(!body.employee_id||!body.date){toast('Выберите сотрудника и дату','error');return;}
+  await API('/api/attendance',{method:'POST',body:JSON.stringify(body)});
+  toast('Запись добавлена','success'); cm('attModal'); loadAttendancePage();
+}
+async function delAtt(id){ if(!confirm('Удалить запись?')) return; await API(`/api/attendance/${id}`,{method:'DELETE'}); allAtt=allAtt.filter(r=>r.id!==id); loadAttendancePage(); toast('Удалено'); }
+
+/* ══ EXPENSES ══ */
+let allExp=[];
+async function loadExpenses(){
+  allExp=await API('/api/expenses').catch(()=>[]);
+  const today=new Date().toISOString().slice(0,10);
+  const monthAgo=new Date(Date.now()-30*864e5).toISOString().slice(0,10);
+  const total=allExp.reduce((s,e)=>s+(e.amount||0),0);
+  const month=allExp.filter(e=>e.date>=monthAgo).reduce((s,e)=>s+(e.amount||0),0);
+  const todayAmt=allExp.filter(e=>e.date===today).reduce((s,e)=>s+(e.amount||0),0);
+  document.getElementById('expTotal').textContent=total.toLocaleString('ru')+' сум';
+  document.getElementById('expMonth').textContent=month.toLocaleString('ru')+' сум';
+  document.getElementById('expToday').textContent=todayAmt.toLocaleString('ru')+' сум';
+  const catL={rent:'Аренда',products:'Продукты',salary:'Зарплата',utilities:'Коммунальные',other:'Другое'};
+  document.getElementById('expTbody').innerHTML=allExp.length?allExp.map(e=>`
+    <tr>
+      <td><b>${esc(e.title)}</b></td>
+      <td style="color:var(--muted)">${catL[e.category]||e.category||'—'}</td>
+      <td style="font-weight:700;color:var(--accent2)">${(e.amount||0).toLocaleString('ru')} сум</td>
+      <td style="color:var(--muted)">${esc(e.date||'—')}</td>
+      ${userRole==='admin'?`<td><button class="btn-sm" style="color:var(--red)" onclick="delExp(${e.id})">🗑</button></td>`:'<td></td>'}
+    </tr>`).join(''):`<tr><td colspan="5" class="empty-td">Расходов нет</td></tr>`;
+}
+function openExpModal(){
+  document.getElementById('expTitle').value=''; document.getElementById('expAmount').value='';
+  document.getElementById('expCat').value='';
+  document.getElementById('expDate').value=new Date().toISOString().slice(0,10);
+  om('expModal');
+}
+async function saveExp(){
+  const body={title:document.getElementById('expTitle').value.trim(),amount:parseInt(document.getElementById('expAmount').value)||0,category:document.getElementById('expCat').value,date:document.getElementById('expDate').value};
+  if(!body.title||!body.amount){toast('Введите название и сумму','error');return;}
+  await API('/api/expenses',{method:'POST',body:JSON.stringify(body)});
+  toast('Расход добавлен','success'); cm('expModal'); loadExpenses();
+}
+async function delExp(id){ if(!confirm('Удалить расход?')) return; await API(`/api/expenses/${id}`,{method:'DELETE'}); allExp=allExp.filter(e=>e.id!==id); loadExpenses(); toast('Удалено'); }
+
+/* ══ REQUESTS ══ */
+let allReqs=[], reqAttachFiles=[];
+async function loadRequests(){
+  allReqs=await API('/api/requests').catch(()=>[]);
+  const unread=allReqs.filter(r=>!r.is_read).length;
+  document.getElementById('reqSubtitle').textContent=unread>0?`${unread} непрочитанных`:'Все прочитаны';
+  const prioMap={low:{l:'Низкий',c:'#22c55e'},medium:{l:'Средний',c:'#f59e0b'},high:{l:'Высокий',c:'#f97316'},urgent:{l:'Срочный',c:'#ef4444'}};
+  document.getElementById('reqList').innerHTML=allReqs.length?allReqs.map(r=>{
+    const pm=prioMap[r.priority]||{l:r.priority,c:'#999'};
+    const isUrgent=r.priority==='high'||r.priority==='urgent';
+    let files=[]; try{files=JSON.parse(r.files||'[]')}catch{}
+    return `<div style="background:var(--surface);border:1px solid ${isUrgent&&!r.is_read?'var(--red)':'var(--border)'};border-left:4px solid ${!r.is_read?'var(--accent)':'transparent'};border-radius:12px;padding:1.2rem">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;flex-wrap:wrap">
+        <div style="flex:1">
+          <div style="display:flex;align-items:center;gap:.6rem;margin-bottom:.4rem;flex-wrap:wrap">
+            <span style="font-weight:700;font-size:.9rem">${esc(r.employee_name)}</span>
+            <span style="background:${pm.c}25;color:${pm.c};font-size:.68rem;font-weight:700;padding:.15rem .5rem;border-radius:10px">${pm.l}</span>
+            ${!r.is_read?'<span style="background:var(--accent);color:var(--on-accent);font-size:.65rem;font-weight:700;padding:.1rem .4rem;border-radius:8px">НОВЫЙ</span>':''}
+          </div>
+          <div style="font-size:.84rem;line-height:1.5;margin-bottom:.5rem">${esc(r.message)}</div>
+          ${files.length?`<div style="display:flex;flex-wrap:wrap;gap:.35rem;margin-bottom:.5rem">${files.map(f=>`<span style="background:var(--surface2);border:1px solid var(--border);padding:.18rem .5rem;border-radius:6px;font-size:.72rem">📎 ${esc(f.name)}</span>`).join('')}</div>`:''}
+          <div style="font-size:.72rem;color:var(--muted)">${fmtDate(r.created_at)}</div>
+        </div>
+        <div style="display:flex;gap:.5rem;flex-shrink:0">
+          ${userRole==='admin'&&!r.is_read?`<button class="btn btn-ghost" style="font-size:.75rem" onclick="markReqRead(${r.id})">✓ Прочитано</button>`:''}
+          ${userRole==='admin'?`<button class="btn btn-danger" style="font-size:.75rem" onclick="delReq(${r.id})">🗑</button>`:''}
+        </div>
+      </div>
+    </div>`;
+  }).join(''):'<div style="text-align:center;padding:3rem;color:var(--muted)">Нет запросов</div>';
+  updateReqBadge();
+}
+function updateReqBadge(){
+  const unread=(allReqs||[]).filter(r=>!r.is_read).length;
+  const b=document.getElementById('badgeRequests'); if(b){b.textContent=unread||0;b.classList.toggle('on',unread>0);}
+  const d=document.getElementById('reqDot'); if(d) d.classList.toggle('on',unread>0);
+}
+async function markReqRead(id){
+  await API(`/api/requests/${id}/read`,{method:'PATCH'});
+  const r=allReqs.find(x=>x.id===id); if(r) r.is_read=true;
+  loadRequests();
+}
+async function delReq(id){
+  if(!confirm('Удалить запрос?')) return;
+  await API(`/api/requests/${id}`,{method:'DELETE'});
+  allReqs=allReqs.filter(r=>r.id!==id); loadRequests(); toast('Удалено');
+}
+function openReqModal(){
+  document.getElementById('reqEmpName').value=''; document.getElementById('reqMessage').value='';
+  document.getElementById('reqPriority').value='medium';
+  document.getElementById('reqFileList').innerHTML=''; document.getElementById('reqFiles').value='';
+  reqAttachFiles=[];
+  om('reqModal');
+}
+function handleReqFiles(input){
+  reqAttachFiles.push(...Array.from(input.files||[]));
+  renderReqFiles();
+}
+function renderReqFiles(){
+  document.getElementById('reqFileList').innerHTML=reqAttachFiles.map((f,i)=>`
+    <span style="background:var(--surface2);border:1px solid var(--border);padding:.2rem .55rem;border-radius:6px;font-size:.72rem;display:inline-flex;align-items:center;gap:.3rem">📎 ${esc(f.name)} <button type="button" style="background:none;border:none;cursor:pointer;color:var(--red);padding:0;line-height:1" onclick="removeReqFile(${i})">✕</button></span>`).join('');
+}
+function removeReqFile(idx){ reqAttachFiles.splice(idx,1); renderReqFiles(); }
+async function saveReq(){
+  const empName=document.getElementById('reqEmpName').value.trim();
+  const msg=document.getElementById('reqMessage').value.trim();
+  const prio=document.getElementById('reqPriority').value;
+  if(!empName||!msg){toast('Заполните имя и сообщение','error');return;}
+  const files=reqAttachFiles.map(f=>({name:f.name,size:f.size,type:f.type}));
+  try{
+    const r=await API('/api/requests',{method:'POST',body:JSON.stringify({employee_name:empName,message:msg,priority:prio,files})});
+    if(r&&r.error){toast('Ошибка: '+r.error,'error');return;}
+    toast('Запрос отправлен','success'); cm('reqModal');
+    reqAttachFiles=[]; loadRequests();
+  }catch(e){ toast('Ошибка отправки','error'); }
+}
+
+/* ══ ЦЕЛЬ (GOAL) ══ */
+let monthlyGoal=parseInt(localStorage.getItem('monthlyGoal'))||100;
+function editGoal(){
+  if(userRole!=='admin'){return;}
+  const g=prompt('Цель — количество заказов в месяц:', monthlyGoal);
+  if(g&&parseInt(g)>0){
+    monthlyGoal=parseInt(g); localStorage.setItem('monthlyGoal',monthlyGoal);
+    if(lastStats){const val=lastStats.orders_month||0,pct=Math.min(100,Math.round(val/monthlyGoal*100));document.getElementById('dProgVal').textContent=val;document.getElementById('dProgCap').textContent=`${Math.max(0,monthlyGoal-val)} до цели (${monthlyGoal}) ✎`;document.getElementById('dProgFill').style.width=pct+'%';}
+    toast('Цель обновлена: '+monthlyGoal+' заказов','success');
+  }
+}
+
+/* ══ ПОЛЬЗОВАТЕЛИ СИСТЕМЫ ══ */
+const USER_PAGES=[
+  {key:'orders',l:'Заказы'},{key:'attendance',l:'Посещаемость'},{key:'expenses',l:'Расходы'},
+  {key:'requests',l:'Запросы'},{key:'reviews',l:'Отзывы'},{key:'promotions',l:'Акции'},
+  {key:'menu',l:'Меню'},{key:'employees',l:'Сотрудники'},{key:'dashboard',l:'Дашборд'}
+];
+let allUsers=[];
+async function loadUsers(){
+  allUsers=await API('/api/admin-users').catch(()=>[]);
+  const roleL={admin:'Администратор',manager:'Менеджер'};
+  document.getElementById('usersTbody').innerHTML=allUsers.length?allUsers.map(u=>{
+    let perms=[];try{perms=JSON.parse(u.permissions||'null')||[]}catch{}
+    const permStr=perms.length?perms.map(p=>USER_PAGES.find(x=>x.key===p)?.l||p).join(', '):'По умолчанию';
+    return `<tr>
+      <td><b>${esc(u.login)}</b></td>
+      <td>${esc((u.first_name||'')+' '+(u.last_name||'')).trim()||'—'}</td>
+      <td><span class="badge ${u.role==='admin'?'b-active':'b-pending'}">${roleL[u.role]||u.role}</span></td>
+      <td style="font-size:.75rem;color:var(--muted);max-width:220px">${esc(permStr)}</td>
+      <td style="font-size:.75rem;color:var(--muted)">${(u.created_at||'').slice(0,10)}</td>
+      <td>
+        <button class="btn-sm" onclick="openUserModal(${u.id})" style="margin-right:.3rem">✏️</button>
+        <button class="btn-sm" style="color:var(--red)" onclick="delUser(${u.id})">🗑</button>
+      </td>
+    </tr>`;
+  }).join(''):`<tr><td colspan="6" class="empty-td">Нет пользователей</td></tr>`;
+}
+function toggleUserPerms(){
+  const r=document.getElementById('userRole').value;
+  document.getElementById('userPermsBlock').style.display=r==='admin'?'none':'';
+}
+function openUserModal(id){
+  document.getElementById('userMTitle').textContent=id?'Редактировать пользователя':'Добавить пользователя';
+  document.getElementById('userMId').value=id||'';
+  const u=allUsers.find(x=>x.id===id);
+  document.getElementById('userFN').value=u?.first_name||'';
+  document.getElementById('userLN').value=u?.last_name||'';
+  document.getElementById('userLogin').value=u?.login||'';
+  document.getElementById('userPwd').value='';
+  document.getElementById('userEmail').value=u?.email||'';
+  document.getElementById('userRole').value=u?.role||'manager';
+  // Render permission checkboxes
+  let perms=[]; try{perms=JSON.parse(u?.permissions||'null')||[]}catch{}
+  const defaultPerms=rolePermissions.manager.pages;
+  document.getElementById('userPermsGrid').innerHTML=USER_PAGES.map(p=>`
+    <label style="display:flex;align-items:center;gap:.4rem;font-size:.82rem;cursor:pointer;padding:.3rem 0">
+      <input type="checkbox" name="uperm" value="${p.key}" ${perms.length?perms.includes(p.key)?'checked':'':defaultPerms.includes(p.key)?'checked':''}/> ${p.l}
+    </label>`).join('');
+  toggleUserPerms();
+  om('userModal');
+}
+async function saveUser(){
+  const id=document.getElementById('userMId').value;
+  const login=document.getElementById('userLogin').value.trim();
+  const pwd=document.getElementById('userPwd').value;
+  const role=document.getElementById('userRole').value;
+  if(!login||(id===''&&!pwd)){toast('Введите логин'+(id===''?' и пароль':''),'error');return;}
+  let permissions=null;
+  if(role!=='admin'){
+    permissions=[...document.querySelectorAll('input[name="uperm"]:checked')].map(c=>c.value);
+  }
+  const body={login,role,permissions,first_name:document.getElementById('userFN').value.trim(),last_name:document.getElementById('userLN').value.trim(),email:document.getElementById('userEmail').value.trim()};
+  if(pwd) body.password=pwd;
+  const r=await API(id?`/api/admin-users/${id}`:'/api/admin-users',{method:id?'PUT':'POST',body:JSON.stringify(body)});
+  if(r&&r.error){toast('Ошибка: '+r.error,'error');return;}
+  toast(id?'Пользователь обновлён':'Пользователь создан','success'); cm('userModal'); loadUsers();
+}
+async function delUser(id){
+  if(!confirm('Удалить пользователя?')) return;
+  await API(`/api/admin-users/${id}`,{method:'DELETE'});
+  allUsers=allUsers.filter(u=>u.id!==id); loadUsers(); toast('Удалено');
+}
+
 /* ══ INIT ══ */
 document.addEventListener('DOMContentLoaded', ()=>{
   userRole=localStorage.getItem('userRole')||'admin';
+  // Применяем кастомные доступы менеджера (если заданы администратором)
+  if(userRole!=='admin'){
+    try{
+      const stored=localStorage.getItem('userPermissions');
+      if(stored){const perms=JSON.parse(stored); if(Array.isArray(perms)&&perms.length) rolePermissions[userRole]={...rolePermissions[userRole],pages:perms};}
+    }catch{}
+  }
   applyLang();
   updateProfileDisplay();
   applyRoleVisibility();
-  loadDash();
+  // Менеджер начинает со страницы заказов
+  if(userRole!=='admin'){ nav(rolePermissions[userRole].pages[0]||'orders'); }
+  else { loadDash(); }
   setInterval(()=>{
     loadNotifs();
     if(curPage==='orders') loadOrders();

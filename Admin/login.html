@@ -10,9 +10,7 @@
     :root { --accent: #f5b301; --accent2: #ffce3a; --on-accent:#1a1505; --black: #0a0a0b; --white: #f4f3ef; }
     body {
       font-family: 'Inter', sans-serif;
-      background:
-        radial-gradient(900px 500px at 50% -10%, rgba(245,179,1,.10), transparent 60%),
-        var(--black);
+      background: radial-gradient(900px 500px at 50% -10%, rgba(245,179,1,.10), transparent 60%), var(--black);
       min-height: 100vh;
       display: flex; align-items: center; justify-content: center;
       padding: 1.5rem;
@@ -45,13 +43,17 @@
       text-transform: uppercase; color: var(--accent);
       margin-bottom: 2.4rem;
     }
+    .form-group {
+      margin-bottom: 1.3rem;
+      text-align: left;
+    }
     label {
-      display: block; text-align: left;
+      display: block;
       font-size: .62rem; font-weight: 700; letter-spacing: .18em;
       text-transform: uppercase; color: rgba(255,255,255,.45);
       margin-bottom: .5rem;
     }
-    input[type="password"] {
+    input[type="text"], input[type="password"] {
       width: 100%; padding: .9rem 1rem;
       background: rgba(255,255,255,.04);
       border: 1px solid rgba(255,255,255,.1);
@@ -59,12 +61,36 @@
       color: var(--white); font-family: 'Inter', sans-serif;
       font-size: .9rem; outline: none;
       transition: border-color .2s, box-shadow .2s;
-      margin-bottom: 1.3rem;
     }
-    input[type="password"]:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(245,179,1,.14); }
-    button {
+    input[type="text"]:focus, input[type="password"]:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(245,179,1,.14);
+    }
+    .pwd-wrapper {
+      position: relative;
+    }
+    .toggle-pwd {
+      position: absolute;
+      right: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: rgba(255,255,255,.5);
+      cursor: pointer;
+      font-size: 1.1rem;
+      padding: 0;
+      width: auto;
+      box-shadow: none;
+      padding: .5rem;
+    }
+    .toggle-pwd:hover {
+      color: rgba(255,255,255,.8);
+    }
+    button.btn-login {
       width: 100%; padding: .95rem;
-      background: linear-gradient(135deg, var(--accent), var(--accent2)); color: var(--on-accent);
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: var(--on-accent);
       border: none; cursor: pointer; border-radius: 10px;
       font-family: 'Inter', sans-serif;
       font-size: .78rem; font-weight: 800;
@@ -72,14 +98,45 @@
       transition: transform .1s, box-shadow .2s;
       box-shadow: 0 6px 20px rgba(245,179,1,.25);
     }
-    button:hover { box-shadow: 0 8px 26px rgba(245,179,1,.4); }
-    button:active { transform: scale(.99); }
+    button.btn-login:hover { box-shadow: 0 8px 26px rgba(245,179,1,.4); }
+    button.btn-login:active { transform: scale(.99); }
+    button.btn-login:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
     .err {
       display: none; margin-top: 1rem;
       background: rgba(220,50,50,.1);
       border: 1px solid rgba(220,50,50,.3);
       color: #ff6b6b; padding: .8rem; border-radius: 8px;
       font-size: .8rem;
+    }
+    .success {
+      display: none; margin-top: 1rem;
+      background: rgba(34,197,94,.1);
+      border: 1px solid rgba(34,197,94,.3);
+      color: #4ade80; padding: .8rem; border-radius: 8px;
+      font-size: .8rem;
+    }
+    .loading {
+      display: none;
+      text-align: center;
+      color: var(--accent);
+      font-size: .8rem;
+    }
+    .spinner {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      border: 2px solid rgba(245,179,1,.3);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin .6s linear infinite;
+      margin-right: .5rem;
+      vertical-align: middle;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
     }
   </style>
 </head>
@@ -89,71 +146,125 @@
     <div class="logo">T7 Coffee</div>
     <div class="logo-sub">Панель администратора</div>
 
-    <div id="roleSelect" style="display:none;margin-bottom:2rem">
-      <div style="font-size:.8rem;color:rgba(255,255,255,.5);margin-bottom:1.2rem">Выберите роль</div>
-      <button onclick="selectRole('admin')" style="margin-bottom:.7rem;width:100%;background:var(--accent)">👤 Администратор</button>
-      <button onclick="selectRole('manager')" style="background:rgba(245,179,1,.3);border:1px solid var(--accent)">👥 Менеджер</button>
+    <div class="form-group">
+      <label for="login">Логин</label>
+      <input type="text" id="login" placeholder="Введите логин" autocomplete="off" onkeydown="if(event.key==='Enter') handleLogin()" value=""/>
     </div>
 
-    <div id="loginForm">
-      <label for="pwd">Пароль</label>
-      <input type="password" id="pwd" placeholder="Введите пароль" autocomplete="off" onkeydown="if(event.key==='Enter')login()"/>
-      <button onclick="login()">Войти →</button>
+    <div class="form-group">
+      <label for="password">Пароль</label>
+      <div class="pwd-wrapper">
+        <input type="password" id="password" placeholder="Введите пароль" autocomplete="off" onkeydown="if(event.key==='Enter') handleLogin()"/>
+        <button type="button" class="toggle-pwd" onclick="togglePassword()" title="Показать/скрыть пароль">👁</button>
+      </div>
     </div>
 
-    <div class="err" id="err">Неверный пароль. Попробуйте снова.</div>
+    <button class="btn-login" id="loginBtn" onclick="handleLogin()">Войти →</button>
+
+    <div class="loading" id="loading">
+      <span class="spinner"></span>
+      <span>Проверка учётных данных...</span>
+    </div>
+
+    <div class="err" id="err"></div>
+    <div class="success" id="success"></div>
   </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
   <script>
-    let selectedRole = 'admin';
-    let selectedServer = 'http://localhost:3000';
+    const SUPABASE_URL = 'https://cpvwnqehlhkzvybiztxu.supabase.co';
+    const SUPABASE_ANON = 'sb_publishable_Y4pWyU9zeaKWW5xC2AEuFQ_kOkcY9mz';
+    const sbClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
 
-    function selectRole(role) {
-      selectedRole = role;
-      selectedServer = role === 'admin' ? 'http://localhost:3000' : 'http://localhost:3001';
-      document.getElementById('roleSelect').style.display = 'none';
-      document.getElementById('loginForm').style.display = 'block';
-      document.getElementById('pwd').focus();
+    function togglePassword() {
+      const pwd = document.getElementById('password');
+      const btn = event.target.closest('button');
+      if (pwd.type === 'password') {
+        pwd.type = 'text';
+        btn.textContent = '🙈';
+      } else {
+        pwd.type = 'password';
+        btn.textContent = '👁';
+      }
     }
 
-    async function login() {
-      const pwd = document.getElementById('pwd').value;
+    async function handleLogin() {
+      const login = document.getElementById('login').value.trim();
+      const password = document.getElementById('password').value;
       const err = document.getElementById('err');
+      const loading = document.getElementById('loading');
+      const btn = document.getElementById('loginBtn');
+
       err.style.display = 'none';
 
-      if (!pwd) {
-        err.textContent = 'Введите пароль';
+      if (!login || !password) {
+        err.textContent = 'Введите логин и пароль';
         err.style.display = 'block';
         return;
       }
 
+      loading.style.display = 'block';
+      btn.disabled = true;
+
       try {
-        const res = await fetch(selectedServer + '/api/admin/login', {
+        const response = await fetch('/api/admin/login', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ password: pwd })
+          body: JSON.stringify({ login, password })
         });
-        const data = await res.json();
 
-        if (res.ok && data.token && data.role) {
-          localStorage.setItem('adminToken', data.token);
-          localStorage.setItem('userRole', data.role);
-          window.location.href = selectedServer + '/admin/dashboard.html';
-        } else {
-          const roleText = selectedRole === 'admin' ? 'администратора' : 'менеджера';
-          err.textContent = 'Неверный пароль ' + roleText;
+        const data = await response.json();
+
+        if (!response.ok || !data.ok) {
+          err.textContent = data.error || 'Неверный логин или пароль';
           err.style.display = 'block';
-          document.getElementById('pwd').value = '';
+          document.getElementById('password').value = '';
+          loading.style.display = 'none';
+          btn.disabled = false;
+          return;
         }
+
+        localStorage.setItem('adminToken', data.token);
+        localStorage.setItem('userRole', data.role);
+        localStorage.setItem('userId', data.id);
+        localStorage.setItem('userLogin', data.login);
+        localStorage.setItem('userPermissions', data.permissions ? JSON.stringify(data.permissions) : '');
+
+        document.getElementById('success').textContent = 'Успешный вход! Перенаправление...';
+        document.getElementById('success').style.display = 'block';
+
+        setTimeout(() => {
+          redirectToDashboard(data.role);
+        }, 500);
+
       } catch (e) {
+        console.error('Login error:', e);
         err.textContent = 'Ошибка соединения: ' + (e.message || 'сервер недоступен');
         err.style.display = 'block';
+        loading.style.display = 'none';
+        btn.disabled = false;
+      }
+    }
+
+    function redirectToDashboard(role) {
+      if (role === 'admin' || role === 'manager') {
+        window.location.href = 'dashboard.html';
+      } else {
+        localStorage.clear();
+        alert('Неизвестная роль. Пожалуйста, свяжитесь с администратором.');
       }
     }
 
     document.addEventListener('DOMContentLoaded', () => {
-      document.getElementById('roleSelect').style.display = 'block';
-      document.getElementById('loginForm').style.display = 'none';
+      const token = localStorage.getItem('adminToken');
+      const userRole = localStorage.getItem('userRole');
+      const userId = localStorage.getItem('userId');
+
+      if (token && userRole && userId) {
+        redirectToDashboard(userRole);
+      }
+
+      document.getElementById('login').focus();
     });
   </script>
 </body>

@@ -14,8 +14,17 @@
     }
   ],
   "routes": [
-    { "src": "/api/(.*)", "dest": "/Admin/server.js" },
-    { "src": "/admin/(.*)", "dest": "/Admin/server.js" },
-    { "src": "/(.*)", "dest": "/Admin/server.js" }
+    {
+      "src": "/api/(.*)",
+      "dest": "/Admin/server.js"
+    },
+    {
+      "src": "/admin/(.*)",
+      "dest": "/Admin/server.js"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/Admin/server.js"
+    }
   ]
 }

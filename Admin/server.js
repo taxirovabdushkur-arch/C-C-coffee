@@ -20,20 +20,34 @@ app.use(express.static(path.join(__dirname, '..', 'public')));
 app.use('/admin', express.static(path.join(__dirname)));
 
 function requireAdmin(req, res, next) {
-  if (req.headers['x-admin-token'] === ADMIN_TOKEN) return next();
+  const token = req.headers['x-admin-token'];
+  if (token === ADMIN_TOKEN || token === MANAGER_TOKEN) return next();
   res.status(401).json({ error: 'Нет доступа' });
 }
 
 /* ── AUTH ── */
-app.post('/api/admin/login', (req, res) => {
-  const { password } = req.body;
-  if (password === ADMIN_PASSWORD) {
-    res.json({ token: ADMIN_TOKEN, ok: true, role: 'admin' });
-  } else if (password === MANAGER_PASSWORD) {
-    res.json({ token: MANAGER_TOKEN, ok: true, role: 'manager' });
-  } else {
-    res.status(401).json({ error: 'Неверный пароль' });
+app.post('/api/admin/login', async (req, res) => {
+  const { login, password } = req.body;
+  if (!login || !password) {
+    return res.status(400).json({ error: 'Логин и пароль обязательны' });
   }
+
+  const { data: user, error } = await supabase
+    .from('admin_users')
+    .select('id, login, password, role, permissions')
+    .eq('login', login)
+    .single();
+
+  if (error || !user) {
+    return res.status(401).json({ error: 'Неверный логин или пароль' });
+  }
+
+  if (user.password !== password) {
+    return res.status(401).json({ error: 'Неверный логин или пароль' });
+  }
+
+  const token = user.role === 'admin' ? ADMIN_TOKEN : MANAGER_TOKEN;
+  res.json({ id: user.id, login: user.login, role: user.role, token, permissions: user.permissions || null, ok: true });
 });
 
 /* ── MENU ── */
@@ -276,6 +290,12 @@ app.put('/api/attendance/:id', requireAdmin, async (req, res) => {
   res.json({ ok: true });
 });
 
+app.delete('/api/attendance/:id', requireAdmin, async (req, res) => {
+  const { error } = await supabase.from('attendance').delete().eq('id', req.params.id);
+  if (error) return res.status(500).json({ error: error.message });
+  res.json({ ok: true });
+});
+
 /* ── PRODUCTS ── */
 app.get('/api/products', requireAdmin, async (req, res) => {
   const { data, error } = await supabase
@@ -386,6 +406,30 @@ app.delete('/api/expenses/:id', requireAdmin, async (req, res) => {
   res.json({ ok: true });
 });
 
+/* ── REQUESTS ── */
+app.get('/api/requests', requireAdmin, async (req, res) => {
+  const { data, error } = await supabase.from('requests').select('*').order('created_at', { ascending: false });
+  if (error) return res.status(500).json({ error: error.message });
+  res.json(data);
+});
+app.post('/api/requests', requireAdmin, async (req, res) => {
+  const { employee_name, message, files, priority } = req.body;
+  if (!employee_name || !message) return res.status(400).json({ error: 'Заполните обязательные поля' });
+  const { data, error } = await supabase.from('requests').insert({ employee_name, message, files: JSON.stringify(files || []), priority: priority || 'medium', is_read: false }).select('id').single();
+  if (error) return res.status(500).json({ error: error.message });
+  res.json({ id: data.id });
+});
+app.patch('/api/requests/:id/read', requireAdmin, async (req, res) => {
+  const { error } = await supabase.from('requests').update({ is_read: true }).eq('id', req.params.id);
+  if (error) return res.status(500).json({ error: error.message });
+  res.json({ ok: true });
+});
+app.delete('/api/requests/:id', requireAdmin, async (req, res) => {
+  const { error } = await supabase.from('requests').delete().eq('id', req.params.id);
+  if (error) return res.status(500).json({ error: error.message });
+  res.json({ ok: true });
+});
+
 /* ── CONTACTS ── */
 app.post('/api/contact', async (req, res) => {
   const { name, phone, message } = req.body;
@@ -460,6 +504,15 @@ app.get('/api/stats/dashboard', requireAdmin, async (req, res) => {
   const revMonth = calcRev(revMonthRows || []);
   const expMonth = (expMonthData || []).reduce((s, r) => s + (r.amount || 0), 0);
 
+  // Выручка по категориям за месяц
+  const { data: menuCatData } = await supabase.from('menu_items').select('name, category');
+  const menuCatMap = {};
+  (menuCatData || []).forEach(m => { menuCatMap[(m.name||'').toLowerCase().trim()] = m.category; });
+  const catRevenue = { coffee: 0, cold: 0, tea: 0, dessert: 0 };
+  (revMonthRows || []).forEach(o => {
+    try { JSON.parse(o.items||'[]').forEach(item => { const cat=menuCatMap[(item.name||'').toLowerCase().trim()]; if(cat&&catRevenue[cat]!==undefined) catRevenue[cat]+=(item.priceNum||0)*(item.qty||1); }); } catch {}
+  });
+
   // Chart data: last 7 days
   const orders_by_day  = [];
   const revenue_by_day = [];
@@ -485,7 +538,8 @@ app.get('/api/stats/dashboard', requireAdmin, async (req, res) => {
     pending_reviews: pendingReviews, unread_messages: unreadMessages, new_orders: newOrders,
     attendance_present_today: attendancePresentToday,
     recent_orders: recentOrders || [],
-    orders_by_day, revenue_by_day, expenses_by_day
+    orders_by_day, revenue_by_day, expenses_by_day,
+    cat_revenue: catRevenue
   });
 });
 
@@ -532,6 +586,33 @@ app.get('/api/customers/:phone/orders', requireAdmin, async (req, res) => {
     .order('created_at', { ascending: false });
   if (error) return res.status(500).json({ error: error.message });
   res.json(data);
+});
+
+/* ── ADMIN USERS (управление пользователями панели) ── */
+app.get('/api/admin-users', requireAdmin, async (req, res) => {
+  const { data, error } = await supabase.from('admin_users').select('id, login, role, permissions, first_name, last_name, email, created_at').order('created_at', { ascending: false });
+  if (error) return res.status(500).json({ error: error.message });
+  res.json(data);
+});
+app.post('/api/admin-users', requireAdmin, async (req, res) => {
+  const { login, password, role, permissions, first_name, last_name, email } = req.body;
+  if (!login || !password) return res.status(400).json({ error: 'Введите логин и пароль' });
+  const { data, error } = await supabase.from('admin_users').insert({ login, password, role: role || 'manager', permissions: permissions ? JSON.stringify(permissions) : null, first_name: first_name || '', last_name: last_name || '', email: email || '' }).select('id').single();
+  if (error) return res.status(500).json({ error: error.message });
+  res.json({ id: data.id });
+});
+app.put('/api/admin-users/:id', requireAdmin, async (req, res) => {
+  const { login, password, role, permissions, first_name, last_name, email } = req.body;
+  const update = { login, role, permissions: permissions ? JSON.stringify(permissions) : null, first_name: first_name || '', last_name: last_name || '', email: email || '' };
+  if (password) update.password = password;
+  const { error } = await supabase.from('admin_users').update(update).eq('id', req.params.id);
+  if (error) return res.status(500).json({ error: error.message });
+  res.json({ ok: true });
+});
+app.delete('/api/admin-users/:id', requireAdmin, async (req, res) => {
+  const { error } = await supabase.from('admin_users').delete().eq('id', req.params.id);
+  if (error) return res.status(500).json({ error: error.message });
+  res.json({ ok: true });
 });
 
 /* ── SPA fallback ── */

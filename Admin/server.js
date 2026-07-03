@@ -17,7 +17,12 @@ const MANAGER_TOKEN  = Buffer.from(MANAGER_PASSWORD + SESSION_SECRET).toString('
 app.use(cors());
 app.use(express.json());
 app.use(express.static(path.join(__dirname, '..', 'public')));
-app.use('/admin', express.static(path.join(__dirname)));
+
+app.get('/admin', (req, res) => res.redirect('/admin/login.html'));
+app.get('/admin/login.html', (req, res) => res.sendFile(path.join(__dirname, 'login.html')));
+app.get('/admin/dashboard.html', (req, res) => res.sendFile(path.join(__dirname, 'dashboard.html')));
+
+app.get('/api/health', (req, res) => res.json({ ok: true, env: { url: !!process.env.SUPABASE_URL, key: !!process.env.SUPABASE_SERVICE_ROLE_KEY } }));
 
 function requireAdmin(req, res, next) {
   const token = req.headers['x-admin-token'];

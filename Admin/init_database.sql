@@ -32,3 +32,31 @@ ALTER TABLE admin_users ENABLE ROW LEVEL SECURITY;
 -- Политики доступа (если необходимо)
 DROP POLICY IF NOT EXISTS allow_all ON admin_users;
 CREATE POLICY allow_all ON admin_users FOR ALL USING (true);
+
+-- ══ Таблица медиа сайта ══
+CREATE TABLE IF NOT EXISTS site_media (
+  key VARCHAR(50) PRIMARY KEY,
+  url TEXT NOT NULL,
+  type VARCHAR(20) DEFAULT 'image',
+  label VARCHAR(100),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+ALTER TABLE site_media ENABLE ROW LEVEL SECURITY;
+DROP POLICY IF NOT EXISTS allow_all ON site_media;
+CREATE POLICY allow_all ON site_media FOR ALL USING (true);
+
+-- Начальные медиафайлы
+INSERT INTO site_media (key, url, type, label) VALUES
+  ('gallery_1', 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=600&q=80', 'image', 'Галерея 1'),
+  ('gallery_2', 'https://images.unsplash.com/photo-1507133750040-4a8f57021571?w=600&q=80', 'image', 'Галерея 2'),
+  ('gallery_3', 'https://images.unsplash.com/photo-1521302200778-33500795e128?w=600&q=80', 'image', 'Галерея 3'),
+  ('gallery_4', 'https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=600&q=80', 'image', 'Галерея 4'),
+  ('gallery_5', 'https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=600&q=80', 'image', 'Галерея 5'),
+  ('gallery_6', 'https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=600&q=80', 'image', 'Галерея 6'),
+  ('gallery_7', 'https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=600&q=80', 'image', 'Галерея 7'),
+  ('gallery_8', 'https://images.unsplash.com/photo-1511920170033-f8396924c348?w=600&q=80', 'image', 'Галерея 8'),
+  ('gallery_9', 'https://images.unsplash.com/photo-1445116572660-236099ec97a0?w=600&q=80', 'image', 'Галерея 9'),
+  ('about_video', '/videos/about.mp4', 'video', 'Видео "О нас"'),
+  ('hero_bg', 'https://images.pexels.com/photos/8847017/pexels-photo-8847017.jpeg?auto=compress&cs=tinysrgb&w=1920', 'image', 'Фон главного экрана')
+ON CONFLICT (key) DO NOTHING;

@@ -234,32 +234,32 @@
       <p class="sec-sub" style="margin:0 auto">Загляните к нам — каждый уголок создан для вашего удовольствия.</p>
     </div>
     <div class="masonry-grid" style="margin-top:3rem">
-      <div class="masonry-item" onclick="openLightbox('https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=1200&q=90')">
-        <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=600&q=80" alt="Coffee House" loading="lazy"/>
+      <div class="masonry-item" id="galleryWrap1" onclick="openLightbox(document.getElementById('galleryImg1').src)">
+        <img id="galleryImg1" src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=600&q=80" alt="Coffee House" loading="lazy"/>
       </div>
-      <div class="masonry-item" onclick="openLightbox('https://images.unsplash.com/photo-1507133750040-4a8f57021571?w=1200&q=90')">
-        <img src="https://images.unsplash.com/photo-1507133750040-4a8f57021571?w=600&q=80" alt="Coffee House" loading="lazy"/>
+      <div class="masonry-item" id="galleryWrap2" onclick="openLightbox(document.getElementById('galleryImg2').src)">
+        <img id="galleryImg2" src="https://images.unsplash.com/photo-1507133750040-4a8f57021571?w=600&q=80" alt="Coffee House" loading="lazy"/>
       </div>
-      <div class="masonry-item" onclick="openLightbox('https://images.unsplash.com/photo-1521302200778-33500795e128?w=1200&q=90')">
-        <img src="https://images.unsplash.com/photo-1521302200778-33500795e128?w=600&q=80" alt="Coffee House" loading="lazy"/>
+      <div class="masonry-item" id="galleryWrap3" onclick="openLightbox(document.getElementById('galleryImg3').src)">
+        <img id="galleryImg3" src="https://images.unsplash.com/photo-1521302200778-33500795e128?w=600&q=80" alt="Coffee House" loading="lazy"/>
       </div>
-      <div class="masonry-item" onclick="openLightbox('https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=1200&q=90')">
-        <img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=600&q=80" alt="Coffee House" loading="lazy"/>
+      <div class="masonry-item" id="galleryWrap4" onclick="openLightbox(document.getElementById('galleryImg4').src)">
+        <img id="galleryImg4" src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=600&q=80" alt="Coffee House" loading="lazy"/>
       </div>
-      <div class="masonry-item" onclick="openLightbox('https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=1200&q=90')">
-        <img src="https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=600&q=80" alt="Coffee House" loading="lazy"/>
+      <div class="masonry-item" id="galleryWrap5" onclick="openLightbox(document.getElementById('galleryImg5').src)">
+        <img id="galleryImg5" src="https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=600&q=80" alt="Coffee House" loading="lazy"/>
       </div>
-      <div class="masonry-item" onclick="openLightbox('https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=1200&q=90')">
-        <img src="https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=600&q=80" alt="Coffee House" loading="lazy"/>
+      <div class="masonry-item" id="galleryWrap6" onclick="openLightbox(document.getElementById('galleryImg6').src)">
+        <img id="galleryImg6" src="https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=600&q=80" alt="Coffee House" loading="lazy"/>
       </div>
-      <div class="masonry-item" onclick="openLightbox('https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=1200&q=90')">
-        <img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=600&q=80" alt="Coffee House" loading="lazy"/>
+      <div class="masonry-item" id="galleryWrap7" onclick="openLightbox(document.getElementById('galleryImg7').src)">
+        <img id="galleryImg7" src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=600&q=80" alt="Coffee House" loading="lazy"/>
       </div>
-      <div class="masonry-item" onclick="openLightbox('https://images.unsplash.com/photo-1511920170033-f8396924c348?w=1200&q=90')">
-        <img src="https://images.unsplash.com/photo-1511920170033-f8396924c348?w=600&q=80" alt="Coffee House" loading="lazy"/>
+      <div class="masonry-item" id="galleryWrap8" onclick="openLightbox(document.getElementById('galleryImg8').src)">
+        <img id="galleryImg8" src="https://images.unsplash.com/photo-1511920170033-f8396924c348?w=600&q=80" alt="Coffee House" loading="lazy"/>
       </div>
-      <div class="masonry-item" onclick="openLightbox('https://images.unsplash.com/photo-1445116572660-236099ec97a0?w=1200&q=90')">
-        <img src="https://images.unsplash.com/photo-1445116572660-236099ec97a0?w=600&q=80" alt="Coffee House" loading="lazy"/>
+      <div class="masonry-item" id="galleryWrap9" onclick="openLightbox(document.getElementById('galleryImg9').src)">
+        <img id="galleryImg9" src="https://images.unsplash.com/photo-1445116572660-236099ec97a0?w=600&q=80" alt="Coffee House" loading="lazy"/>
       </div>
     </div>
   </div>
@@ -570,5 +570,30 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <script src="script.js"></script>
 <script src="https://api-maps.yandex.ru/2.1/?apikey=b983f844-2556-4824-ac1d-683ab9688d0e&lang=ru_RU" type="text/javascript" onload="initMap()"></script>
+<script>
+(async function loadSiteMedia() {
+  try {
+    const res = await fetch('/api/media');
+    if (!res.ok) return;
+    const items = await res.json();
+    items.forEach(m => {
+      if (m.key.startsWith('gallery_')) {
+        const n = m.key.replace('gallery_', '');
+        const img = document.getElementById('galleryImg' + n);
+        if (img && m.url) img.src = m.url;
+      } else if (m.key === 'about_video') {
+        const video = document.getElementById('aboutVideo');
+        if (video && m.url) {
+          video.src = m.url;
+          video.load();
+        }
+      } else if (m.key === 'hero_bg') {
+        const hero = document.getElementById('hero');
+        if (hero && m.url) hero.style.backgroundImage = `url('${m.url}')`;
+      }
+    });
+  } catch(e) {}
+})();
+</script>
 </body>
 </html>

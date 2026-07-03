@@ -615,6 +615,20 @@ app.delete('/api/admin-users/:id', requireAdmin, async (req, res) => {
   res.json({ ok: true });
 });
 
+/* ── MEDIA ── */
+app.get('/api/media', async (req, res) => {
+  const { data, error } = await supabase.from('site_media').select('*').order('key');
+  if (error) return res.status(500).json({ error: error.message });
+  res.json(data);
+});
+app.put('/api/media/:key', requireAdmin, async (req, res) => {
+  const { url } = req.body;
+  if (!url) return res.status(400).json({ error: 'url обязателен' });
+  const { error } = await supabase.from('site_media').upsert({ key: req.params.key, url, updated_at: new Date().toISOString() }, { onConflict: 'key' });
+  if (error) return res.status(500).json({ error: error.message });
+  res.json({ ok: true });
+});
+
 /* ── SPA fallback ── */
 app.get('*', (req, res, next) => {
   if (req.path.startsWith('/api') || req.path.startsWith('/admin')) return next();

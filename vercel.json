@@ -2,20 +2,17 @@
   "version": 2,
   "builds": [
     {
-      "src": "Admin/server.js",
+      "src": "api/index.js",
       "use": "@vercel/node",
       "config": {
         "includeFiles": [
-          "Admin/login.html",
-          "Admin/dashboard.html",
+          "Admin/**",
           "public/**"
         ]
       }
     }
   ],
   "routes": [
-    { "src": "/api/(.*)", "dest": "/Admin/server.js" },
-    { "src": "/admin/(.*)", "dest": "/Admin/server.js" },
-    { "src": "/(.*)", "dest": "/Admin/server.js" }
+    { "src": "/(.*)", "dest": "/api/index.js" }
   ]
 }

@@ -497,7 +497,7 @@ app.get('/api/stats/dashboard', requireAdmin, async (req, res) => {
     supabase.from('orders').select('*', { count: 'exact', head: true }).gte('created_at', monthAgo),
     supabase.from('orders').select('items').gte('created_at', today),
     supabase.from('orders').select('items').gte('created_at', weekAgo),
-    supabase.from('orders').select('items').gte('created_at', monthAgo),
+    supabase.from('orders').select('items,created_at,status').gte('created_at', monthAgo),
     supabase.from('expenses').select('amount').gte('date', monthAgo),
     supabase.from('employees').select('*', { count: 'exact', head: true }).eq('status', 'active'),
     supabase.from('products').select('*', { count: 'exact', head: true }).eq('status', 'active'),
@@ -522,22 +522,35 @@ app.get('/api/stats/dashboard', requireAdmin, async (req, res) => {
     try { JSON.parse(o.items||'[]').forEach(item => { const cat=menuCatMap[(item.name||'').toLowerCase().trim()]; if(cat&&catRevenue[cat]!==undefined) catRevenue[cat]+=(item.priceNum||0)*(item.qty||1); }); } catch {}
   });
 
-  // Chart data: last 7 days
-  const orders_by_day  = [];
-  const revenue_by_day = [];
-  const expenses_by_day = [];
+  // Top products from month orders
+  const _prodCounts = {};
+  (revMonthRows || []).forEach(o => {
+    try { JSON.parse(o.items||'[]').forEach(item => { const n=(item.name||'').trim(); if(n) _prodCounts[n]=(_prodCounts[n]||0)+(item.qty||1); }); } catch {}
+  });
+  const top_products = Object.entries(_prodCounts).sort((a,b)=>b[1]-a[1]).slice(0,5).map(([name,count])=>({name,count}));
 
-  for (let i = 6; i >= 0; i--) {
-    const d     = new Date(now - i * 864e5).toISOString().slice(0, 10);
-    const dNext = new Date(now - (i - 1) * 864e5).toISOString().slice(0, 10);
-    const [{ data: dayOrders }, { data: dayExp }] = await Promise.all([
-      supabase.from('orders').select('items').gte('created_at', d).lt('created_at', i === 0 ? '9999-12-31' : dNext),
-      supabase.from('expenses').select('amount').eq('date', d)
-    ]);
-    orders_by_day.push({ date: d, count: (dayOrders || []).length });
-    revenue_by_day.push({ date: d, amount: calcRev(dayOrders || []) });
-    expenses_by_day.push({ date: d, amount: (dayExp || []).reduce((s, r) => s + r.amount, 0) });
-  }
+  // Status counts
+  const status_counts = {};
+  (revMonthRows || []).forEach(o => { if(o.status) status_counts[o.status]=(status_counts[o.status]||0)+1; });
+
+  // Peak hours
+  const _peakMap = {};
+  (revMonthRows || []).forEach(o => { if(o.created_at){ const h=new Date(o.created_at).getHours(); _peakMap[h]=(_peakMap[h]||0)+1; }});
+  const peak_hours = Object.entries(_peakMap).map(([h,c])=>({hour:+h,count:c})).sort((a,b)=>b.count-a.count).slice(0,5).sort((a,b)=>a.hour-b.hour);
+
+  // 30-day chart data from month orders (no extra queries)
+  const _chartDays = {};
+  for(let i=29;i>=0;i--){ const d=new Date(now-i*864e5).toISOString().slice(0,10); _chartDays[d]={revenue:0,orders:0}; }
+  (revMonthRows || []).forEach(o => {
+    const d=(o.created_at||'').slice(0,10);
+    if(d && _chartDays[d]){
+      _chartDays[d].orders++;
+      try{ _chartDays[d].revenue+=JSON.parse(o.items||'[]').reduce((a,i)=>a+(i.priceNum||0)*(i.qty||1),0); }catch{}
+    }
+  });
+  const orders_by_day  = Object.entries(_chartDays).map(([date,v])=>({date,count:v.orders}));
+  const revenue_by_day = Object.entries(_chartDays).map(([date,v])=>({date,amount:v.revenue}));
+  const expenses_by_day = [];
 
   res.json({
     orders_today: ordersToday, orders_week: ordersWeek, orders_month: ordersMonth,
@@ -548,7 +561,8 @@ app.get('/api/stats/dashboard', requireAdmin, async (req, res) => {
     attendance_present_today: attendancePresentToday,
     recent_orders: recentOrders || [],
     orders_by_day, revenue_by_day, expenses_by_day,
-    cat_revenue: catRevenue
+    cat_revenue: catRevenue,
+    top_products, status_counts, peak_hours
   });
 });
 

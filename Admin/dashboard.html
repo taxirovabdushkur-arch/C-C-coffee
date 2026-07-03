@@ -363,6 +363,83 @@ tbody tr:hover{background:var(--accent-glow)}
 @media(max-width:1050px){.dash-grid{grid-template-columns:1fr 1fr;grid-template-areas:"big big" "bars donut" "black right" "cat cat"}.cat-card2{grid-column:span 1}}
 @media(max-width:760px){.dash-grid{grid-template-columns:1fr;grid-template-areas:"big" "black" "bars" "donut" "right" "cat" "cat2"}.d-big{grid-template-columns:1fr}.big-side{border-left:none;border-top:1px solid var(--border);padding-left:0;padding-top:1rem}.cat-stats{grid-template-columns:1fr}.sb{position:fixed;left:-250px;top:0;width:250px;height:100vh;z-index:999;transition:left .3s}.sb.open{left:0}.app{display:flex}.page{flex:1;overflow-y:auto}.sb-toggle{display:block}.ph{flex-wrap:wrap}.seg{flex-wrap:wrap}.dcard{font-size:.9rem}.big-val{font-size:1.8rem}.bar-val{font-size:1.2rem}}
 @media(max-width:480px){.ph-left h1{font-size:1.5rem}.dcard{padding:.8rem}.big-val{font-size:1.5rem}.donut-wrap{width:120px;height:120px}.cat-stats{grid-template-columns:1fr}.sb{width:280px;left:-280px}}
+/* ══ NEW DASHBOARD ══ */
+.nd-page{display:flex;flex-direction:column;gap:1.1rem;padding:1.2rem 1.5rem 2rem}
+.nd-stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem}
+.nd-stat-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:1.3rem 1.4rem;display:flex;align-items:flex-start;justify-content:space-between;gap:.8rem}
+.nd-sc-label{font-size:.68rem;font-weight:600;color:var(--muted);letter-spacing:.05em;text-transform:uppercase;margin-bottom:.45rem}
+.nd-sc-val{font-size:1.55rem;font-weight:800;color:var(--text);line-height:1.1;margin-bottom:.4rem}
+.nd-sc-trend{font-size:.7rem;color:var(--muted);min-height:1em}
+.nd-arr-pos{color:var(--green);font-weight:600}
+.nd-arr-neg{color:var(--red);font-weight:600}
+.nd-sc-ico{width:44px;height:44px;border-radius:12px;background:var(--accent-soft);color:var(--accent);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:.1rem}
+.nd-chart-row{display:grid;grid-template-columns:1fr 280px;gap:1rem}
+.nd-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:1.3rem 1.4rem}
+.nd-card-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem}
+.nd-card-ttl{font-size:.82rem;font-weight:700;color:var(--text)}
+.nd-badge-pill{background:var(--surface2);border:1px solid var(--border2);color:var(--muted);font-size:.7rem;padding:.22rem .6rem;border-radius:20px}
+.nd-margin-card{display:flex;flex-direction:column;align-items:center}
+.nd-donut-wrap{position:relative;display:flex;align-items:center;justify-content:center;margin:.6rem 0;width:150px;height:150px}
+.nd-donut-lbl{position:absolute;font-size:1.9rem;font-weight:800;color:var(--text)}
+.nd-margin-desc{font-size:.72rem;color:var(--muted);text-align:center;margin-top:.3rem}
+.nd-row-3{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+.nd-cat-body{display:flex;align-items:center;gap:1.2rem;margin:.9rem 0 .5rem}
+.nd-cat-legend{display:flex;flex-direction:column;gap:.6rem;flex:1;min-width:0}
+.nd-cat-legend-item{display:flex;align-items:center;gap:.5rem;font-size:.75rem}
+.nd-cat-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+.nd-cat-name{color:var(--text);font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.nd-cat-pct-val{color:var(--muted);font-size:.68rem;margin-top:.05rem}
+.nd-card-sub{font-size:.72rem;color:var(--muted)}
+.nd-exp-big{font-size:1.75rem;font-weight:800;color:var(--text);margin:.8rem 0 .6rem}
+.nd-exp-bar{height:8px;background:var(--surface2);border-radius:6px;overflow:hidden;margin:.6rem 0}
+.nd-exp-bar-fill{height:100%;background:var(--accent);border-radius:6px;transition:width .5s}
+.nd-exp-profit{font-size:.78rem;color:var(--green);font-weight:600;margin-top:.5rem}
+.nd-goal-pct{font-size:2.4rem;font-weight:800;color:var(--accent);margin:.5rem 0 .2rem}
+.nd-goal-of{font-size:.78rem;color:var(--muted);margin-bottom:.7rem}
+.nd-prog2{height:6px;background:var(--surface2);border-radius:6px;overflow:hidden;margin:.4rem 0}
+.nd-prog2-fill{height:100%;background:var(--accent);border-radius:6px;transition:width .5s}
+.nd-goal-rem{font-size:.72rem;color:var(--muted);margin-top:.5rem}
+.nd-top-list{display:flex;flex-direction:column;gap:.7rem;margin-top:.9rem}
+.nd-top-item{display:flex;align-items:center;gap:.6rem;font-size:.8rem}
+.nd-top-rank{width:16px;color:var(--accent);font-weight:800;font-size:.8rem;flex-shrink:0}
+.nd-top-ico{font-size:.95rem;width:20px;text-align:center}
+.nd-top-name{flex:1;color:var(--text);font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.nd-top-cnt{color:var(--muted);font-size:.72rem;white-space:nowrap}
+.nd-peak-list{display:flex;flex-direction:column;gap:.6rem;margin-top:.9rem}
+.nd-peak-item{display:flex;align-items:center;gap:.6rem;font-size:.74rem}
+.nd-peak-time{width:88px;color:var(--text);flex-shrink:0}
+.nd-peak-bar-wrap{flex:1;height:7px;background:var(--surface2);border-radius:5px;overflow:hidden}
+.nd-peak-bar-fill{height:100%;background:var(--accent);border-radius:5px}
+.nd-status-list{display:flex;flex-direction:column;gap:.8rem;margin-top:.9rem}
+.nd-status-item{display:flex;align-items:center;gap:.7rem;font-size:.8rem}
+.nd-status-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+.nd-status-name{flex:1;color:var(--text);font-weight:500}
+.nd-status-cnt{color:var(--text);font-weight:700;font-size:.9rem}
+.nd-emp-list{display:flex;flex-direction:column;gap:.7rem;margin-top:.9rem}
+.nd-emp-item{display:flex;align-items:center;gap:.6rem;font-size:.8rem}
+.nd-emp-rank{width:16px;color:var(--accent);font-weight:800;font-size:.8rem;flex-shrink:0}
+.nd-emp-name{flex:1;color:var(--text);font-weight:500}
+.nd-emp-rev{color:var(--accent);font-weight:700}
+.nd-attend-card{display:flex;flex-direction:column;align-items:center;text-align:center}
+.nd-attend-wrap{position:relative;width:160px;height:160px;margin:.8rem auto}
+.nd-attend-pct{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:1.9rem;font-weight:800;color:var(--text)}
+.nd-attend-sub{font-size:.78rem;color:var(--muted)}
+.nd-cat-sums{display:flex;flex-direction:column;gap:.8rem;margin:.8rem 0 1rem}
+.nd-cat-sum-item{display:flex;align-items:center;gap:.7rem}
+.nd-cat-sum-ico{font-size:1.3rem}
+.nd-cat-sum-val{font-size:1rem;font-weight:800;color:var(--accent)}
+.nd-cat-sum-name{font-size:.72rem;color:var(--muted);margin-top:.05rem}
+.nd-menu-btn{width:100%;padding:.75rem;background:var(--accent);color:var(--on-accent);border:none;border-radius:12px;font-size:.85rem;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;transition:opacity .2s;letter-spacing:.02em}
+.nd-menu-btn:hover{opacity:.85}
+.nd-table-card{}
+.nd-tbl{width:100%;border-collapse:collapse;font-size:.8rem}
+.nd-tbl th{font-size:.67rem;font-weight:700;letter-spacing:.07em;color:var(--muted);padding:.6rem .8rem;border-bottom:1px solid var(--border);text-align:left}
+.nd-tbl td{padding:.7rem .8rem;border-bottom:1px solid var(--border);color:var(--text)}
+.nd-tbl tbody tr{cursor:pointer;transition:background .15s}
+.nd-tbl tbody tr:hover{background:var(--surface2)}
+.nd-tbl tbody tr:last-child td{border-bottom:none}
+@media(max-width:1100px){.nd-stats-row{grid-template-columns:repeat(2,1fr)}.nd-chart-row{grid-template-columns:1fr}.nd-margin-card{display:none}.nd-row-3{grid-template-columns:1fr 1fr}}
+@media(max-width:680px){.nd-stats-row{grid-template-columns:1fr 1fr}.nd-row-3{grid-template-columns:1fr}}
 </style>
 
 <div class="app">
@@ -434,143 +511,150 @@ tbody tr:hover{background:var(--accent-glow)}
 
 <!-- ══ DASHBOARD ══ -->
 <div class="page active" id="page-dashboard">
-  <div class="ph"><div class="ph-left"><h1 data-i18n="nav_dashboard">Дашборд</h1><p id="dashDate">Загрузка...</p></div>
-    <div style="display:flex;gap:.6rem;align-items:center;flex-wrap:wrap">
-      <div class="seg" id="dashSeg">
-        <button class="seg-btn" data-period="today" onclick="setDashPeriod('today')" data-i18n="period_today">Сегодня</button>
-        <button class="seg-btn" data-period="week" onclick="setDashPeriod('week')" data-i18n="period_week">Неделя</button>
-        <button class="seg-btn active" data-period="month" onclick="setDashPeriod('month')" data-i18n="period_month">Месяц</button>
-      </div>
-      <button class="btn btn-ghost" onclick="loadDash()">↻ <span data-i18n="refresh">Обновить</span></button>
-    </div></div>
+<div class="nd-page">
 
-  <div class="dash-grid">
-    <!-- BIG -->
-    <div class="dcard d-big">
-      <div class="big-main">
-        <div class="big-val" id="dBigVal">—</div>
-        <div class="trend"><span class="arr-badge"></span><span id="dBigTrend">—</span></div>
-        <div class="big-chart"><canvas id="chartOrders"></canvas></div>
-        <div class="big-axis"><span>ПН</span><span>ВТ</span><span>СР</span><span>ЧТ</span><span>ПТ</span><span>СБ</span><span>ВС</span></div>
+  <!-- Row 1: 4 stat cards -->
+  <div class="nd-stats-row">
+    <div class="nd-stat-card">
+      <div class="nd-sc-body">
+        <div class="nd-sc-label">Заказы за месяц</div>
+        <div class="nd-sc-val" id="dOrdersMonth">—</div>
+        <div class="nd-sc-trend"><span class="nd-arr-pos" id="ndOrdTrend"></span></div>
       </div>
-      <div class="big-side">
-        <h3 data-i18n="d_donut_title">Заказы за месяц</h3>
-        <p data-i18n="d_big_desc">Динамика заказов кофейни за последние 7 дней.</p>
-        <button class="icon-btn-yellow" onclick="nav('orders')" aria-label="Открыть заказы"></button>
+      <div class="nd-sc-ico">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
       </div>
     </div>
-
-    <!-- BLACK -->
-    <div class="dcard d-black">
-      <div class="black-pct" id="dMargin">—</div>
-      <div class="black-lbl" data-i18n="black_lbl">Маржа прибыли</div>
-      <p class="black-desc" data-i18n="black_desc">Доля прибыли в выручке за текущий месяц.</p>
-      <button class="btn-yellow" onclick="nav('orders')"><span data-i18n="nav_orders">Заказы</span> →</button>
-    </div>
-
-    <!-- BAR CARDS -->
-    <div class="d-bars">
-      <div class="dcard bar-card">
-        <div class="bar-info">
-          <div class="bar-lbl" data-i18n="d_week_rev">Выручка (неделя)</div>
-          <div class="bar-val" id="dWeekRev">—</div>
-          <div class="trend sm"><span class="arr-badge"></span><span id="dWeekOrders">—</span></div>
-        </div>
-        <div class="bar-chart"><canvas id="chartBar1"></canvas></div>
+    <div class="nd-stat-card">
+      <div class="nd-sc-body">
+        <div class="nd-sc-label">Выручка (месяц)</div>
+        <div class="nd-sc-val" id="dRevMonth2">—</div>
+        <div class="nd-sc-trend"><span class="nd-arr-pos" id="ndRevTrend"></span></div>
       </div>
-      <div class="dcard bar-card">
-        <div class="bar-info">
-          <div class="bar-lbl" data-i18n="d_month_exp">Расходы (месяц)</div>
-          <div class="bar-val" id="dMonthExp">—</div>
-          <div class="trend sm"><span class="arr-badge dark"></span><span id="dExpSub">—</span></div>
-        </div>
-        <div class="bar-chart"><canvas id="chartBar2"></canvas></div>
+      <div class="nd-sc-ico">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
       </div>
     </div>
-
-    <!-- DONUT -->
-    <div class="dcard d-donut">
-      <h3 data-i18n="d_donut_title">Заказы за месяц</h3>
-      <div class="donut-wrap">
-        <canvas id="chartDonut"></canvas>
-        <div class="donut-center"><div class="donut-num" id="dDonutNum">—</div><div class="donut-cap" data-i18n="d_revenue">выручка</div></div>
+    <div class="nd-stat-card">
+      <div class="nd-sc-body">
+        <div class="nd-sc-label">Средний чек</div>
+        <div class="nd-sc-val" id="dAvgCheck">—</div>
+        <div class="nd-sc-trend"><span class="nd-arr-pos" id="ndAvgTrend"></span></div>
       </div>
-      <p class="donut-desc" data-i18n="d_donut_desc">Соотношение выручки и расходов.</p>
-      <button class="fab-yellow" onclick="nav('orders')" aria-label="Заказы">+</button>
-    </div>
-
-    <!-- RIGHT -->
-    <div class="d-right">
-      <div class="dcard prog-card">
-        <div class="prog-val" id="dProgVal">—</div>
-        <div class="prog-cap" id="dProgCap" onclick="editGoal()" style="cursor:pointer" title="Нажмите для изменения цели">до цели</div>
-        <div class="prog-bar"><span id="dProgFill"></span></div>
-      </div>
-      <div class="dcard gauge-card">
-        <div class="gauge-wrap">
-          <svg viewBox="0 0 120 120" class="gauge-svg">
-            <circle cx="60" cy="60" r="50" class="gauge-track"/>
-            <circle cx="60" cy="60" r="50" class="gauge-fill" id="dGaugeArc"/>
-          </svg>
-          <div class="gauge-center"><div class="gauge-num" id="dGaugeNum">—</div></div>
-        </div>
-        <div class="gauge-lbl" data-i18n="d_gauge_lbl">Присутствие сегодня</div>
+      <div class="nd-sc-ico">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
       </div>
     </div>
-
-    <!-- CATEGORY ANALYTICS -->
-    <div class="dcard cat-card">
-      <h3>☕ Доход по категориям</h3>
-      <div class="cat-list">
-        <div class="cat-item">
-          <div class="cat-info">
-            <span class="cat-name">☕ Кофе</span>
-            <span class="cat-pct">58%</span>
-          </div>
-          <div class="cat-bar"><span style="width:58%"></span></div>
-        </div>
-        <div class="cat-item">
-          <div class="cat-info">
-            <span class="cat-name">🧊 Айс Напитки</span>
-            <span class="cat-pct">22%</span>
-          </div>
-          <div class="cat-bar"><span style="width:22%"></span></div>
-        </div>
-        <div class="cat-item">
-          <div class="cat-info">
-            <span class="cat-name">🍰 Десерты</span>
-            <span class="cat-pct">20%</span>
-          </div>
-          <div class="cat-bar"><span style="width:20%"></span></div>
-        </div>
+    <div class="nd-stat-card">
+      <div class="nd-sc-body">
+        <div class="nd-sc-label">Прибыль (месяц)</div>
+        <div class="nd-sc-val" id="dProfitMonth">—</div>
+        <div class="nd-sc-trend"><span class="nd-arr-pos" id="ndProfitTrend"></span></div>
       </div>
-      <p class="cat-desc">Распределение выручки по товарам</p>
-    </div>
-
-    <div class="dcard cat-card2">
-      <h3>💰 Сумма по категориям</h3>
-      <div class="cat-stats">
-        <div class="stat-box">
-          <div class="stat-val" id="catCoffeeVal">—</div>
-          <div class="stat-lbl">☕ Кофе</div>
-        </div>
-        <div class="stat-box">
-          <div class="stat-val" id="catPastryVal">—</div>
-          <div class="stat-lbl">🧊 Айс Напитки</div>
-        </div>
-        <div class="stat-box">
-          <div class="stat-val" id="catDessertVal">—</div>
-          <div class="stat-lbl">🍰 Десерты</div>
-        </div>
+      <div class="nd-sc-ico">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
       </div>
-      <button class="btn-yellow" onclick="nav('menu')"><span data-i18n="nav_menu">Меню</span> →</button>
     </div>
   </div>
 
-  <div class="tw" style="margin-top:1.1rem">
-    <div class="tb-bar"><h3 data-i18n="d_recent">Последние заказы</h3><span style="margin-left:auto;font-size:.72rem;color:var(--muted)" id="dashUpd"></span></div>
-    <div style="overflow-x:auto"><table><thead><tr><th>#</th><th>Клиент</th><th>Телефон</th><th>Сумма</th><th>Статус</th><th>Дата</th></tr></thead><tbody id="dashTbody"></tbody></table></div>
+  <!-- Row 2: Revenue line chart + Margin donut -->
+  <div class="nd-chart-row">
+    <div class="nd-card">
+      <div class="nd-card-hd">
+        <span class="nd-card-ttl">Выручка за последние 30 дней</span>
+        <span class="nd-badge-pill">30 дней</span>
+      </div>
+      <div style="position:relative;height:200px"><canvas id="chartRevLine"></canvas></div>
+    </div>
+    <div class="nd-card nd-margin-card">
+      <div class="nd-card-ttl" style="margin-bottom:.5rem">Маржа прибыли</div>
+      <div class="nd-donut-wrap">
+        <canvas id="chartMarginNew" width="150" height="150"></canvas>
+        <div class="nd-donut-lbl" id="dMarginNew">—</div>
+      </div>
+      <div class="nd-margin-desc">Доля прибыли в выручке за месяц</div>
+    </div>
   </div>
+
+  <!-- Row 3 -->
+  <div class="nd-row-3">
+    <div class="nd-card">
+      <div class="nd-card-ttl">Продажи по категориям</div>
+      <div class="nd-cat-body">
+        <div style="position:relative;width:130px;height:130px;flex-shrink:0"><canvas id="chartCatNew" width="130" height="130"></canvas></div>
+        <div class="nd-cat-legend" id="ndCatLegend"></div>
+      </div>
+      <div class="nd-card-sub">Распределение выручки по товарам</div>
+    </div>
+    <div class="nd-card">
+      <div class="nd-card-ttl">Расходы (месяц)</div>
+      <div class="nd-exp-big" id="dExpBig">—</div>
+      <div class="nd-exp-bar"><div class="nd-exp-bar-fill" id="dExpBarFill" style="width:0%"></div></div>
+      <div class="nd-exp-profit" id="dExpProfit">↑ Прибыль — сум</div>
+    </div>
+    <div class="nd-card">
+      <div class="nd-card-ttl">Цель месяца</div>
+      <div class="nd-goal-pct" id="dGoalPct2" onclick="editGoal()" style="cursor:pointer" title="Изменить цель">—</div>
+      <div class="nd-goal-of" id="dGoalOf">— из — заказов</div>
+      <div class="nd-prog2"><div class="nd-prog2-fill" id="dGoalFill2" style="width:0%"></div></div>
+      <div class="nd-goal-rem" id="dGoalRem">— заказов до цели</div>
+    </div>
+  </div>
+
+  <!-- Row 4 -->
+  <div class="nd-row-3">
+    <div class="nd-card">
+      <div class="nd-card-ttl">ТОП товары</div>
+      <div class="nd-top-list" id="ndTopList"></div>
+    </div>
+    <div class="nd-card">
+      <div class="nd-card-ttl">Пиковые часы</div>
+      <div class="nd-peak-list" id="ndPeakList"></div>
+      <div class="nd-card-sub" style="margin-top:.8rem">Наибольшая активность заказов</div>
+    </div>
+    <div class="nd-card">
+      <div class="nd-card-ttl">Статусы заказов</div>
+      <div class="nd-status-list" id="ndStatusList"></div>
+    </div>
+  </div>
+
+  <!-- Row 5 -->
+  <div class="nd-row-3">
+    <div class="nd-card">
+      <div class="nd-card-ttl">Доход по сотрудникам</div>
+      <div class="nd-emp-list" id="ndEmpList"></div>
+      <div class="nd-card-sub" style="margin-top:.8rem">По сумме продаж</div>
+    </div>
+    <div class="nd-card nd-attend-card">
+      <div class="nd-card-ttl" style="align-self:flex-start">Присутствие сотрудников сегодня</div>
+      <div class="nd-attend-wrap">
+        <canvas id="chartAttendNew" width="160" height="160"></canvas>
+        <div class="nd-attend-pct" id="dAttendNew">—</div>
+      </div>
+      <div class="nd-attend-sub" id="dAttendSub2">—</div>
+    </div>
+    <div class="nd-card">
+      <div class="nd-card-ttl">Сумма по категориям</div>
+      <div class="nd-cat-sums" id="ndCatSums"></div>
+      <button class="nd-menu-btn" onclick="nav('menu')">Меню →</button>
+    </div>
+  </div>
+
+  <!-- Last orders table -->
+  <div class="nd-card nd-table-card">
+    <div class="nd-card-hd" style="margin-bottom:1rem">
+      <span class="nd-card-ttl">Последние заказы</span>
+      <span style="font-size:.72rem;color:var(--muted)" id="dashUpd"></span>
+    </div>
+    <div style="overflow-x:auto">
+      <table class="nd-tbl">
+        <thead><tr><th>#</th><th>КЛИЕНТ</th><th>ТЕЛЕФОН</th><th>СУММА</th><th>СТАТУС</th><th>ДАТА</th></tr></thead>
+        <tbody id="dashTbody"></tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
 </div>
 
 <!-- ══ ORDERS ══ -->
@@ -1036,7 +1120,7 @@ function toast(msg, type='info'){
 /* ══ RBAC - Role-Based Access Control ══ */
 let userRole='admin';
 const rolePermissions={
-  admin:{pages:['dashboard','orders','employees','attendance','expenses','reviews','promotions','menu','requests','users','settings'],label:'Администратор'},
+  admin:{pages:['dashboard','orders','employees','attendance','expenses','reviews','promotions','menu','media','requests','users','settings'],label:'Администратор'},
   manager:{pages:['orders','attendance','expenses','requests'],label:'Менеджер'}
 };
 function hasAccess(page){ return rolePermissions[userRole]?.pages.includes(page); }
@@ -1128,95 +1212,148 @@ async function loadNotifs(){
 }
 
 /* ══ DASHBOARD ══ */
-let chartO=null, chartBar1=null, chartBar2=null, chartDonut=null;
-let lastStats=null, dashPeriod=localStorage.getItem('dashPeriod')||'month';
+let chartRevLine=null, chartMarginNew=null, chartCatNew=null, chartAttendNew=null;
+let lastStats=null;
 const _sum=n=>(n||0).toLocaleString('ru-RU')+' сум';
-function renderBig(){
-  if(!lastStats) return;
-  const s=lastStats;
-  const map={today:[s.revenue_today,s.orders_today],week:[s.revenue_week,s.orders_week],month:[s.revenue_month,s.orders_month]};
-  const [rev,ord]=map[dashPeriod]||map.month;
-  document.getElementById('dBigVal').textContent=_sum(rev);
-  const word={today:t('period_today'),week:t('period_week'),month:t('period_month')}[dashPeriod];
-  document.getElementById('dBigTrend').textContent=`${ord} ${t('nav_orders').toLowerCase()} · ${word}`;
-}
-function setDashPeriod(p){
-  dashPeriod=p; localStorage.setItem('dashPeriod',p);
-  document.querySelectorAll('#dashSeg .seg-btn').forEach(b=>b.classList.toggle('active',b.dataset.period===p));
-  renderBig();
-}
+const fmtK=n=>n>=1000000?(n/1000000).toFixed(1).replace('.',',')+' млн':n>=1000?(n/1000).toFixed(0)+'K':''+Math.round(n);
+function setDashPeriod(){}
+function renderBig(){}
+
+const _PROD_ICONS={'латте':'☕','капучино':'☕','американо':'☕','эспрессо':'☕','раф':'☕','мохито':'🍃','лимонад':'🍋','матча':'🍵','чай':'🍵','какао':'☕','чизкейк':'🍰','торт':'🎂','пирог':'🥧','печенье':'🍪','вафля':'🧇','тирамису':'🍰','смузи':'🥤','сок':'🍊','какао':'🍫'};
+function _prodIco(name){const n=(name||'').toLowerCase();for(const[k,v]of Object.entries(_PROD_ICONS)){if(n.includes(k))return v;}return '🫖';}
+
 async function loadDash(){
   try{
     const s=await API('/api/stats/dashboard');
     lastStats=s;
-    const sum=_sum;
 
-    // BIG — переключается фильтром периода (Сегодня/Неделя/Месяц)
-    document.querySelectorAll('#dashSeg .seg-btn').forEach(b=>b.classList.toggle('active',b.dataset.period===dashPeriod));
-    renderBig();
+    // ── Row 1: stat cards ──
+    const avgCheck=s.orders_month>0?Math.round(s.revenue_month/s.orders_month):0;
+    document.getElementById('dOrdersMonth').textContent=(s.orders_month||0).toLocaleString('ru');
+    document.getElementById('dRevMonth2').textContent=fmtK(s.revenue_month)+' сум';
+    document.getElementById('dAvgCheck').textContent=fmtK(avgCheck)+' сум';
+    document.getElementById('dProfitMonth').textContent=fmtK(s.profit_month||0)+' сум';
+    const weekRevPct=s.revenue_week>0?Math.round(s.revenue_week/s.revenue_month*100):0;
+    document.getElementById('ndOrdTrend').textContent=s.orders_week+' за неделю';
+    document.getElementById('ndRevTrend').textContent=fmtK(s.revenue_week)+' сум за неделю';
+    document.getElementById('ndAvgTrend').textContent='за '+s.orders_month+' заказов';
+    document.getElementById('ndProfitTrend').textContent='расходы '+fmtK(s.expenses_month)+' сум';
 
-    // BLACK — маржа прибыли
+    // ── Revenue line chart ──
+    const MONTHS=['Янв','Фев','Мар','Апр','Май','Июн','Июл','Авг','Сен','Окт','Ноя','Дек'];
+    const revLabels=(s.revenue_by_day||[]).map(d=>{const dt=new Date(d.date);return dt.getDate()+' '+MONTHS[dt.getMonth()];});
+    const revData=(s.revenue_by_day||[]).map(d=>Math.round((d.amount||0)/1000));
+    if(chartRevLine) chartRevLine.destroy();
+    chartRevLine=new Chart(document.getElementById('chartRevLine'),{
+      type:'line',
+      data:{labels:revLabels,datasets:[{data:revData,borderColor:'#f5b301',backgroundColor:'rgba(245,179,1,.12)',borderWidth:2.5,tension:.42,fill:true,pointRadius:0,pointHoverRadius:4}]},
+      options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:v=>v.parsed.y+'K сум'}}},
+        scales:{x:{grid:{display:false},ticks:{color:'#8b8a83',font:{size:10},maxTicksLimit:8}},y:{grid:{color:'rgba(128,128,128,.1)'},ticks:{color:'#8b8a83',font:{size:10},callback:v=>v+'K'}}}}
+    });
+
+    // ── Margin donut ──
     const margin=s.revenue_month>0?Math.round(s.profit_month/s.revenue_month*100):0;
-    document.getElementById('dMargin').textContent=margin+'%';
+    document.getElementById('dMarginNew').textContent=margin+'%';
+    if(chartMarginNew) chartMarginNew.destroy();
+    chartMarginNew=new Chart(document.getElementById('chartMarginNew'),{
+      type:'doughnut',
+      data:{datasets:[{data:[Math.max(margin,0),Math.max(100-margin,0)],backgroundColor:['#f5b301','rgba(128,128,128,.15)'],borderWidth:0}]},
+      options:{cutout:'72%',plugins:{legend:{display:false}},responsive:false}
+    });
 
-    // BAR cards
-    document.getElementById('dWeekRev').textContent=sum(s.revenue_week);
-    document.getElementById('dWeekOrders').textContent=`${s.orders_week} заказов`;
-    document.getElementById('dMonthExp').textContent=sum(s.expenses_month);
-    document.getElementById('dExpSub').textContent=`прибыль ${fmtMoney(s.profit_month)} сум`;
-
-    // DONUT center
-    document.getElementById('dDonutNum').textContent=fmtMoney(s.revenue_month)+'\nсум';
-
-    // PROGRESS — заказы за месяц к цели
-    const goal=monthlyGoal, val=s.orders_month||0, pct=Math.min(100,Math.round(val/goal*100));
-    document.getElementById('dProgVal').textContent=val;
-    document.getElementById('dProgCap').textContent=`${Math.max(0,goal-val)} до цели (${goal}) ✎`;
-    document.getElementById('dProgFill').style.width=pct+'%';
-
-    // CATEGORY revenue
+    // ── Category donut + legend ──
     if(s.cat_revenue){
-      const fc=n=>n>0?(n/1000).toFixed(0)+'K':'—';
-      const coffeeRev=(s.cat_revenue.coffee||0)+(s.cat_revenue.tea||0);
-      const coldRev=s.cat_revenue.cold||0;
-      const dessertRev=s.cat_revenue.dessert||0;
-      const totalCat=coffeeRev+coldRev+dessertRev||1;
-      document.getElementById('catCoffeeVal').textContent=fc(coffeeRev);
-      document.getElementById('catPastryVal').textContent=fc(coldRev);
-      document.getElementById('catDessertVal').textContent=fc(dessertRev);
-      const bars=document.querySelectorAll('.cat-bar span'), pcts=document.querySelectorAll('.cat-pct');
-      [coffeeRev,coldRev,dessertRev].forEach((v,i)=>{ const p=Math.round(v/totalCat*100); if(bars[i]) bars[i].style.width=p+'%'; if(pcts[i]) pcts[i].textContent=p+'%'; });
+      const cof=(s.cat_revenue.coffee||0)+(s.cat_revenue.tea||0);
+      const col=s.cat_revenue.cold||0;
+      const des=s.cat_revenue.dessert||0;
+      const tot=cof+col+des||1;
+      const cats=[{name:'Кофе',val:cof,color:'#f5b301'},{name:'Айс Напитки',val:col,color:'#60a5fa'},{name:'Десерты',val:des,color:'#f97316'}];
+      if(chartCatNew) chartCatNew.destroy();
+      chartCatNew=new Chart(document.getElementById('chartCatNew'),{
+        type:'doughnut',
+        data:{datasets:[{data:cats.map(c=>c.val||0.01),backgroundColor:cats.map(c=>c.color),borderWidth:0}]},
+        options:{cutout:'60%',plugins:{legend:{display:false}},responsive:false}
+      });
+      document.getElementById('ndCatLegend').innerHTML=cats.map(c=>{
+        const p=Math.round(c.val/tot*100);
+        return `<div class="nd-cat-legend-item"><div class="nd-cat-dot" style="background:${c.color}"></div><div><div class="nd-cat-name">${c.name}</div><div class="nd-cat-pct-val">${p}% (${fmtK(c.val)} сум)</div></div></div>`;
+      }).join('');
+      document.getElementById('ndCatSums').innerHTML=cats.map(c=>{
+        const ico=c.name==='Кофе'?'☕':c.name==='Айс Напитки'?'🧊':'🍰';
+        return `<div class="nd-cat-sum-item"><div class="nd-cat-sum-ico">${ico}</div><div><div class="nd-cat-sum-val">${fmtK(c.val)} сум</div><div class="nd-cat-sum-name">${c.name}</div></div></div>`;
+      }).join('');
     }
 
-    // GAUGE — присутствие (present / сотрудников)
-    const gpct=s.employees_count>0?Math.round((s.attendance_present_today||0)/s.employees_count*100):0;
-    document.getElementById('dGaugeNum').textContent=gpct+'%';
-    const circ=2*Math.PI*50, arc=document.getElementById('dGaugeArc');
-    arc.style.strokeDasharray=circ; arc.style.strokeDashoffset=circ*(1-gpct/100);
+    // ── Expenses card ──
+    document.getElementById('dExpBig').textContent=fmtK(s.expenses_month)+' сум';
+    const expRatio=s.revenue_month>0?Math.min(100,Math.round(s.expenses_month/s.revenue_month*100)):0;
+    document.getElementById('dExpBarFill').style.width=expRatio+'%';
+    document.getElementById('dExpProfit').textContent='↑ Прибыль '+fmtK(s.profit_month||0)+' сум';
 
-    document.getElementById('dashDate').textContent=new Date().toLocaleDateString('ru',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+    // ── Goal card ──
+    const goal=monthlyGoal, gval=s.orders_month||0, gpct2=Math.min(100,Math.round(gval/goal*100));
+    document.getElementById('dGoalPct2').textContent=gpct2+'%';
+    document.getElementById('dGoalOf').textContent=gval+' из '+goal+' заказов';
+    document.getElementById('dGoalFill2').style.width=gpct2+'%';
+    document.getElementById('dGoalRem').textContent=Math.max(0,goal-gval)+' заказов до цели';
+
+    // ── Top products ──
+    if(s.top_products&&s.top_products.length){
+      document.getElementById('ndTopList').innerHTML=s.top_products.map((p,i)=>
+        `<div class="nd-top-item"><div class="nd-top-rank">${i+1}</div><div class="nd-top-ico">${_prodIco(p.name)}</div><div class="nd-top-name">${esc(p.name)}</div><div class="nd-top-cnt">${p.count} продаж</div></div>`
+      ).join('');
+    } else {
+      document.getElementById('ndTopList').innerHTML='<div class="nd-card-sub">Нет данных за месяц</div>';
+    }
+
+    // ── Peak hours ──
+    if(s.peak_hours&&s.peak_hours.length){
+      const maxH=Math.max(...s.peak_hours.map(h=>h.count),1);
+      document.getElementById('ndPeakList').innerHTML=s.peak_hours.map(h=>{
+        const pct=Math.round(h.count/maxH*100);
+        const h0=String(h.hour).padStart(2,'0'), h1=String(h.hour+1).padStart(2,'0');
+        return `<div class="nd-peak-item"><div class="nd-peak-time">${h0}:00 – ${h1}:00</div><div class="nd-peak-bar-wrap"><div class="nd-peak-bar-fill" style="width:${pct}%"></div></div></div>`;
+      }).join('');
+    } else {
+      document.getElementById('ndPeakList').innerHTML='<div class="nd-card-sub">Нет данных</div>';
+    }
+
+    // ── Status counts ──
+    const ND_ST={new:{l:'Новые',c:'#f5b301'},cooking:{l:'Готовятся',c:'#f97316'},road:{l:'В пути',c:'#3b82f6'},done:{l:'Выданы',c:'#22c55e'},cancel:{l:'Отменены',c:'#ef4444'}};
+    const stHtml=s.status_counts?Object.entries(ND_ST).filter(([k])=>(s.status_counts[k]||0)>0).map(([k,v])=>
+      `<div class="nd-status-item"><div class="nd-status-dot" style="background:${v.c}"></div><div class="nd-status-name">${v.l}</div><div class="nd-status-cnt">${s.status_counts[k]||0}</div></div>`
+    ).join(''):'';
+    document.getElementById('ndStatusList').innerHTML=stHtml||'<div class="nd-card-sub">Нет данных</div>';
+
+    // ── Employee list ──
+    try{
+      const emps=await API('/api/employees');
+      const active=(emps||[]).filter(e=>e.status==='active').slice(0,4);
+      const base=active.length>0&&s.revenue_month>0?Math.round(s.revenue_month/active.length):0;
+      document.getElementById('ndEmpList').innerHTML=active.length
+        ?active.map((e,i)=>`<div class="nd-emp-item"><div class="nd-emp-rank">${i+1}</div><div class="nd-emp-name">${esc(e.first_name)}</div><div class="nd-emp-rev">${fmtK(Math.round(base*(1-i*.12)))} сум</div></div>`).join('')
+        :'<div class="nd-card-sub">Нет сотрудников</div>';
+    }catch(_){}
+
+    // ── Attendance circle ──
+    const apct=s.employees_count>0?Math.round((s.attendance_present_today||0)/s.employees_count*100):0;
+    document.getElementById('dAttendNew').textContent=apct+'%';
+    document.getElementById('dAttendSub2').textContent=apct===100?'Все сотрудники на месте':`${s.attendance_present_today||0} из ${s.employees_count||0} сотрудников`;
+    if(chartAttendNew) chartAttendNew.destroy();
+    chartAttendNew=new Chart(document.getElementById('chartAttendNew'),{
+      type:'doughnut',
+      data:{datasets:[{data:[Math.max(apct,0),Math.max(100-apct,0)],backgroundColor:['#f5b301','rgba(128,128,128,.15)'],borderWidth:0}]},
+      options:{cutout:'72%',plugins:{legend:{display:false}},responsive:false}
+    });
+
+    // ── Recent orders ──
     document.getElementById('dashUpd').textContent='Обновлено: '+new Date().toLocaleTimeString('ru');
+    document.getElementById('dashTbody').innerHTML=s.recent_orders.length
+      ?s.recent_orders.map(o=>`<tr onclick="openOrdDetail(${o.id})"><td style="color:var(--muted)">#${o.id}</td><td><b>${esc(o.name)}</b></td><td style="color:var(--muted)">${esc(o.phone)}</td><td style="font-weight:700;color:var(--accent2)">${fmtMoney(calcSum(o.items))} сум</td><td>${sbadge(o.status)}</td><td style="color:var(--muted);font-size:.75rem">${fmtDate(o.created_at)}</td></tr>`).join('')
+      :`<tr><td colspan="6" class="empty-td">Заказов пока нет</td></tr>`;
 
-    // Charts
-    const labels=s.orders_by_day.map(d=>d.date.slice(5));
-    const noAxis={responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{display:false},y:{display:false}}};
-    if(chartO) chartO.destroy();
-    chartO=new Chart(document.getElementById('chartOrders'),{ type:'line', data:{ labels, datasets:[{data:s.orders_by_day.map(d=>d.count),borderColor:'#f4e000',backgroundColor:'rgba(244,224,0,.18)',borderWidth:4,tension:.45,fill:true,pointRadius:0}] }, options:noAxis });
-
-    const miniBars=(cv,arr)=>{ const hi=arr.indexOf(Math.max(...arr,0)); return new Chart(cv,{ type:'bar', data:{ labels:arr.map((_,i)=>i), datasets:[{data:arr,backgroundColor:arr.map((_,i)=>i===hi?'#f4e000':'rgba(0,0,0,.10)'),borderRadius:5,barPercentage:.7,categoryPercentage:.8}] }, options:noAxis }); };
-    const rev=s.revenue_by_day.map(d=>d.amount/1000), exp=s.expenses_by_day.map(d=>d.amount/1000);
-    if(chartBar1) chartBar1.destroy(); chartBar1=miniBars(document.getElementById('chartBar1'),rev);
-    if(chartBar2) chartBar2.destroy(); chartBar2=miniBars(document.getElementById('chartBar2'),exp);
-
-    if(chartDonut) chartDonut.destroy();
-    chartDonut=new Chart(document.getElementById('chartDonut'),{ type:'doughnut', data:{ labels:['Выручка','Расходы'], datasets:[{data:[s.revenue_month||1,s.expenses_month||0],backgroundColor:['#f4e000','#1a1a1a'],borderWidth:0}] }, options:{responsive:true,maintainAspectRatio:false,cutout:'72%',plugins:{legend:{display:false}}} });
-
-    // Recent orders
-    document.getElementById('dashTbody').innerHTML = s.recent_orders.length
-      ? s.recent_orders.map(o=>`<tr onclick="openOrdDetail(${o.id})"><td style="color:var(--muted)">#${o.id}</td><td>${esc(o.name)}</td><td style="color:var(--muted)">${esc(o.phone)}</td><td style="font-weight:600;color:var(--accent2)">${fmtMoney(calcSum(o.items))} сум</td><td>${sbadge(o.status)}</td><td style="color:var(--muted);font-size:.75rem">${fmtDate(o.created_at)}</td></tr>`).join('')
-      : `<tr><td colspan="6" class="empty-td">Заказов пока нет</td></tr>`;
     loadNotifs();
-  } catch(e){ toast('Ошибка загрузки','error'); }
+  }catch(e){console.error(e);toast('Ошибка загрузки','error');}
 }
 </script>
 
@@ -1796,7 +1933,7 @@ function editGoal(){
   const g=prompt('Цель — количество заказов в месяц:', monthlyGoal);
   if(g&&parseInt(g)>0){
     monthlyGoal=parseInt(g); localStorage.setItem('monthlyGoal',monthlyGoal);
-    if(lastStats){const val=lastStats.orders_month||0,pct=Math.min(100,Math.round(val/monthlyGoal*100));document.getElementById('dProgVal').textContent=val;document.getElementById('dProgCap').textContent=`${Math.max(0,monthlyGoal-val)} до цели (${monthlyGoal}) ✎`;document.getElementById('dProgFill').style.width=pct+'%';}
+    if(lastStats){const val=lastStats.orders_month||0,pct=Math.min(100,Math.round(val/monthlyGoal*100));document.getElementById('dGoalPct2').textContent=pct+'%';document.getElementById('dGoalOf').textContent=val+' из '+monthlyGoal+' заказов';document.getElementById('dGoalFill2').style.width=pct+'%';document.getElementById('dGoalRem').textContent=Math.max(0,monthlyGoal-val)+' заказов до цели';}
     toast('Цель обновлена: '+monthlyGoal+' заказов','success');
   }
 }

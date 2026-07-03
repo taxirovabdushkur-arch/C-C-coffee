@@ -235,7 +235,10 @@ function goSpecials(index) {
   });
 }
 
+let _specialsDragged = false;
+
 function openPromoDetail(index) {
+  if (_specialsDragged) { _specialsDragged = false; return; }
   const p = specialsData[index];
   if (!p) return;
   const imgSrc = p.img || p.image_url || p.banner_url || '';
@@ -298,9 +301,11 @@ function initSpecialsDrag() {
     isDragging = false;
     outer.classList.remove('dragging');
     const diff = e.clientX - startX;
-    if (moved && Math.abs(diff) > 50) {
+    if (moved && Math.abs(diff) > 10) {
+      _specialsDragged = true;
       diff < 0 ? goSpecials(specialsIndex + 1) : goSpecials(specialsIndex - 1);
     } else {
+      _specialsDragged = false;
       goSpecials(specialsIndex);
     }
   });

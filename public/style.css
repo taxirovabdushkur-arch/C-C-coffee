@@ -330,8 +330,7 @@ button { font-family: 'Inter', sans-serif; }
 .special-card img { width: 100%; height: 180px; object-fit: cover; display: block; }
 .special-card-body { padding: 1.2rem; }
 .specials-track-outer { cursor: grab; }
-.specials-track-outer.dragging { cursor: grabbing; }
-.specials-track-outer.dragging .special-card { pointer-events: none; }
+.specials-track-outer.dragging { cursor: grabbing; user-select: none; }
 .special-label {
   display: inline-block; font-size: .65rem; font-weight: 700; letter-spacing: .15em;
   text-transform: uppercase; color: var(--accent); background: rgba(200,66,26,.1);

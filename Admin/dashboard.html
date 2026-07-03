@@ -841,6 +841,16 @@ tbody tr:hover{background:var(--accent-glow)}
     <input type="hidden" id="promoMId"/>
     <div class="fg"><label>Название акции *</label><input type="text" class="finp" id="promoTitle" placeholder="Кофе + Десерт"/></div>
     <div class="fg"><label>Описание</label><textarea class="fta" id="promoDesc" rows="3" placeholder="Описание акции..."></textarea></div>
+    <div class="fg">
+      <label>Фото акции</label>
+      <input type="hidden" id="promoImg"/>
+      <input type="file" id="promoFile" accept="image/*" style="display:none" onchange="handlePromoFile(this)"/>
+      <div class="img-upload" id="promoImgBox" onclick="document.getElementById('promoFile').click()">
+        <img id="promoImgPreview" class="img-upload-preview" style="display:none" alt=""/>
+        <div class="img-upload-ph" id="promoImgPh"><span style="font-size:1.6rem">🖼️</span><span>Нажмите, чтобы загрузить фото</span></div>
+      </div>
+      <button type="button" class="btn-sm" id="promoImgClear" style="display:none;margin-top:.5rem;color:var(--red)" onclick="clearPromoImg(event)">Убрать фото</button>
+    </div>
     <div class="fg-row">
       <div class="fg"><label>Скидка (%)</label><input type="number" class="finp" id="promoDisc" placeholder="15" min="0" max="100"/></div>
       <div class="fg"><label>Применить к</label><select class="fsel2" id="promoApply"><option value="all">Всем</option><option value="coffee">Кофе</option><option value="cold">Холодным</option><option value="dessert">Десертам</option></select></div>
@@ -1435,17 +1445,40 @@ function renderPromos(){
       </div>
     </div>`).join(''):'<p style="color:var(--muted);padding:1rem">Нет акций</p>';
 }
+function setPromoImg(url){
+  const img=document.getElementById('promoImgPreview'), ph=document.getElementById('promoImgPh'), clr=document.getElementById('promoImgClear');
+  document.getElementById('promoImg').value=url||'';
+  if(url){ img.src=url; img.style.display='block'; ph.style.display='none'; clr.style.display='inline-flex'; }
+  else { img.src=''; img.style.display='none'; ph.style.display='flex'; clr.style.display='none'; }
+}
+function clearPromoImg(e){ if(e) e.stopPropagation(); document.getElementById('promoFile').value=''; setPromoImg(''); }
+function handlePromoFile(input){
+  const file=input.files&&input.files[0]; if(!file) return;
+  if(!file.type.startsWith('image/')){ toast('Выберите изображение','error'); return; }
+  const reader=new FileReader();
+  reader.onload=e=>{
+    const im=new Image(); im.onload=()=>{
+      const max=800, scale=Math.min(1,max/im.width), w=Math.round(im.width*scale), h=Math.round(im.height*scale);
+      const cv=document.createElement('canvas'); cv.width=w; cv.height=h;
+      cv.getContext('2d').drawImage(im,0,0,w,h);
+      setPromoImg(cv.toDataURL('image/jpeg',0.85));
+    };
+    im.src=e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
 function openPromoModal(id){
   document.getElementById('promoMTitle').textContent=id?'Редактировать акцию':'Создать акцию';
   document.getElementById('promoMId').value=id||'';
+  document.getElementById('promoFile').value='';
   const p=allPromos.find(x=>x.id===id);
-  if(p){ document.getElementById('promoTitle').value=p.title; document.getElementById('promoDesc').value=p.description||''; document.getElementById('promoDisc').value=p.discount||''; document.getElementById('promoStart').value=p.start_date||''; document.getElementById('promoEnd').value=p.end_date||''; document.getElementById('promoStatus').value=p.status||'active'; document.getElementById('promoApply').value=p.apply_to||'all'; }
-  else { ['promoTitle','promoDesc','promoDisc','promoStart','promoEnd'].forEach(i=>document.getElementById(i).value=''); document.getElementById('promoStatus').value='active'; document.getElementById('promoApply').value='all'; }
+  if(p){ document.getElementById('promoTitle').value=p.title; document.getElementById('promoDesc').value=p.description||''; document.getElementById('promoDisc').value=p.discount||''; document.getElementById('promoStart').value=p.start_date||''; document.getElementById('promoEnd').value=p.end_date||''; document.getElementById('promoStatus').value=p.status||'active'; document.getElementById('promoApply').value=p.apply_to||'all'; setPromoImg(p.banner_url||''); }
+  else { ['promoTitle','promoDesc','promoDisc','promoStart','promoEnd'].forEach(i=>document.getElementById(i).value=''); document.getElementById('promoStatus').value='active'; document.getElementById('promoApply').value='all'; setPromoImg(''); }
   om('promoModal');
 }
 async function savePromo(){
   const id=document.getElementById('promoMId').value;
-  const b={title:document.getElementById('promoTitle').value.trim(),description:document.getElementById('promoDesc').value,discount:parseInt(document.getElementById('promoDisc').value)||0,start_date:document.getElementById('promoStart').value,end_date:document.getElementById('promoEnd').value,status:document.getElementById('promoStatus').value,apply_to:document.getElementById('promoApply').value};
+  const b={title:document.getElementById('promoTitle').value.trim(),description:document.getElementById('promoDesc').value,discount:parseInt(document.getElementById('promoDisc').value)||0,banner_url:document.getElementById('promoImg').value||'',start_date:document.getElementById('promoStart').value,end_date:document.getElementById('promoEnd').value,status:document.getElementById('promoStatus').value,apply_to:document.getElementById('promoApply').value};
   if(!b.title){toast('Введите название','error');return;}
   await API(id?`/api/promotions/${id}`:'/api/promotions',{method:id?'PUT':'POST',body:JSON.stringify(b)});
   toast(id?'Акция обновлена':'Акция создана','success'); cm('promoModal'); loadPromos();

@@ -666,7 +666,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   initReveal();
   animateCounters();
   initRatingStars();
-  await fetchMenuFromDB();
+  await fetchMenu();
   initMenuTabs();
   renderPageMenu('coffee');
   loadSpecials();

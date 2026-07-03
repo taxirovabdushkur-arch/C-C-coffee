@@ -88,50 +88,29 @@
 
 <!-- ══ HERO ══ -->
 <section id="hero">
-  <div class="hero-inner">
-    <div class="hero-text">
-      <div class="hero-tag">
-        <span class="hero-tag-dot"></span>
-        Ташкент · Открыт каждый день
-      </div>
-      <h1>Найди<br><em class="hl">свой кофе</em></h1>
-      <p class="hero-sub">Уютное место где каждый глоток — это маленькое удовольствие. Более 30 напитков на любой вкус.</p>
-      <div class="hero-btns">
-        <button class="btn-primary" onclick="openOrderModal()">
-          <span>Заказать сейчас</span>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-        </button>
-        <button class="btn-outline" onclick="document.getElementById('menu-section').scrollIntoView({behavior:'smooth'})">Смотреть меню</button>
-      </div>
-      <div class="hero-stats">
-        <div class="hero-stat"><span class="hero-stat-num">30+</span><span class="hero-stat-lbl">напитков</span></div>
-        <div class="hero-stat-div"></div>
-        <div class="hero-stat"><span class="hero-stat-num">5★</span><span class="hero-stat-lbl">рейтинг</span></div>
-        <div class="hero-stat-div"></div>
-        <div class="hero-stat"><span class="hero-stat-num">8:00–23:00</span><span class="hero-stat-lbl">ежедневно</span></div>
-      </div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">
+      <span class="hero-dot"></span>
+      Ташкент · Открыт каждый день
     </div>
-
-    <div class="hero-visual">
-      <div class="hero-img-wrap">
-        <img src="https://images.pexels.com/photos/302899/pexels-photo-302899.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Coffee House" class="hero-img-main"/>
-        <div class="hero-img-badge">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
-          <div>
-            <div style="font-weight:700;font-size:.82rem;color:#2c1a0e">Свежий кофе</div>
-            <div style="font-size:.7rem;color:#8b7560">обжарка каждый день</div>
-          </div>
-        </div>
-        <div class="hero-img-float">
-          <img src="https://images.pexels.com/photos/1207918/pexels-photo-1207918.jpeg?auto=compress&cs=tinysrgb&w=400" alt="" class="hero-img-sm"/>
-        </div>
-      </div>
+    <h1 class="hero-h1">Найди<br><em class="hero-hl">свой кофе</em></h1>
+    <p class="hero-sub">Уютное место где каждый глоток — это маленькое удовольствие.<br>Более 30 напитков на любой вкус.</p>
+    <div class="hero-btns">
+      <button class="btn-primary" onclick="openOrderModal()">
+        <span>Заказать сейчас</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </button>
+      <button class="btn-hero-ghost" onclick="document.getElementById('menu-section').scrollIntoView({behavior:'smooth'})">Смотреть меню</button>
     </div>
   </div>
-
-  <div class="scroll-indicator">
-    <div class="scroll-dot"></div>
-    <span>Скролл</span>
+  <div class="hero-stats-bar">
+    <div class="hero-stat-item"><span class="hero-stat-n">30+</span><span class="hero-stat-l">напитков</span></div>
+    <div class="hero-sep"></div>
+    <div class="hero-stat-item"><span class="hero-stat-n">5★</span><span class="hero-stat-l">рейтинг</span></div>
+    <div class="hero-sep"></div>
+    <div class="hero-stat-item"><span class="hero-stat-n">8:00–23:00</span><span class="hero-stat-l">ежедневно</span></div>
+    <div class="hero-sep"></div>
+    <div class="hero-stat-item"><span class="hero-stat-n">Ташкент</span><span class="hero-stat-l">ул. Амира Темура, 107</span></div>
   </div>
 </section>
 

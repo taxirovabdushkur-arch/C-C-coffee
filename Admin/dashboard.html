@@ -864,7 +864,7 @@ tbody tr:hover{background:var(--accent-glow)}
       <div class="fg"><label>Иконка</label><input type="text" class="finp" id="menuIcon" placeholder="☕" maxlength="4"/></div>
     </div>
     <div class="fg-row">
-      <div class="fg"><label>Категория *</label><select class="fsel2" id="menuCat"><option value="coffee">Кофе</option><option value="cold">Айс Напитки</option><option value="tea">Чай</option><option value="dessert">Десерты</option></select></div>
+      <div class="fg"><label>Категория *</label><select class="fsel2" id="menuCat"><option value="coffee">Кофе</option><option value="cold">Айс Напитки</option><option value="raf">Рафы</option><option value="dessert">Десерты</option></select></div>
       <div class="fg"><label>Цена (сум) *</label><input type="number" class="finp" id="menuPrice" placeholder="18000"/></div>
     </div>
     <div class="fg"><label data-i18n="f_desc">Описание</label><textarea class="fta" id="menuDesc" rows="3" placeholder="Описание напитка..."></textarea></div>
@@ -1456,7 +1456,7 @@ async function delPromo(id){ if(!confirm('Удалить акцию?')) return; 
 let allMenuItems=[];
 async function loadMenuPage(){ allMenuItems=await API('/api/menu'); renderMenuTable(); }
 function renderMenuTable(){
-  const catL={coffee:'☕ Кофе',cold:'🧊 Холодные',tea:'🍵 Чай',dessert:'🍰 Десерты'};
+  const catL={coffee:'☕ Кофе',cold:'🧊 Холодные',raf:'🌿 Рафы',dessert:'🍰 Десерты'};
   document.getElementById('menuTbody').innerHTML=allMenuItems.length?allMenuItems.map(m=>`
     <tr>
       <td>${m.image_url?`<img src="${esc(m.image_url)}" alt="" style="width:40px;height:40px;border-radius:8px;object-fit:cover;display:block"/>`:`<span style="font-size:1.4rem">${esc(m.icon||'☕')}</span>`}</td>

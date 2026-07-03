@@ -13,14 +13,50 @@
 
 <!-- ══ SPLASH SCREEN ══ -->
 <div id="splash-screen">
-  <div class="splash-logo">
-    <svg viewBox="0 0 260 280" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:200px;height:auto">
-      <!-- Кофейное зерно -->
-      <ellipse cx="130" cy="110" rx="72" ry="100" stroke="#2c1a0e" stroke-width="7"/>
-      <path d="M130 10 Q175 65 130 110 Q85 155 130 210" stroke="#2c1a0e" stroke-width="7" stroke-linecap="round"/>
-      <!-- C&C -->
-      <text x="130" y="252" text-anchor="middle" font-size="22" fill="#2c1a0e" font-family="Georgia,'Times New Roman',serif" font-weight="700" letter-spacing="3">Coffee House</text>
-    </svg>
+  <div class="splash-inner">
+    <div class="splash-cup-wrap">
+      <svg class="splash-steam" viewBox="0 0 120 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path class="steam s1" d="M30 70 Q25 50 32 35 Q39 20 34 5" stroke="rgba(255,235,200,.55)" stroke-width="3" stroke-linecap="round"/>
+        <path class="steam s2" d="M60 70 Q55 48 63 32 Q71 16 66 2" stroke="rgba(255,235,200,.4)" stroke-width="2.5" stroke-linecap="round"/>
+        <path class="steam s3" d="M90 70 Q86 52 93 37 Q100 22 95 7" stroke="rgba(255,235,200,.5)" stroke-width="3" stroke-linecap="round"/>
+      </svg>
+      <svg class="splash-cup" viewBox="0 0 160 130" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Saucer shadow -->
+        <ellipse cx="80" cy="119" rx="58" ry="8" fill="rgba(0,0,0,.3)"/>
+        <!-- Saucer -->
+        <ellipse cx="80" cy="116" rx="58" ry="9" fill="#7a4822"/>
+        <ellipse cx="80" cy="114" rx="54" ry="7" fill="#9a5e2e"/>
+        <!-- Cup body outer (light rim for depth) -->
+        <path d="M26 48 Q28 102 80 108 Q132 102 134 48 Z" fill="#7a4020"/>
+        <!-- Cup body main -->
+        <path d="M30 48 Q32 100 80 106 Q128 100 130 48 Z" fill="#a05030"/>
+        <!-- Cup highlight (left side glow) -->
+        <path d="M30 48 Q31 75 42 95 Q38 70 35 48 Z" fill="rgba(255,200,150,.12)"/>
+        <!-- Cup rim outer -->
+        <ellipse cx="80" cy="48" rx="52" ry="11" fill="#7a4020"/>
+        <!-- Cup rim top -->
+        <ellipse cx="80" cy="46" rx="50" ry="9" fill="#b86038"/>
+        <!-- Coffee surface dark -->
+        <ellipse cx="80" cy="46" rx="45" ry="7.5" fill="#1a0a04"/>
+        <!-- Coffee surface with sheen -->
+        <ellipse cx="80" cy="45" rx="41" ry="6" fill="#2e1206"/>
+        <!-- Latte art -->
+        <path d="M62 45 Q80 39 98 45" stroke="rgba(220,170,90,.5)" stroke-width="2" stroke-linecap="round"/>
+        <ellipse cx="80" cy="43.5" rx="13" ry="4.5" stroke="rgba(220,170,90,.3)" stroke-width="1.5" fill="none"/>
+        <path d="M74 43 Q80 40 86 43" stroke="rgba(220,170,90,.25)" stroke-width="1" stroke-linecap="round"/>
+        <!-- Handle outer -->
+        <path d="M131 60 Q160 60 160 82 Q160 104 131 100" stroke="#7a4020" stroke-width="9" stroke-linecap="round" fill="none"/>
+        <!-- Handle inner -->
+        <path d="M131 60 Q154 61 154 82 Q154 102 131 98" stroke="#a05030" stroke-width="6" stroke-linecap="round" fill="none"/>
+        <!-- Handle highlight -->
+        <path d="M131 60 Q149 62 149 82 Q149 100 131 97" stroke="rgba(255,200,150,.15)" stroke-width="2" stroke-linecap="round" fill="none"/>
+      </svg>
+    </div>
+    <div class="splash-brand">Coffee House</div>
+    <div class="splash-tagline">Ташкент · С любовью к кофе</div>
+    <div class="splash-dots">
+      <span></span><span></span><span></span>
+    </div>
   </div>
 </div>
 

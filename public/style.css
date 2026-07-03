@@ -54,7 +54,7 @@ button { font-family: 'Inter', sans-serif; }
   box-shadow: 0 4px 24px rgba(44,26,14,.08);
 }
 .logo {
-  font-size: 1.35rem; font-weight: 800; letter-spacing: -.03em;
+  font-size: 1.1rem; font-weight: 800; letter-spacing: -.01em;
   color: var(--text);
 }
 .logo em { color: var(--accent); font-style: normal; }

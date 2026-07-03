@@ -662,10 +662,11 @@ async function placeOrder() {
 }
 
 /* ══ DOMContentLoaded: INIT ALL ══ */
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
   initReveal();
   animateCounters();
   initRatingStars();
+  await fetchMenuFromDB();
   initMenuTabs();
   renderPageMenu('coffee');
   loadSpecials();

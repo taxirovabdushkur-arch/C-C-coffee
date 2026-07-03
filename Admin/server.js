@@ -23,6 +23,10 @@ app.get('/admin/login.html', (req, res) => res.sendFile(path.join(__dirname, 'lo
 app.get('/admin/dashboard.html', (req, res) => res.sendFile(path.join(__dirname, 'dashboard.html')));
 
 app.get('/api/health', (req, res) => res.json({ ok: true, env: { url: !!process.env.SUPABASE_URL, key: !!process.env.SUPABASE_SERVICE_ROLE_KEY } }));
+app.get('/api/debug', async (req, res) => {
+  const { data, error } = await supabase.from('admin_users').select('login, role').limit(5);
+  res.json({ data, error, url: process.env.SUPABASE_URL?.slice(0,30) });
+});
 
 function requireAdmin(req, res, next) {
   const token = req.headers['x-admin-token'];

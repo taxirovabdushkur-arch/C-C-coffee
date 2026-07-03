@@ -52,64 +52,44 @@
 
 <!-- ══ HERO ══ -->
 <section id="hero">
-  <!-- Декоративные кофейные зёрна -->
-  <svg class="bean b1" viewBox="0 0 28 40" fill="none"><ellipse cx="14" cy="20" rx="11" ry="17" stroke="#2c1a0e" stroke-width="2"/><path d="M14 3 Q20 20 14 37" stroke="#2c1a0e" stroke-width="2" stroke-linecap="round"/></svg>
-  <svg class="bean b2" viewBox="0 0 28 40" fill="none"><ellipse cx="14" cy="20" rx="11" ry="17" stroke="#2c1a0e" stroke-width="2"/><path d="M14 3 Q20 20 14 37" stroke="#2c1a0e" stroke-width="2" stroke-linecap="round"/></svg>
-  <svg class="bean b3" viewBox="0 0 28 40" fill="none"><ellipse cx="14" cy="20" rx="11" ry="17" stroke="#2c1a0e" stroke-width="2"/><path d="M14 3 Q20 20 14 37" stroke="#2c1a0e" stroke-width="2" stroke-linecap="round"/></svg>
-  <svg class="bean b4" viewBox="0 0 28 40" fill="none"><ellipse cx="14" cy="20" rx="11" ry="17" stroke="#2c1a0e" stroke-width="2"/><path d="M14 3 Q20 20 14 37" stroke="#2c1a0e" stroke-width="2" stroke-linecap="round"/></svg>
-  <svg class="bean b5" viewBox="0 0 28 40" fill="none"><ellipse cx="14" cy="20" rx="11" ry="17" stroke="#2c1a0e" stroke-width="2"/><path d="M14 3 Q20 20 14 37" stroke="#2c1a0e" stroke-width="2" stroke-linecap="round"/></svg>
-  <svg class="bean b6" viewBox="0 0 28 40" fill="none"><ellipse cx="14" cy="20" rx="11" ry="17" stroke="#2c1a0e" stroke-width="2"/><path d="M14 3 Q20 20 14 37" stroke="#2c1a0e" stroke-width="2" stroke-linecap="round"/></svg>
-
   <div class="hero-inner">
-    <!-- Левая часть: текст -->
     <div class="hero-text">
-      <div class="hero-tag">Ташкент · Открыт каждый день</div>
-      <h1>НАЙДИ<br><em class="hl">СВОЙ КОФЕ</em></h1>
-      <div class="hero-menu-list">
-        <div class="hml-col">
-          <span>Крафт Капучино</span>
-          <span>Колд Латте</span>
-          <span>Маккиато Айс</span>
-        </div>
-        <div class="hml-col">
-          <span>Флэт Уайт</span>
-          <span>Крем Латте</span>
-          <span class="hml-accent">Шейки</span>
-        </div>
+      <div class="hero-tag">
+        <span class="hero-tag-dot"></span>
+        Ташкент · Открыт каждый день
       </div>
+      <h1>Найди<br><em class="hl">свой кофе</em></h1>
+      <p class="hero-sub">Уютное место где каждый глоток — это маленькое удовольствие. Более 30 напитков на любой вкус.</p>
       <div class="hero-btns">
-        <button class="btn-primary" onclick="openOrderModal()">Заказать</button>
+        <button class="btn-primary" onclick="openOrderModal()">
+          <span>Заказать сейчас</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
         <button class="btn-outline" onclick="document.getElementById('menu-section').scrollIntoView({behavior:'smooth'})">Смотреть меню</button>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat"><span class="hero-stat-num">30+</span><span class="hero-stat-lbl">напитков</span></div>
+        <div class="hero-stat-div"></div>
+        <div class="hero-stat"><span class="hero-stat-num">5★</span><span class="hero-stat-lbl">рейтинг</span></div>
+        <div class="hero-stat-div"></div>
+        <div class="hero-stat"><span class="hero-stat-num">8:00–23:00</span><span class="hero-stat-lbl">ежедневно</span></div>
       </div>
     </div>
 
-    <!-- Правая часть: C&C иллюстрация -->
-    <div class="hero-illus">
-      <svg viewBox="0 0 320 360" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Coffee House логотип">
-        <rect width="320" height="360" rx="24" fill="#f3ebe0"/>
-        <!-- Большое кофейное зерно -->
-        <ellipse cx="160" cy="155" rx="88" ry="125" stroke="#2c1a0e" stroke-width="7"/>
-        <path d="M160 30 Q205 95 160 155 Q115 215 160 280" stroke="#2c1a0e" stroke-width="7" stroke-linecap="round"/>
-        <!-- Маленькие декоративные зёрна -->
-        <g opacity="0.18" transform="translate(52,52) rotate(-25)">
-          <ellipse cx="0" cy="0" rx="14" ry="22" stroke="#2c1a0e" stroke-width="2"/>
-          <path d="M0 -22 Q6 0 0 22" stroke="#2c1a0e" stroke-width="2" stroke-linecap="round"/>
-        </g>
-        <g opacity="0.18" transform="translate(268,60) rotate(20)">
-          <ellipse cx="0" cy="0" rx="12" ry="18" stroke="#2c1a0e" stroke-width="2"/>
-          <path d="M0 -18 Q5 0 0 18" stroke="#2c1a0e" stroke-width="2" stroke-linecap="round"/>
-        </g>
-        <g opacity="0.15" transform="translate(58,268) rotate(15)">
-          <ellipse cx="0" cy="0" rx="10" ry="16" stroke="#2c1a0e" stroke-width="2"/>
-          <path d="M0 -16 Q4 0 0 16" stroke="#2c1a0e" stroke-width="2" stroke-linecap="round"/>
-        </g>
-        <g opacity="0.15" transform="translate(266,272) rotate(-18)">
-          <ellipse cx="0" cy="0" rx="13" ry="20" stroke="#2c1a0e" stroke-width="2"/>
-          <path d="M0 -20 Q6 0 0 20" stroke="#2c1a0e" stroke-width="2" stroke-linecap="round"/>
-        </g>
-        <!-- Название -->
-        <text x="160" y="332" text-anchor="middle" font-size="22" fill="#2c1a0e" font-family="Georgia,'Times New Roman',serif" font-weight="700" letter-spacing="2">Coffee House</text>
-      </svg>
+    <div class="hero-visual">
+      <div class="hero-img-wrap">
+        <img src="https://images.pexels.com/photos/302899/pexels-photo-302899.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Coffee House" class="hero-img-main"/>
+        <div class="hero-img-badge">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+          <div>
+            <div style="font-weight:700;font-size:.82rem;color:#2c1a0e">Свежий кофе</div>
+            <div style="font-size:.7rem;color:#8b7560">обжарка каждый день</div>
+          </div>
+        </div>
+        <div class="hero-img-float">
+          <img src="https://images.pexels.com/photos/1207918/pexels-photo-1207918.jpeg?auto=compress&cs=tinysrgb&w=400" alt="" class="hero-img-sm"/>
+        </div>
+      </div>
     </div>
   </div>
 

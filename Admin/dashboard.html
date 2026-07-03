@@ -1873,7 +1873,7 @@ const MEDIA_LABELS = {
 async function loadMedia() {
   const grid = document.getElementById('mediaGrid');
   grid.innerHTML = '<div style="text-align:center;padding:3rem;color:var(--muted);grid-column:1/-1">Загрузка...</div>';
-  const res = await apiFetch('/api/media');
+  const res = await API('/api/media');
   if (!res || res.error) { grid.innerHTML = '<div style="color:var(--red);padding:2rem">Ошибка загрузки</div>'; return; }
   if (!res.length) { grid.innerHTML = '<div style="color:var(--muted);padding:2rem;grid-column:1/-1">Нет медиафайлов. Запустите SQL из init_database.sql в Supabase.</div>'; return; }
   grid.innerHTML = res.map(m => {
@@ -1910,7 +1910,7 @@ async function saveMediaEdit() {
   const key = document.getElementById('mediaEditKey').value;
   const url = document.getElementById('mediaEditUrl').value.trim();
   if (!url) { toast('Введите URL','error'); return; }
-  const res = await apiFetch(`/api/media/${key}`, 'PUT', { url });
+  const res = await API(`/api/media/${key}`, { method: 'PUT', body: JSON.stringify({ url }) });
   if (res?.ok) { toast('Сохранено'); document.getElementById('mediaEditOverlay').style.display='none'; loadMedia(); }
   else toast(res?.error||'Ошибка','error');
 }

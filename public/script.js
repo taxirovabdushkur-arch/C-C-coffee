@@ -205,9 +205,9 @@ function renderSpecials() {
   const dots  = document.getElementById('specialsDots');
   if (!track) return;
 
-  track.innerHTML = specialsData.map(p => `
-    <div class="special-card">
-      <img src="${p.img || p.image_url || 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=600&q=80'}" alt="${p.title || p.name || ''}"/>
+  track.innerHTML = specialsData.map((p, i) => `
+    <div class="special-card" onclick="openPromoDetail(${i})">
+      <img src="${p.img || p.image_url || p.banner_url || 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=600&q=80'}" alt="${p.title || p.name || ''}"/>
       <div class="special-card-body">
         <span class="special-label">${p.label || p.promo_label || 'Акция'}</span>
         <h3>${p.title || p.name || ''}</h3>
@@ -227,10 +227,100 @@ function goSpecials(index) {
   specialsIndex = Math.max(0, Math.min(index, specialsData.length - 1));
   const track = document.getElementById('specialsTrack');
   if (!track) return;
-  const cardW = 300 + 19.2; // card width + gap
+  const cardW = 300 + 19.2;
+  track.style.transition = 'transform .5s cubic-bezier(.4,0,.2,1)';
   track.style.transform = `translateX(-${specialsIndex * cardW}px)`;
   document.querySelectorAll('#specialsDots .slider-dot').forEach((d, i) => {
     d.classList.toggle('active', i === specialsIndex);
+  });
+}
+
+function openPromoDetail(index) {
+  const p = specialsData[index];
+  if (!p) return;
+  const imgSrc = p.img || p.image_url || p.banner_url || '';
+  const photo = document.getElementById('promoDetailPhoto');
+  const imgWrap = document.getElementById('promoDetailImgWrap');
+  if (imgSrc) { photo.src = imgSrc; imgWrap.style.display = 'block'; }
+  else { imgWrap.style.display = 'none'; }
+
+  const badge = document.getElementById('promoDetailBadge');
+  if (p.discount) { badge.textContent = `-${p.discount}%`; badge.classList.add('visible'); }
+  else badge.classList.remove('visible');
+
+  document.getElementById('promoDetailLabel').textContent = p.label || p.promo_label || 'Акция';
+  document.getElementById('promoDetailTitle').textContent = p.title || p.name || '';
+  document.getElementById('promoDetailDesc').textContent  = p.desc || p.description || '';
+
+  let meta = '';
+  if (p.discount) meta += `<div class="pdm-meta-item"><div class="pdm-meta-val">-${p.discount}%</div><div class="pdm-meta-lbl">скидка</div></div>`;
+  if (p.start_date || p.end_date) {
+    const range = [p.start_date, p.end_date].filter(Boolean).join(' — ');
+    meta += `<div class="pdm-meta-item"><div class="pdm-meta-val" style="font-size:.78rem">${range}</div><div class="pdm-meta-lbl">период акции</div></div>`;
+  }
+  if (p.status === 'active') meta += `<div class="pdm-meta-item active"><div class="pdm-meta-val">✓ Активна</div><div class="pdm-meta-lbl">статус</div></div>`;
+  document.getElementById('promoDetailMeta').innerHTML = meta;
+
+  document.getElementById('promoDetailOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closePromoDetail() {
+  document.getElementById('promoDetailOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function initSpecialsDrag() {
+  const outer = document.querySelector('.specials-track-outer');
+  const track = document.getElementById('specialsTrack');
+  if (!outer || !track) return;
+  let isDragging = false, startX = 0, startTranslate = 0, moved = false;
+
+  function getTranslate() {
+    const m = new DOMMatrix(window.getComputedStyle(track).transform);
+    return m.m41;
+  }
+
+  outer.addEventListener('mousedown', e => {
+    isDragging = true; moved = false;
+    startX = e.clientX; startTranslate = getTranslate();
+    outer.classList.add('dragging');
+    track.style.transition = 'none';
+  });
+  document.addEventListener('mousemove', e => {
+    if (!isDragging) return;
+    const diff = e.clientX - startX;
+    if (Math.abs(diff) > 4) moved = true;
+    track.style.transform = `translateX(${startTranslate + diff}px)`;
+  });
+  document.addEventListener('mouseup', e => {
+    if (!isDragging) return;
+    isDragging = false;
+    outer.classList.remove('dragging');
+    const diff = e.clientX - startX;
+    if (moved && Math.abs(diff) > 50) {
+      diff < 0 ? goSpecials(specialsIndex + 1) : goSpecials(specialsIndex - 1);
+    } else {
+      goSpecials(specialsIndex);
+    }
+  });
+
+  outer.addEventListener('touchstart', e => {
+    startX = e.touches[0].clientX; startTranslate = getTranslate(); moved = false;
+    track.style.transition = 'none';
+  }, { passive: true });
+  outer.addEventListener('touchmove', e => {
+    const diff = e.touches[0].clientX - startX;
+    if (Math.abs(diff) > 4) moved = true;
+    track.style.transform = `translateX(${startTranslate + diff}px)`;
+  }, { passive: true });
+  outer.addEventListener('touchend', e => {
+    const diff = e.changedTouches[0].clientX - startX;
+    if (moved && Math.abs(diff) > 50) {
+      diff < 0 ? goSpecials(specialsIndex + 1) : goSpecials(specialsIndex - 1);
+    } else {
+      goSpecials(specialsIndex);
+    }
   });
 }
 
@@ -239,6 +329,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const nextBtn = document.getElementById('specialsNext');
   if (prevBtn) prevBtn.addEventListener('click', () => goSpecials(specialsIndex - 1));
   if (nextBtn) nextBtn.addEventListener('click', () => goSpecials(specialsIndex + 1));
+  initSpecialsDrag();
 });
 
 /* ══ 8. REVIEWS SLIDER ══ */

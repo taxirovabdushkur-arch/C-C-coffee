@@ -200,6 +200,24 @@
   </div>
 </section>
 
+<!-- ══ PROMO DETAIL MODAL ══ -->
+<div id="promoDetailOverlay" onclick="if(event.target===this)closePromoDetail()">
+  <div id="promoDetailBox">
+    <div class="pdm-img-wrap" id="promoDetailImgWrap">
+      <img id="promoDetailPhoto" alt=""/>
+      <button class="pdm-close" onclick="closePromoDetail()">✕</button>
+      <div class="pdm-discount-badge" id="promoDetailBadge"></div>
+    </div>
+    <div class="pdm-body">
+      <span class="pdm-label" id="promoDetailLabel"></span>
+      <h2 class="pdm-title" id="promoDetailTitle"></h2>
+      <p class="pdm-desc" id="promoDetailDesc"></p>
+      <div class="pdm-meta" id="promoDetailMeta"></div>
+      <button class="pdm-cta" onclick="closePromoDetail();openOrderModal()">Заказать сейчас →</button>
+    </div>
+  </div>
+</div>
+
 <!-- ══ ABOUT SECTION ══ -->
 <section id="about">
   <div class="container">

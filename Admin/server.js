@@ -109,15 +109,15 @@ app.get('/api/orders', requireAdmin, async (req, res) => {
 });
 
 app.post('/api/orders', async (req, res) => {
-  const { name, phone, address, floor, comment, payment, items } = req.body;
+  const { name, phone, address, floor, comment, payment, items, date, time, guests, type } = req.body;
   if (!name || !phone) return res.status(400).json({ error: 'Имя и телефон обязательны' });
   const { data, error } = await supabase
     .from('orders')
-    .insert({ name, phone, address: address || '', floor: floor || '', comment: comment || '', payment: payment || 'cash', items: JSON.stringify(items || []), status: 'new' })
+    .insert({ name, phone, address: address || '', floor: floor || '', comment: comment || '', payment: payment || 'cash', items: JSON.stringify(items || []), status: 'new', date: date || null, time: time || null, guests: guests || null, type: type || 'order' })
     .select('id')
     .single();
   if (error) return res.status(500).json({ error: error.message });
-  res.json({ id: data.id, message: 'Заказ принят!' });
+  res.json({ id: data.id, message: type === 'booking' ? 'Бронь принята!' : 'Заказ принят!' });
 });
 
 app.patch('/api/orders/:id/status', requireAdmin, async (req, res) => {
@@ -207,14 +207,14 @@ app.post('/api/messages', requireAdmin, async (req, res) => {
 app.patch('/api/messages/:id/read', requireAdmin, async (req, res) => {
   const { error } = await supabase
     .from('employee_messages')
-    .update({ is_read: 1 })
+    .update({ is_read: true })
     .eq('id', req.params.id);
   if (error) return res.status(500).json({ error: error.message });
   res.json({ ok: true });
 });
 
 /* ── REVIEWS ── */
-app.get('/api/reviews', requireAdmin, async (req, res) => {
+app.get('/api/reviews', async (req, res) => {
   const { data, error } = await supabase
     .from('reviews')
     .select('*')
@@ -352,7 +352,7 @@ app.delete('/api/products/:id', requireAdmin, async (req, res) => {
 });
 
 /* ── PROMOTIONS ── */
-app.get('/api/promotions', requireAdmin, async (req, res) => {
+app.get('/api/promotions', async (req, res) => {
   const { data, error } = await supabase
     .from('promotions')
     .select('*')
@@ -652,16 +652,49 @@ app.put('/api/media/:key', requireAdmin, async (req, res) => {
   res.json({ ok: true });
 });
 
+/* ── Unknown API routes → JSON 404 ── */
+app.all('/api/*', (req, res) => {
+  res.status(404).json({ error: `Маршрут ${req.method} ${req.path} не найден` });
+});
+
 /* ── SPA fallback ── */
 app.get('*', (req, res, next) => {
-  if (req.path.startsWith('/api') || req.path.startsWith('/admin')) return next();
+  if (req.path.startsWith('/admin')) return next();
   res.sendFile(path.join(__dirname, '..', 'public', 'index.html'));
 });
 
+// Обработка необработанных ошибок
+process.on('uncaughtException', (err) => {
+  console.error('❌ Необработанная ошибка:', err);
+  console.error('Сервер продолжает работу...');
+});
+
+process.on('unhandledRejection', (reason, promise) => {
+  console.error('❌ Необработанный Promise rejection:', reason);
+});
+
+// Graceful shutdown
+process.on('SIGTERM', () => {
+  console.log('🛑 Получен сигнал SIGTERM, завершаем работу...');
+  process.exit(0);
+});
+
 if (require.main === module) {
-  app.listen(PORT, () => {
+  const server = app.listen(PORT, () => {
     console.log(`✅  T7 Coffee (Supabase): http://localhost:${PORT}`);
     console.log(`☕  Admin:               http://localhost:${PORT}/admin/login.html`);
+    console.log(`📊  Сервер запущен безопасно с обработкой ошибок\n`);
+  });
+
+  // Обработка ошибок сервера
+  server.on('error', (err) => {
+    if (err.code === 'EADDRINUSE') {
+      console.error(`❌  Портс ${PORT} уже используется!`);
+      console.error('🔧 Убейте процесс или используйте другой портс');
+      process.exit(1);
+    } else {
+      console.error('❌  Ошибка сервера:', err);
+    }
   });
 }
 

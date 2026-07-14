@@ -432,6 +432,7 @@ tbody tr:hover{background:var(--accent-glow)}
 .nd-menu-btn{width:100%;padding:.75rem;background:var(--accent);color:var(--on-accent);border:none;border-radius:12px;font-size:.85rem;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;transition:opacity .2s;letter-spacing:.02em}
 .nd-menu-btn:hover{opacity:.85}
 .nd-table-card{}
+#mediaDropZone:hover,.me-drag{border-color:var(--accent)!important;background:var(--accent-soft)!important}
 .nd-tbl{width:100%;border-collapse:collapse;font-size:.8rem}
 .nd-tbl th{font-size:.67rem;font-weight:700;letter-spacing:.07em;color:var(--muted);padding:.6rem .8rem;border-bottom:1px solid var(--border);text-align:left}
 .nd-tbl td{padding:.7rem .8rem;border-bottom:1px solid var(--border);color:var(--text)}
@@ -455,6 +456,7 @@ tbody tr:hover{background:var(--accent-glow)}
     <div class="sb-item" data-page="attendance" onclick="nav('attendance')"><span class="sb-ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><path d="m9 16 2 2 4-4"/></svg></span><span>Посещаемость</span></div>
     <div class="sb-label" data-i18n="grp_marketing">Маркетинг</div>
     <div class="sb-item" data-page="reviews" onclick="nav('reviews')"><span class="sb-ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span><span data-i18n="nav_reviews">Отзывы</span><span class="sb-badge" id="badgeRevs">0</span></div>
+    <div class="sb-item" data-page="messages" onclick="nav('messages')"><span class="sb-ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span><span>Сообщения</span><span class="sb-badge" id="badgeMsgs">0</span></div>
     <div class="sb-item" data-page="promotions" onclick="nav('promotions')"><span class="sb-ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5" rx="1"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg></span><span data-i18n="nav_promos">Акции</span></div>
     <div class="sb-item" data-page="menu" onclick="nav('menu')"><span class="sb-ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg></span><span data-i18n="nav_menu">Меню</span></div>
     <div class="sb-item" data-page="media" onclick="nav('media')"><span class="sb-ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></span><span>Медиа</span></div>
@@ -1109,12 +1111,12 @@ function applyLang(){
 function setLang(l){ lang=l; localStorage.setItem('lang',l); applyLang(); }
 
 /* ══ TOAST ══ */
-function toast(msg, type='info'){
+function toast(msg, type='info', duration=3500){
   const icons={success:'✅',error:'❌',info:'ℹ️',warning:'⚠️'};
   const el=document.createElement('div'); el.className=`toast ${type}`;
   el.innerHTML=`<span>${icons[type]||'ℹ️'}</span><span>${msg}</span>`;
   document.getElementById('toasts').prepend(el);
-  setTimeout(()=>{ el.style.animation='none'; el.style.opacity='0'; setTimeout(()=>el.remove(),300); }, 3500);
+  setTimeout(()=>{ el.style.animation='none'; el.style.opacity='0'; setTimeout(()=>el.remove(),300); }, duration);
 }
 
 /* ══ RBAC - Role-Based Access Control ══ */
@@ -1155,7 +1157,7 @@ function nav(p){
   const tk='nav_'+p; document.getElementById('tbTitle').textContent=(t(tk)!==tk?t(tk):(pageNames[p]||p));
   curPage=p;
   document.getElementById('sb').classList.remove('open');
-  const _gs=document.getElementById('gSearch'); if(_gs) _gs.value='';
+  const _gs=document.querySelector('.tb-search'); if(_gs) _gs.value='';
   const loaders={dashboard:'loadDash',orders:'loadOrders',employees:'loadEmps',attendance:'loadAttendancePage',expenses:'loadExpenses',messages:'loadMsgs',reviews:'loadRevs',promotions:'loadPromos',menu:'loadMenuPage',requests:'loadRequests',users:'loadUsers',media:'loadMedia'};
   const fn=window[loaders[p]];
   if(typeof fn==='function') fn();
@@ -1219,7 +1221,7 @@ const fmtK=n=>n>=1000000?(n/1000000).toFixed(1).replace('.',',')+' млн':n>=10
 function setDashPeriod(){}
 function renderBig(){}
 
-const _PROD_ICONS={'латте':'☕','капучино':'☕','американо':'☕','эспрессо':'☕','раф':'☕','мохито':'🍃','лимонад':'🍋','матча':'🍵','чай':'🍵','какао':'☕','чизкейк':'🍰','торт':'🎂','пирог':'🥧','печенье':'🍪','вафля':'🧇','тирамису':'🍰','смузи':'🥤','сок':'🍊','какао':'🍫'};
+const _PROD_ICONS={'латте':'☕','капучино':'☕','американо':'☕','эспрессо':'☕','раф':'☕','мохито':'🍃','лимонад':'🍋','матча':'🍵','чай':'🍵','какао':'🍫','чизкейк':'🍰','торт':'🎂','пирог':'🥧','печенье':'🍪','вафля':'🧇','тирамису':'🍰','смузи':'🥤','сок':'🍊'};
 function _prodIco(name){const n=(name||'').toLowerCase();for(const[k,v]of Object.entries(_PROD_ICONS)){if(n.includes(k))return v;}return '🫖';}
 
 async function loadDash(){
@@ -1445,7 +1447,7 @@ function renderEmps(){
   g.innerHTML=allEmps.length?allEmps.map(e=>`
     <div class="emp-card">
       <div style="display:flex;align-items:flex-start;gap:.75rem;margin-bottom:.75rem">
-        <div class="emp-av">${e.avatar_url?`<img src="${e.avatar_url}" alt=""/>`:e.first_name[0]+(e.last_name[0]||'')}</div>
+        <div class="emp-av">${e.avatar_url?`<img src="${e.avatar_url}" alt=""/>`:(e.first_name?.[0]||'?')+(e.last_name?.[0]||'')}</div>
         <div><div class="emp-name">${esc(e.first_name)} ${esc(e.last_name)}</div><div class="emp-pos">${esc(e.position||'—')}</div>
           <span class="badge ${e.status==='active'?'b-active':'b-inactive'}">${e.status==='active'?'Активен':'Неактивен'}</span></div>
       </div>
@@ -1454,8 +1456,8 @@ function renderEmps(){
         <span class="emp-chip">📞 ${esc(e.phone||'—')}</span>
       </div>
       <div class="emp-stats">
-        <div class="emp-stat"><div class="emp-stat-v">${e.tasks_done}</div><div class="emp-stat-l">Задач</div></div>
-        <div class="emp-stat"><div class="emp-stat-v">${e.requests_done}</div><div class="emp-stat-l">Запросов</div></div>
+        <div class="emp-stat"><div class="emp-stat-v">${e.hire_date?new Date(e.hire_date).toLocaleDateString('ru-RU',{month:'short',year:'numeric'}):'—'}</div><div class="emp-stat-l">С нами с</div></div>
+        <div class="emp-stat"><div class="emp-stat-v">${e.role==='admin'?'Админ':e.role==='manager'?'Менеджер':'Сотрудник'}</div><div class="emp-stat-l">Роль</div></div>
       </div>
       <div class="emp-actions">
         <button class="btn btn-ghost" style="flex:1;font-size:.75rem" onclick="openEmpModal(${e.id})">✏️ Изменить</button>
@@ -1470,7 +1472,7 @@ function filterEmps(){
   g.innerHTML=f.length?f.map(e=>`
     <div class="emp-card">
       <div style="display:flex;align-items:flex-start;gap:.75rem;margin-bottom:.75rem">
-        <div class="emp-av">${e.avatar_url?`<img src="${e.avatar_url}" alt=""/>`:e.first_name[0]+(e.last_name[0]||'')}</div>
+        <div class="emp-av">${e.avatar_url?`<img src="${e.avatar_url}" alt=""/>`:(e.first_name?.[0]||'?')+(e.last_name?.[0]||'')}</div>
         <div><div class="emp-name">${esc(e.first_name)} ${esc(e.last_name)}</div><div class="emp-pos">${esc(e.position||'—')}</div>
           <span class="badge ${e.status==='active'?'b-active':'b-inactive'}">${e.status==='active'?'Активен':'Неактивен'}</span></div>
       </div>
@@ -1479,8 +1481,8 @@ function filterEmps(){
         <span class="emp-chip">📞 ${esc(e.phone||'—')}</span>
       </div>
       <div class="emp-stats">
-        <div class="emp-stat"><div class="emp-stat-v">${e.tasks_done}</div><div class="emp-stat-l">Задач</div></div>
-        <div class="emp-stat"><div class="emp-stat-v">${e.requests_done}</div><div class="emp-stat-l">Запросов</div></div>
+        <div class="emp-stat"><div class="emp-stat-v">${e.hire_date?new Date(e.hire_date).toLocaleDateString('ru-RU',{month:'short',year:'numeric'}):'—'}</div><div class="emp-stat-l">С нами с</div></div>
+        <div class="emp-stat"><div class="emp-stat-v">${e.role==='admin'?'Админ':e.role==='manager'?'Менеджер':'Сотрудник'}</div><div class="emp-stat-l">Роль</div></div>
       </div>
       <div class="emp-actions">
         <button class="btn btn-ghost" style="flex:1;font-size:.75rem" onclick="openEmpModal(${e.id})">✏️ Изменить</button>
@@ -1514,11 +1516,12 @@ var profileOpen = false;
 let allProds=[];
 async function loadProds(){ allProds=await API('/api/products'); filterProds(); }
 function filterProds(){
-  const q=(document.getElementById('prodSearch').value||'').toLowerCase();
-  const st=document.getElementById('prodFilter').value;
+  const q=(document.getElementById('prodSearch')?.value||'').toLowerCase();
+  const st=document.getElementById('prodFilter')?.value||'all';
   const f=allProds.filter(p=>(!st||p.status===st)&&(!q||p.name.toLowerCase().includes(q)));
   const stMap={active:{l:'Active',c:'b-active'},frozen:{l:'Frozen',c:'b-frozen'},out_of_stock:{l:'Out of Stock',c:'b-oos'}};
-  document.getElementById('prodGrid').innerHTML=f.length?f.map(p=>{
+  const prodGrid=document.getElementById('prodGrid'); if(!prodGrid) return;
+  prodGrid.innerHTML=f.length?f.map(p=>{
     const sm=stMap[p.status]||{l:p.status,c:''};
     return `<div class="prod-card">
       <div class="prod-img">${p.image_url?`<img src="${p.image_url}" alt="${esc(p.name)}" style="width:100%;height:100%;object-fit:cover"/>`:'📦'}</div>
@@ -1768,11 +1771,74 @@ function updateProfileDisplay(){
   document.getElementById('profileMenuName').textContent=currentUser.name+' '+currentUser.last_name;
   document.getElementById('profileMenuRole').textContent=roleText;
   document.getElementById('langSelect2').value=lang;
-  document.getElementById('themeToggle2').classList.toggle('on',document.documentElement.getAttribute('data-theme')==='light');
+  document.getElementById('themeToggle2')?.classList.toggle('on', dark);
 }
 
 /* ══ MESSAGES ══ */
-function loadMsgs(){ /* placeholder */ }
+let allMsgs=[], activeMsgEmp=null;
+async function loadMsgs(){
+  allMsgs=await API('/api/messages');
+  const byEmp={};
+  allMsgs.forEach(m=>{
+    const empId=m.from_id||m.to_id;
+    if(!byEmp[empId]) byEmp[empId]={empId,name:m.from_name||m.to_name||`Сотрудник #${empId}`,msgs:[],unread:0};
+    byEmp[empId].msgs.push(m);
+    if(!m.is_read && m.from_id!==currentAdminId) byEmp[empId].unread++;
+  });
+  const list=document.getElementById('msgList');
+  if(!list) return;
+  const emps=Object.values(byEmp);
+  if(!emps.length){ list.innerHTML='<p style="padding:1rem;color:var(--muted);font-size:.82rem">Сообщений нет</p>'; return; }
+  list.innerHTML=emps.map(e=>`
+    <div class="msg-list-item${activeMsgEmp===e.empId?' active':''}" onclick="openMsgThread(${e.empId},'${esc(e.name)}')">
+      <div class="msg-list-av">${(e.name||'?')[0].toUpperCase()}</div>
+      <div style="flex:1;min-width:0">
+        <div class="msg-list-name">${esc(e.name)}</div>
+        <div class="msg-list-last">${esc(e.msgs[e.msgs.length-1]?.message||'')}</div>
+      </div>
+      ${e.unread?`<div class="msg-unread">${e.unread}</div>`:''}
+    </div>`).join('');
+  if(activeMsgEmp) openMsgThread(activeMsgEmp);
+  const totalUnread=Object.values(byEmp).reduce((s,e)=>s+e.unread,0);
+  const badge=document.getElementById('badgeMsgs');
+  if(badge){ badge.textContent=totalUnread; badge.style.display=totalUnread?'':'none'; }
+}
+let currentAdminId=null;
+function openMsgThread(empId, name){
+  activeMsgEmp=empId;
+  document.querySelectorAll('.msg-list-item').forEach(el=>el.classList.remove('active'));
+  document.querySelector(`.msg-list-item[onclick*="${empId}"]`)?.classList.add('active');
+  const chat=document.getElementById('msgChat');
+  if(!chat) return;
+  const thread=allMsgs.filter(m=>m.from_id===empId||m.to_id===empId);
+  chat.innerHTML=`
+    <div class="msg-chat-hdr">
+      <div class="msg-list-av">${(name||'?')[0].toUpperCase()}</div>
+      <div><div style="font-weight:600;font-size:.85rem">${esc(name||'')}</div></div>
+    </div>
+    <div class="msg-chat-body" id="msgBody">
+      ${thread.map(m=>`
+        <div>
+          <div class="msg-bubble ${m.from_id===empId?'in':'out'}">${esc(m.message||'')}</div>
+          <div class="msg-time">${m.created_at?new Date(m.created_at).toLocaleTimeString('ru-RU',{hour:'2-digit',minute:'2-digit'}):''}</div>
+        </div>`).join('')}
+    </div>
+    <div class="msg-chat-foot">
+      <input class="msg-input" id="msgInput" placeholder="Введите сообщение..." onkeydown="if(event.key==='Enter')sendMsg(${empId})"/>
+      <button class="btn btn-primary" onclick="sendMsg(${empId})">Отправить</button>
+    </div>`;
+  const body=document.getElementById('msgBody');
+  if(body) body.scrollTop=body.scrollHeight;
+}
+async function sendMsg(toId){
+  const inp=document.getElementById('msgInput');
+  const text=(inp?.value||'').trim();
+  if(!text) return;
+  await API('/api/messages',{method:'POST',body:JSON.stringify({to_id:toId,message:text})});
+  inp.value='';
+  await loadMsgs();
+  openMsgThread(toId, document.querySelector(`#msgList .msg-list-item.active .msg-list-name`)?.textContent||'');
+}
 
 /* ══ ATTENDANCE PAGE ══ */
 let allAtt=[];
@@ -2060,49 +2126,123 @@ async function loadMedia() {
     </div>`;
   }).join('');
 }
+let _mediaUrl = '';
+function closeMediaEdit() { document.getElementById('mediaEditOverlay').style.display='none'; _mediaUrl=''; document.getElementById('mediaFile').value=''; document.getElementById('meFileStatus').textContent=''; }
+function switchMETab(tab) {
+  const isFile = tab==='file';
+  document.getElementById('meFileZone').style.display = isFile?'':'none';
+  document.getElementById('meUrlZone').style.display  = isFile?'none':'';
+  document.getElementById('meTabFile').style.cssText += isFile?';background:var(--accent);color:var(--on-accent)':';background:transparent;color:var(--muted)';
+  document.getElementById('meTabUrl').style.cssText  += isFile?';background:transparent;color:var(--muted)':';background:var(--accent);color:var(--on-accent)';
+}
 function openMediaEdit(key, label, url) {
   document.getElementById('mediaEditKey').value = key;
   document.getElementById('mediaEditLabel').textContent = label;
   document.getElementById('mediaEditUrl').value = url;
+  _mediaUrl = url;
   updateMediaPreview(url);
+  switchMETab('file');
   document.getElementById('mediaEditOverlay').style.display = 'flex';
 }
 function updateMediaPreview(url) {
   const box = document.getElementById('mediaEditPreview');
-  const isVideo = url.match(/\.(mp4|webm|mov)$/i);
+  const isVideo = url && (url.match(/\.(mp4|webm|mov)$/i) || url.startsWith('data:video'));
   if (isVideo) {
     box.innerHTML = `<video src="${esc(url)}" style="max-width:100%;max-height:200px;border-radius:8px" controls muted></video>`;
   } else if (url) {
     box.innerHTML = `<img src="${esc(url)}" style="max-width:100%;max-height:200px;border-radius:8px;object-fit:contain" onerror="this.style.display='none'" alt=""/>`;
-  } else { box.innerHTML = ''; }
+  } else { box.innerHTML = '<div style="color:var(--muted);font-size:.8rem">Предпросмотр</div>'; }
+}
+function handleMediaDrop(e) { e.preventDefault(); const f=e.dataTransfer.files[0]; if(f) _processMediaFile(f); }
+function handleMediaFile(inp) { const f=inp.files[0]; if(f) _processMediaFile(f); }
+function _processMediaFile(file) {
+  const isImg = file.type.startsWith('image/');
+  const isVid = file.type.startsWith('video/');
+  if (!isImg && !isVid) { toast('Поддерживаются фото и видео','error'); return; }
+  const maxMB = isVid ? 5 : 10;
+  if (file.size > maxMB*1024*1024) { toast(`Файл слишком большой (макс ${maxMB} МБ)`,'error'); return; }
+  document.getElementById('meFileStatus').textContent = '⏳ Обработка...';
+  if (isImg) {
+    const reader = new FileReader();
+    reader.onload = ev => {
+      const img = new Image();
+      img.onload = () => {
+        const MAX=1200, scale=img.width>MAX?MAX/img.width:1;
+        const cv=document.createElement('canvas'); cv.width=Math.round(img.width*scale); cv.height=Math.round(img.height*scale);
+        cv.getContext('2d').drawImage(img,0,0,cv.width,cv.height);
+        const data=cv.toDataURL('image/jpeg',0.85);
+        _mediaUrl=data; document.getElementById('mediaEditUrl').value=data;
+        updateMediaPreview(data);
+        const kb=Math.round(data.length*0.75/1024);
+        document.getElementById('meFileStatus').textContent=`✅ Фото готово (${kb} КБ)`;
+      };
+      img.src=ev.target.result;
+    };
+    reader.readAsDataURL(file);
+  } else {
+    const reader = new FileReader();
+    reader.onload = ev => {
+      _mediaUrl=ev.target.result; document.getElementById('mediaEditUrl').value=ev.target.result;
+      updateMediaPreview(ev.target.result);
+      const kb=Math.round(ev.target.result.length*0.75/1024);
+      document.getElementById('meFileStatus').textContent=`✅ Видео готово (${kb} КБ)`;
+    };
+    reader.readAsDataURL(file);
+  }
 }
 async function saveMediaEdit() {
   const key = document.getElementById('mediaEditKey').value;
-  const url = document.getElementById('mediaEditUrl').value.trim();
-  if (!url) { toast('Введите URL','error'); return; }
+  const url = (document.getElementById('mediaEditUrl').value||'').trim() || _mediaUrl;
+  if (!url) { toast('Выберите файл или введите URL','error'); return; }
   const res = await API(`/api/media/${key}`, { method: 'PUT', body: JSON.stringify({ url }) });
-  if (res?.ok) { toast('Сохранено'); document.getElementById('mediaEditOverlay').style.display='none'; loadMedia(); }
+  if (res?.ok) { toast('Сохранено','success'); closeMediaEdit(); loadMedia(); }
   else toast(res?.error||'Ошибка','error');
 }
 </script>
 
 <!-- Media Edit Modal -->
-<div id="mediaEditOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:1000;align-items:center;justify-content:center">
-  <div style="background:var(--surface);border-radius:16px;padding:1.5rem;width:90%;max-width:480px;display:flex;flex-direction:column;gap:1rem">
+<div id="mediaEditOverlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:1000;align-items:center;justify-content:center;padding:1rem" onclick="if(event.target===this)closeMediaEdit()">
+  <div style="background:var(--surface);border-radius:18px;padding:1.5rem;width:90%;max-width:500px;display:flex;flex-direction:column;gap:1rem;max-height:90vh;overflow-y:auto">
     <div style="display:flex;align-items:center;justify-content:space-between">
       <h3 id="mediaEditLabel" style="font-size:1rem;font-weight:700"></h3>
-      <button onclick="document.getElementById('mediaEditOverlay').style.display='none'" style="background:none;border:none;color:var(--muted);font-size:1.3rem;cursor:pointer">✕</button>
+      <button onclick="closeMediaEdit()" style="background:none;border:none;color:var(--muted);font-size:1.3rem;cursor:pointer;line-height:1">✕</button>
     </div>
-    <div id="mediaEditPreview" style="min-height:60px;text-align:center"></div>
+
+    <!-- Preview -->
+    <div id="mediaEditPreview" style="min-height:80px;text-align:center;background:var(--surface2);border-radius:10px;padding:.5rem;display:flex;align-items:center;justify-content:center"></div>
+
     <input type="hidden" id="mediaEditKey"/>
-    <div>
-      <label style="font-size:.78rem;color:var(--muted);display:block;margin-bottom:.35rem">Ссылка на фото/видео (URL)</label>
-      <input id="mediaEditUrl" class="finp" type="text" placeholder="https://..." style="width:100%"
-        oninput="updateMediaPreview(this.value)"/>
+
+    <!-- Tabs -->
+    <div style="display:flex;gap:.5rem;background:var(--surface2);border-radius:10px;padding:.25rem">
+      <button id="meTabFile" onclick="switchMETab('file')" style="flex:1;padding:.5rem;border-radius:8px;border:none;font-size:.8rem;font-weight:600;cursor:pointer;transition:all .15s;background:var(--accent);color:var(--on-accent)">📁 Загрузить файл</button>
+      <button id="meTabUrl"  onclick="switchMETab('url')"  style="flex:1;padding:.5rem;border-radius:8px;border:none;font-size:.8rem;font-weight:600;cursor:pointer;transition:all .15s;background:transparent;color:var(--muted)">🔗 По ссылке</button>
     </div>
-    <div style="font-size:.72rem;color:var(--muted)">Вставьте прямую ссылку на изображение (jpg, png, webp) или видео (mp4). Можно использовать Unsplash, Pexels и другие источники.</div>
+
+    <!-- File upload zone -->
+    <div id="meFileZone">
+      <input type="file" id="mediaFile" accept="image/jpeg,image/png,image/webp,image/gif,video/mp4,video/webm" style="display:none" onchange="handleMediaFile(this)"/>
+      <div id="mediaDropZone" onclick="document.getElementById('mediaFile').click()"
+           ondragover="event.preventDefault();this.classList.add('me-drag')"
+           ondragleave="this.classList.remove('me-drag')"
+           ondrop="this.classList.remove('me-drag');handleMediaDrop(event)"
+           style="border:2px dashed var(--border2);border-radius:12px;padding:2rem 1rem;text-align:center;cursor:pointer;transition:border-color .2s,background .2s">
+        <div style="font-size:2rem;margin-bottom:.5rem">📂</div>
+        <div style="font-size:.85rem;font-weight:600;color:var(--text);margin-bottom:.3rem">Нажмите или перетащите файл</div>
+        <div style="font-size:.72rem;color:var(--muted)">Фото: jpg, png, webp (до 10 МБ) · Видео: mp4, webm (до 5 МБ)</div>
+      </div>
+      <div id="meFileStatus" style="font-size:.75rem;color:var(--muted);text-align:center;margin-top:.4rem"></div>
+    </div>
+
+    <!-- URL input zone -->
+    <div id="meUrlZone" style="display:none">
+      <label style="font-size:.78rem;color:var(--muted);display:block;margin-bottom:.35rem">Ссылка на фото/видео (URL)</label>
+      <input id="mediaEditUrl" class="finp" type="text" placeholder="https://images.unsplash.com/..." style="width:100%" oninput="updateMediaPreview(this.value)"/>
+      <div style="font-size:.72rem;color:var(--muted);margin-top:.4rem">Прямая ссылка на фото (jpg/png/webp) или видео (mp4). Unsplash, Pexels и другие источники.</div>
+    </div>
+
     <div style="display:flex;gap:.75rem;justify-content:flex-end">
-      <button class="btn btn-ghost" onclick="document.getElementById('mediaEditOverlay').style.display='none'">Отмена</button>
+      <button class="btn btn-ghost" onclick="closeMediaEdit()">Отмена</button>
       <button class="btn btn-primary" onclick="saveMediaEdit()">💾 Сохранить</button>
     </div>
   </div>

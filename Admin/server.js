@@ -109,15 +109,15 @@ app.get('/api/orders', requireAdmin, async (req, res) => {
 });
 
 app.post('/api/orders', async (req, res) => {
-  const { name, phone, address, floor, comment, payment, items, date, time, guests, type } = req.body;
+  const { name, phone, address, floor, comment, payment, items } = req.body;
   if (!name || !phone) return res.status(400).json({ error: 'Имя и телефон обязательны' });
   const { data, error } = await supabase
     .from('orders')
-    .insert({ name, phone, address: address || '', floor: floor || '', comment: comment || '', payment: payment || 'cash', items: JSON.stringify(items || []), status: 'new', date: date || null, time: time || null, guests: guests || null, type: type || 'order' })
+    .insert({ name, phone, address: address || '', floor: floor || '', comment: comment || '', payment: payment || 'cash', items: JSON.stringify(items || []), status: 'new' })
     .select('id')
     .single();
   if (error) return res.status(500).json({ error: error.message });
-  res.json({ id: data.id, message: type === 'booking' ? 'Бронь принята!' : 'Заказ принят!' });
+  res.json({ id: data.id, message: 'Заказ принят!' });
 });
 
 app.patch('/api/orders/:id/status', requireAdmin, async (req, res) => {

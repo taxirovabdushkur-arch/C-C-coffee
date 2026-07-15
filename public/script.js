@@ -707,11 +707,13 @@ function toggleCheckout() {
   const co = document.getElementById('checkoutWrap');
   const ol = document.querySelector('.order-left');
   const or_ = document.querySelector('.order-right');
+  const modal = document.getElementById('orderModal');
   const isCart = cw.style.display !== 'none';
   cw.style.display = isCart ? 'none' : 'flex';
   co.style.display = isCart ? 'flex' : 'none';
   if (ol) ol.style.display = isCart ? 'none' : '';
-  if (or_) or_.style.width = isCart ? '100%' : '';
+  if (or_) or_.style.width = isCart ? '480px' : '';
+  if (modal) modal.style.maxWidth = isCart ? '480px' : '';
   if (isCart) {
     const ids = Object.keys(cart).map(Number);
     const total = ids.reduce((s,id) => s+(allItems.find(i=>i.id===id)?.priceNum||0)*cart[id], 0);

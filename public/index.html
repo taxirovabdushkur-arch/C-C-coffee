@@ -71,6 +71,7 @@
     <a href="#booking">Бронь</a>
     <a href="#map-section">Контакты</a>
   </nav>
+  <button class="header-cart-btn" id="headerCartBtn" onclick="openOrderModalCart()">🛒 <span class="order-cart-badge" id="orderCartBadge"></span></button>
   <button class="btn-book" onclick="document.getElementById('booking').scrollIntoView({behavior:'smooth'})">Забронировать</button>
   <button id="burger" aria-label="Меню"><span></span><span></span><span></span></button>
 </header>
@@ -541,9 +542,6 @@
             <div class="order-brand-sub">ул. Амира Темура, 107 · Доставка 30 мин</div>
           </div>
         </div>
-        <button class="order-cart-btn" id="orderCartBtn" onclick="toggleOrderCart()">
-          🛒 <span class="order-cart-badge" id="orderCartBadge"></span>
-        </button>
         <button class="order-close" onclick="closeOrderModal()">✕</button>
       </div>
       <div class="order-search-wrap">

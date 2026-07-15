@@ -592,6 +592,11 @@ function toggleOrderCart() {
   const or_ = document.querySelector('.order-right');
   if (or_) or_.classList.toggle('visible');
 }
+function openOrderModalCart() {
+  openOrderModal();
+  const or_ = document.querySelector('.order-right');
+  if (or_) or_.classList.add('visible');
+}
 function handleOverlayClick(e) {
   if (e.target === document.getElementById('orderOverlay')) closeOrderModal();
 }

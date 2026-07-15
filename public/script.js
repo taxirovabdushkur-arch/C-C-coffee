@@ -569,33 +569,49 @@ async function fetchMenu() {
 }
 
 /* ══ 16. ORDER MODAL ══ */
+function _resetModal() {
+  const cw = document.getElementById('cartWrap');
+  const co = document.getElementById('checkoutWrap');
+  const ol = document.querySelector('.order-left');
+  const or_ = document.querySelector('.order-right');
+  const modal = document.getElementById('orderModal');
+  if (cw) cw.style.display = 'flex';
+  if (co) co.style.display = 'none';
+  if (ol) { ol.style.display = ''; }
+  if (or_) { or_.classList.remove('visible'); or_.style.cssText = ''; }
+  if (modal) modal.style.maxWidth = '';
+}
+
+/* Открыть только меню (кнопка "Заказать сейчас") */
 function openOrderModal() {
+  _resetModal();
   document.getElementById('orderOverlay').classList.add('open');
   document.body.style.overflow = 'hidden';
   fetchMenu().then(() => renderOrderItems(currentCat));
 }
-function closeOrderModal() {
-  document.getElementById('orderOverlay').classList.remove('open');
-  document.body.style.overflow = '';
-  const cw = document.getElementById('cartWrap');
-  const co = document.getElementById('checkoutWrap');
-  if (cw) cw.style.display = 'flex';
-  if (co) co.style.display = 'none';
+
+/* Открыть только корзину (кнопка 🛒 в навбаре) */
+function openOrderModalCart() {
+  _resetModal();
+  document.getElementById('orderOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
   const ol = document.querySelector('.order-left');
   const or_ = document.querySelector('.order-right');
   const modal = document.getElementById('orderModal');
-  if (ol) ol.style.display = '';
-  if (or_) { or_.classList.remove('visible'); or_.style.width = ''; }
-  if (modal) modal.style.maxWidth = '';
+  if (ol) ol.style.display = 'none';
+  if (or_) { or_.style.cssText = 'display:flex;width:100%;'; }
+  if (modal) modal.style.maxWidth = '480px';
+  fetchMenu().then(() => renderOrderItems(currentCat));
+}
+
+function closeOrderModal() {
+  document.getElementById('orderOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+  _resetModal();
 }
 function toggleOrderCart() {
   const or_ = document.querySelector('.order-right');
   if (or_) or_.classList.toggle('visible');
-}
-function openOrderModalCart() {
-  openOrderModal();
-  const or_ = document.querySelector('.order-right');
-  if (or_) or_.classList.add('visible');
 }
 function handleOverlayClick(e) {
   if (e.target === document.getElementById('orderOverlay')) closeOrderModal();

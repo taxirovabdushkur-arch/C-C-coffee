@@ -651,7 +651,7 @@ function renderItemsArray(items) {
   grid.innerHTML = items.map(item => {
     const qty = cart[item.id] || 0;
     const imgEl = item.img
-      ? `<img src="${item.img}" alt="${item.name}" style="width:100%;height:100%;object-fit:cover;border-radius:10px" onerror="this.style.display='none';this.parentElement.textContent='${item.icon}'">`
+      ? `<img src="${item.img}" alt="${item.name}" onerror="this.style.display='none';this.parentElement.textContent='${item.icon}'">`
       : item.icon;
     const ratingVal = (4.3 + (item.id % 7) * 0.1).toFixed(1);
     return `
@@ -659,8 +659,7 @@ function renderItemsArray(items) {
         <div class="order-item-img">${imgEl}</div>
         <div class="order-item-body">
           <div class="order-item-name">${item.name}</div>
-          <div style="font-size:0.7rem;color:var(--accent);margin-top:2px;font-weight:600">⭐ ${ratingVal}</div>
-          <div class="order-item-desc">${item.desc}</div>
+          <div style="font-size:.67rem;color:#d4953a;margin-top:.18rem;font-weight:600">⭐ ${ratingVal} · ${item.desc}</div>
         </div>
         <div class="order-item-footer">
           <div class="order-item-price">${item.price}</div>
@@ -697,8 +696,15 @@ function renderCart() {
   const clearBtn    = document.getElementById('cartClearBtn');
   const ids = Object.keys(cart).map(Number);
   const totalQty = ids.reduce((s, id) => s + (cart[id] || 0), 0);
+  const totalSum = ids.reduce((s, id) => s + (allItems.find(i=>i.id===id)?.priceNum||0)*(cart[id]||0), 0);
   const badge = document.getElementById('orderCartBadge');
   if (badge) badge.textContent = totalQty || '';
+  const floatBtn  = document.getElementById('omFloatCart');
+  const floatQty  = document.getElementById('omFloatQty');
+  const floatPrice= document.getElementById('omFloatPrice');
+  if (floatBtn)  floatBtn.style.display  = totalQty ? '' : 'none';
+  if (floatQty)  floatQty.textContent    = totalQty;
+  if (floatPrice) floatPrice.textContent = totalSum.toLocaleString('ru-RU') + ' сум →';
   if (!ids.length) {
     if (cartEmpty)  cartEmpty.style.display  = 'flex';
     if (cartItemsEl) cartItemsEl.style.display = 'none';

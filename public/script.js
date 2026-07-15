@@ -581,6 +581,12 @@ function closeOrderModal() {
   const co = document.getElementById('checkoutWrap');
   if (cw) cw.style.display = 'flex';
   if (co) co.style.display = 'none';
+  const ol = document.querySelector('.order-left');
+  const or_ = document.querySelector('.order-right');
+  const modal = document.getElementById('orderModal');
+  if (ol) ol.style.display = '';
+  if (or_) or_.style.width = '';
+  if (modal) modal.style.maxWidth = '';
 }
 function handleOverlayClick(e) {
   if (e.target === document.getElementById('orderOverlay')) closeOrderModal();

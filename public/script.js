@@ -585,8 +585,12 @@ function closeOrderModal() {
   const or_ = document.querySelector('.order-right');
   const modal = document.getElementById('orderModal');
   if (ol) ol.style.display = '';
-  if (or_) or_.style.width = '';
+  if (or_) { or_.classList.remove('visible'); or_.style.width = ''; }
   if (modal) modal.style.maxWidth = '';
+}
+function toggleOrderCart() {
+  const or_ = document.querySelector('.order-right');
+  if (or_) or_.classList.toggle('visible');
 }
 function handleOverlayClick(e) {
   if (e.target === document.getElementById('orderOverlay')) closeOrderModal();
@@ -671,6 +675,9 @@ function renderCart() {
   const cartFooter  = document.getElementById('cartFooter');
   const clearBtn    = document.getElementById('cartClearBtn');
   const ids = Object.keys(cart).map(Number);
+  const totalQty = ids.reduce((s, id) => s + (cart[id] || 0), 0);
+  const badge = document.getElementById('orderCartBadge');
+  if (badge) badge.textContent = totalQty || '';
   if (!ids.length) {
     if (cartEmpty)  cartEmpty.style.display  = 'flex';
     if (cartItemsEl) cartItemsEl.style.display = 'none';
@@ -718,7 +725,7 @@ function toggleCheckout() {
   cw.style.display = isCart ? 'none' : 'flex';
   co.style.display = isCart ? 'flex' : 'none';
   if (ol) ol.style.display = isCart ? 'none' : '';
-  if (or_) or_.style.width = isCart ? '480px' : '';
+  if (or_) { or_.style.width = isCart ? '480px' : ''; if (!isCart) or_.classList.add('visible'); }
   if (modal) modal.style.maxWidth = isCart ? '480px' : '';
   if (isCart) {
     const ids = Object.keys(cart).map(Number);

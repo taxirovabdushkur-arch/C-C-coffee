@@ -866,6 +866,12 @@ footer {
 .order-brand-sub { font-size: .68rem; color: #9a7c5f; margin-top: .1rem; }
 .order-close { background: rgba(44,26,14,.08); border: none; cursor: pointer; width: 34px; height: 34px; border-radius: 50%; font-size: .8rem; color: #6b4f35; display: flex; align-items: center; justify-content: center; transition: all .2s; }
 .order-close:hover { background: rgba(44,26,14,.16); color: #1a0c06; }
+.order-cart-btn { position: relative; background: #1a0c06; border: none; cursor: pointer; height: 38px; padding: 0 1rem; border-radius: 50px; font-size: .85rem; color: #f5e6c8; display: flex; align-items: center; gap: .4rem; transition: all .2s; }
+.order-cart-btn:hover { background: #2e1a0e; }
+.order-cart-badge { background: var(--accent, #d4953a); color: #fff; font-size: .7rem; font-weight: 700; min-width: 20px; height: 20px; border-radius: 50px; display: inline-flex; align-items: center; justify-content: center; padding: 0 5px; }
+.order-cart-badge:empty { display: none; }
+.order-right { width: 310px; flex-shrink: 0; display: none; flex-direction: column; background: #1a0c06; overflow: hidden; }
+.order-right.visible { display: flex; }
 
 .order-search-wrap { position: relative; padding: 0 1.6rem .9rem; flex-shrink: 0; }
 .order-search-icon { position: absolute; left: 2.35rem; top: 50%; transform: translateY(-50%); font-size: .82rem; pointer-events: none; color: #b8977a; }
